@@ -1,0 +1,400 @@
+@font-face {
+    font-family: 'OpenSans-Regular';
+    src: url('../../../assets/fonts/OpenSans-Regular.ttf') format('truetype');
+    /* src: url('./assets/fonts/opensans-regular.woff') format('woff'); */
+    font-weight: normal;
+ }
+ @font-face {    
+    font-family: 'OpenSans-SemiBold';
+    src: url('../../../assets/fonts/OpenSans-Semibold.ttf') format('truetype');
+    /* src: url('./assets/fonts/opensans-semibold-webfont.woff') format('woff'); */
+    font-weight: normal;
+ }
+ @font-face {    
+    font-family: 'OpenSans-Light';
+    src: url('../../../assets/fonts/OpenSans-Light.ttf') format('truetype');
+    /* src: url('./assets/fonts/opensans-semibold-webfont.woff') format('woff'); */
+    font-weight: normal;
+ }
+ @font-face {    
+    font-family: 'OpenSans-Bold';
+    src: url('../../../assets/fonts/OpenSans-Bold.ttf') format('truetype');
+    /* src: url('./assets/fonts/opensans-semibold-webfont.woff') format('woff'); */
+    font-weight: normal;
+ }
+
+.clsViewContainer{
+    width:100%;
+    padding-left: 0px;
+    padding-right:0px;
+ }
+
+ .lable-Tenant-Space
+ {
+    font-family: 'OpenSans-SemiBold';
+    font-size: 13px;
+    color: #000000;
+    text-align: left;
+    line-height: 20px;
+ }
+
+ .clsCreateTenantBtn
+ {
+     border-radius: 2px;
+     background-color: #00A3E0;
+     font-size: 13px;
+     font-family: 'OpenSans-semibold';
+ }
+ 
+ .lable-Delete-Application
+ {
+    font-family: 'OpenSans-SemiBold';
+    font-size: 20px;
+    color: #000000;
+    text-align: left;
+    line-height: 28px;
+ }
+
+.dropdown-tenant-space
+{
+  font-family: 'OpenSans-Regular';
+  background: #FFFFFF;
+  border: 1px solid #D0D0CE;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  color: #000000;
+  text-align: left;
+  width: 240px;
+  height: 32px;
+  padding: 6px 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url("../../../assets/images/icon-arrow-down-small2x.png") no-repeat;
+  position: relative;
+  background-position-x: 212px;
+  background-position-y: center; /*Width of select dropdown to give space for arrow image*/
+  background-size: 24px;
+  background-color: #FFFFFF;
+}
+
+ .label-create-application
+ {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    color: #000000;
+    line-height: 24px;
+ }
+
+.label-create-application-tenant-name
+{
+    font-family: 'Open Sans', sans-serif;
+font-size: 16px;
+color: #000000;
+line-height: 28px;
+}
+
+.rowField
+{
+    border: 1px solid #e5e5e5;
+    margin: 0px;
+    width: 240px;
+    height: 32px;
+}
+.rowField-applicationlist
+{
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0px;
+    width: 496px;
+}
+.clsCancel
+{
+    border-radius: 2px;
+    background-color: #f8f8fa;
+    border: 1px solid #ddd;
+    color: black;
+    font-family: 'OpenSans-SemiBold';
+}
+.label-rowField
+{     
+    margin: 0px;
+    width: 240px;
+    height: 32px;
+}
+/* .clicker {
+    border: thin dashed black;
+    }
+    .clicker:focus {
+        border: thin solid black;
+    outline:none;
+        } */
+    
+.colFieldLeft{
+  padding: 0;
+  width: 201.8px;
+  height: 32px;
+  margin: 0px;
+}
+
+
+.clsTxtInputGridSearch{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    background: transparent;
+    border: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    color:black;
+    letter-spacing: 0;
+    line-height: 20px;
+ }
+ 
+ .clsTxtInputGridSearch:focus
+ {
+     background: transparent;
+     border: none;
+     /* border-bottom: 1px solid #9ecaed; */
+     box-shadow: none;
+     border-radius: 0px;
+ }
+
+.clsTxtInput{
+    padding: 0px;
+    margin: 0px;
+    /* width: 100%; */
+    background: transparent;
+    border: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    color:black;
+    letter-spacing: 0;
+}
+
+.clsTxtInput:focus
+{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #9ecaed;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.colFieldRight{
+  width: 20px;
+  float: right;
+  padding-right: 21px;
+}
+.clsCharacterCount
+{
+font-family: 'OpenSans-Light';
+font-size: 13px;
+color: #97999B;
+ padding-top: 6px;
+}
+
+.grid-header-label
+{
+font-family: 'OpenSans-SemiBold';
+font-size: 13px;
+color: #97999B;
+padding-top: 5px;
+}
+
+.label-filed-grid-f13
+ {
+    font-family: 'OpenSans-SemiBold';
+    font-size: 13px;
+    color: #000000;
+    text-align: left;
+    padding-top: 5px;
+ }
+
+.grid-header-search-label
+{
+font-family: 'OpenSans-Regular';
+font-size: 13px;
+color: #97999B;
+letter-spacing: 0;
+line-height: 20px;
+padding-top: 2px;
+}
+
+
+.grid-icon-style
+{
+   font-size: 20px;    
+    color: #000000;
+    text-align: center;
+    height: 20px;
+}
+
+.grid-row-label
+{
+font-family: 'OpenSans-Light'; 
+font-size: 13px;
+color: #000000;
+text-align: left;
+padding-top: 10px;
+}
+
+/* File Uploads */
+.image-upload > input
+{
+    display: none;
+}
+
+.image-upload img
+{
+    width: 80px;
+    cursor: pointer;
+}
+.clsFile img{
+    padding-left: 15px;
+}
+.clsFileName
+{
+    word-break: break-all;
+    font-size: 13px;
+    font-family: OpenSans-Regular;
+}
+.clsFileRow
+{
+    padding-bottom: 7px;
+    padding-top: 7px;
+}
+.grid-row-cust-label
+{
+font-family: 'OpenSans-Light'; 
+font-size: 13px;
+color: #000000;
+text-align: left;
+}
+
+/* tooltip image */
+.tooltiptext img{
+    width: 14px;
+    height: 14px;
+}
+
+.clsApnsCertificateName
+{
+    margin-left: 40px;
+    color:#337ab7;
+}
+.clsModalDialog
+{
+    margin: 0 auto;
+    top: 25%;
+    position: relative;
+    width: 400px;
+}
+.clsTooltip
+{
+    padding-left:3px;
+}
+:host ::ng-deep .ng-select-container
+{
+    background: none !important;
+}
+
+:host ::ng-deep .ng-dropdown-panel.ng-select-bottom
+{
+ width : 320px;
+ max-height: 304px;
+}
+
+:host ::ng-deep .ng-dropdown-panel .ng-dropdown-footer
+{
+    height: 48px;
+    padding: 10px 5px;
+    text-align: -webkit-right;
+}
+
+.clsMultipleItems
+{
+    transform: rotate(90deg);
+    font-family: Deloitte_special_icon_font_v4;
+    font-size: 16px;
+    color: #000000;
+    text-align: left;
+}
+.clsDefaultTopic
+{
+    background: #ECECEC;
+    border-radius: 2px;
+    border-radius: 2px;
+    width: fit-content;
+    padding: 2px 5px;
+}
+:host ::ng-deep .datatable-body-cell-label
+  {
+      position: absolute;
+  }
+.clsTooltip .tooltiptext
+  {
+    height: auto;
+    background-color: #fff;
+    color: #000;
+    text-align: left;
+    border-radius: 2px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    top: -26px;
+    left: 82px;
+    transition: opacity 0.3s;
+    width: 173px;
+    font-size: 12px;
+    font-family: 'OpenSans-Regular';
+    border: 1px solid #E5E5E5;
+  }
+.clsOwnersToolTip,.clsReadersToolTip
+{
+    top: -15px !important;
+    left: 76px !important;
+}
+
+  .clsTooltip .tooltiptext::after{
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 20%;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-radius: px;
+    border-right: 8px solid #fff;
+}
+ 
+.clsTopicToolTip
+{
+    left: 72px !important;
+    top: -30px !important;
+}
+.clsTopicEllipsis:hover, .clsAssignedAppPoolCount:hover{
+    color:#00A3E0;
+}
+.greyColor
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #97999B;
+    text-align: left;
+    line-height: 24px;
+}
+.clsOwnersSpn:hover,.clsReadersSpn:hover
+{
+    color:#00B3E6;
+}
+/* .clsCreateAppDiv
+{
+    background: #fff !important;
+}*/
+.clsCreateAppDiv .row, .clsCreateAppDiv br
+{
+    background-color: #fff !important;
+    margin-right:0px !important;
+} 
+.clsWhiteSpace
+{
+    height: 20px;
+}

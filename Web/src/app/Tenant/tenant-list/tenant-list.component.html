@@ -1,0 +1,664 @@
+<!--List start-->
+<div class="container clsTenantViewContainer">
+
+  <div class="row clsRowMarginRight" style="padding-top:3%">
+    <div class="col-md-9">
+      <label class="label-field-head">Tenant spaces</label>
+    </div>
+
+    <div hideIfUnauthorized="[{{roles.SystemAdmin}}]" class="col-md-3 clsGridBtn" style="padding-left: 8%">
+      <button type="button" class="btn btn_blue clsCreateTenantBtn" data-toggle="modal"
+        (click)="createTenantAlert()">Create tenant
+        space</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf=" tenantListView.length >= 0"style="padding-top:25px">
+    <div class="col-md-12">
+
+      <ngx-datatable class='material' [rows]='tenantListView' [headerHeight]="50" [footerHeight]="40" [rowHeight]="66"
+        [count]="totalCount" [offset]="pageNumber" [limit]="pageSize" [columnMode]="'flex'" [externalPaging]="true" #tenantTable>
+
+        <ngx-datatable-column name="TenantSpaceName" sortable="true" [resizeable]="false" [flexGrow]="1.5" [cellClass]="'my-custom-cell'">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="grid-header-search-label">
+
+              <table style="width: 75%;">
+                <tr
+                  [style.border-bottom]="(showserarchImage == true || searchTenantNameText != 0)  ? '2px solid #9ecaed':'' ">
+
+                  <td style="padding-top:5px; width:25px;">
+                    <img [style.display]="(!showserarchImage && searchTenantNameText == 0) ? 'block' : 'none'"
+                      src="assets/images/icon-search-name-normal.png" />
+                    <img [style.display]="(showserarchImage== true || searchTenantNameText != 0) ? 'block' : 'none'"
+                      style="width: 24px;height: 24px;" src="assets/images/icon-search-name-active2x.png" />
+                  </td>
+                  <td style="width:128px;padding-left: 0px">
+                    <input type="text" style="width:135px;font-family:'OpenSans-Semibold'"
+                      class="form-control clsTxtInputGridSearch" (keyup)='updateFilter($event)' (click)="focus()"
+                      (focusout)="focusout()" placeholder="Tenant space name" [(ngModel)]="query">
+                  </td>
+                  <td style="padding-left:0px">
+
+                    <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('TenantName','Descending')"
+                    style="height:16px;width:16px;cursor: pointer;"
+                    *ngIf="!sortByTenantName && hideSortByTenantName" />
+
+                    <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('TenantName','Ascending')"
+                    style="height:16px;width:16px;cursor: pointer"
+                    *ngIf="tenantNameDsc && sortByTenantName && hideSortByTenantName" />
+                  <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('TenantName','Descending')"
+                    style="height:16px;width:16px;cursor: pointer"
+                    *ngIf="!tenantNameDsc && sortByTenantName && hideSortByTenantName" />
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+
+
+            <img height="16px" width="16px" style="display:none" src="assets/images/icon-sort-up-normal2x.png" />
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div style="padding-left: 20px" [innerHtml]="row.name | highlightQuery: query"> </div>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="AssignedAppPools" sortable="false" [cellClass]="'my-custom-cell-global'"  [resizeable]="false"
+          [flexGrow]="1.5">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="grid-header-label">Assigned app pools</div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+
+            <span class="clsTooltip">
+              <span class="clsAssignedAppPoolCount">{{row.assignedAppPoolDisplayText}}</span>
+              <div class="clsAppPoolAssigned tooltiptext">
+                <p style="font-family: OpenSans-Semibold;font-size:12px">Assigned pools:</p>
+                <div placement="right" show-delay="0" *ngFor="let appPool of row.appPoolsAllocated">
+                  <p>{{appPool.name}}</p>
+                </div>
+
+              </div>
+            </span>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column  style="white-space: pre-line" name="SpaceAllocated" sortable="false"  [resizeable]="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <label class="grid-header-label">Space allocated</label>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+
+            <span class="clsTooltip">
+              <span class="clsSpaceAllocatedCell">
+                <b> {{row.spaceAllocated}} </b> </span>
+              <div class="tooltiptext clsAllocatedToolTip">
+                <p style="font-family: OpenSans-Semibold;font-size:12px">Allocated:</p>
+                <div class="row" placement="right" show-delay="0" *ngFor="let appPool of row.appPoolsAllocated">
+                  <div class="col-sm-8">
+                    <p>{{appPool.name}}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>{{appPool.allocatedSpace}}</p>
+                  </div>
+                </div>
+
+              </div>
+            </span>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="SpaceUtilized" sortable="false"  [resizeable]="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <label class="grid-header-label"> Space utilized</label>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <b> {{row.spaceUtilized}}</b>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="SpaceAvailable" sortable="false"  [resizeable]="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <label class="grid-header-label">Space available</label>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <b> {{row.spaceAvailable}} </b>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="OwenrsReaders" sortable="false"  [resizeable]="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <label class="grid-header-label">Owners / Readers</label>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <p class="greyColor">
+              <span class="clsTooltip">
+                  <span class="clsOwnersSpn">{{filterUsersBasedOnRole(row.teamMembers,0).length}}</span>
+                  <div *ngIf="filterUsersBasedOnRole(row.teamMembers,0).length>0" class="tooltiptext clsOwnersToolTip">
+                    <p style="font-family: OpenSans-Semibold;font-size:12px">Owners:</p>
+                    <div placement="right" show-delay="0" *ngFor="let user of filterUsersBasedOnRole(row.teamMembers,0)">
+                      <p><img height="28px" width="28px" graphImageUrl="{{user.imageUrl}}" />&nbsp;
+                      <span *ngIf="user.roleType==0">{{user.userName}}</span></p>
+                    </div>
+    
+                  </div>
+                </span>
+              
+              / <span class="clsTooltip">
+                  <span class="clsReadersSpn">{{filterUsersBasedOnRole(row.teamMembers,1).length}}</span>
+                  <div *ngIf="filterUsersBasedOnRole(row.teamMembers,1).length>0" class="tooltiptext clsReadersToolTip">
+                    <p style="font-family: OpenSans-Semibold;font-size:12px">Readers:</p>
+                    <div placement="right" show-delay="0" *ngFor="let user of filterUsersBasedOnRole(row.teamMembers,1)">
+                      <p><img height="28px" width="28px" graphImageUrl="{{user.imageUrl}}" />&nbsp;
+                      <span *ngIf="user.roleType==1">{{user.userName}}</span></p>
+                    </div>
+    
+                  </div>
+                </span></p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Created" sortable="false"  [resizeable]="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <div class="col-sm-5" style="width: 54px;"> <label
+                  [ngClass]="(sortByDate == true) ? 'label-filed-grid-f13' : 'grid-header-label'">Created</label></div>
+
+              <div class="col-sm-3" style="padding-top:5px">
+                <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!sortByDate" />
+
+                <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('CreatedDate','Ascending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="createdDateDsc && sortByDate" />
+                <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!createdDateDsc && sortByDate" />
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{row.createdDate | date: 'MMM dd, yyyy'}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Action/Edit" sortable="false" [flexGrow]="0.3" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a hideIfUnauthorizedTenant="[{{roles.SystemAdmin}},{{roles.TenantOwner}}]" [tenantId]="row.id" (click)="editTenant(row.id)" style="cursor: pointer"> <img class="grid-icon-style"
+                src="assets/images/icon-edit-normal2x.png" /></a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Action/Delete" sortable="false" [flexGrow]="0.3" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+            <a hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="row.spaceUtilized == 0" (click)="deleteTenant(row.id, row.name)">
+              <img class="grid-icon-style" *ngIf="row.spaceUtilized == 0" style="cursor: pointer"
+                src="assets/images/icon-delete-normal2x.png" /></a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-footer>
+
+          <ng-template ngx-datatable-footer-template let-rowCount="itemsCount" let-pageSize="pageSize"
+            let-curPage="pageNumber" let-offset="offset">
+            <div style="padding: 5px 10px">
+              <div>
+                <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+
+                <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+                onkeypress="return allowOnlyNumeric(event,this);"
+                  (input)="textboxpagechange(footertextboxpagenumber.value)" #footertextboxpagenumber />
+
+              </div>
+            </div>
+
+            <div style="text-align:left">
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" [count]="totalCount"
+                (change)="onFooterPage($event)" #footerSelectedPage>
+              </datatable-pager>
+            </div>
+            <div class="page-count" style="text-align:right">
+
+              <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}} </label>
+
+            </div>
+            <div>
+              <div style="padding-right:20px">
+                <select id="recordsperpage" name="recordsperpage" class='form-control selectpicker grid-footer-dropdown'
+                  (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+
+          </ng-template>
+
+        </ngx-datatable-footer>
+
+      </ngx-datatable>
+
+    </div>
+  </div>
+  <div class="row" style="padding-top:25px" *ngIf="tenantListView == null">
+    <div class="col-md-12">
+      <label> <b>No tenant(s) found.</b></label>
+    </div>
+  </div>
+
+  <!-- The Modal Create Tenant Space Team -->
+  <div class="modal-backdrop fade in" [style.display]="modalCreateTenant ? 'block' : 'none'"></div>
+  <div class="modal" id="idmodalCreateTenant" tabindex="-1" role="dialog" style="display: none"
+    [style.display]="modalCreateTenant ? 'block' : 'none'">
+    <div class="clsCreateTenantModal">
+      <div class="modal-content" style="border-radius:0px;height: 487px;width: 600px;padding-left: 10px">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="row" style="width:100%">
+            <div class="col-md-11">
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="label-create-tenant1">Create tenant space</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="label-create-tenant2" *ngIf="createTenant">Allocate tenant space</label>
+                  <label class="label-create-tenant2" *ngIf="manageTenant">Manage tenant space team </label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-1" style="padding-left: 30px;padding-top: 8px">
+              <a style="cursor: pointer;" (click)="closeCreateTenant()">
+                <img src="assets/images/icon-close-popup2x.png" style="width:24px;height: 24px;color: #75787B;" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body" *ngIf="createTenant">
+          <div class="row">
+            <div class="cols-md-12" style="padding-left: 15px">
+              <label class="label-create-tenant3" style="padding-right: 5px">Tenant space name</label>
+              <img src="assets/images/icon-information-normal2x.png" style="width:16px;height:16px" />
+            </div>
+          </div>
+          <div class="row rowField">
+            <div class="input_block ui mb8 col-sm-11 colFieldLeft">
+              <input (keyup)="0" maxlength="25" id="tenantSpaceName" type="text" class="form-control clsTxtInput" 
+                placeholder="Add tenant space name" onkeypress="return allowAlphabetsWithHyphenAndUnderscore(event,this)" (input)="validateTenant()" #tenantSpaceName
+                [(ngModel)]="addTenant.name">
+            </div>
+            <div class="col-sm-1 colFieldRight">
+              <label class="clsCharacterCount">{{25-tenantSpaceName.value.length}}</label></div>
+          </div>
+
+          <div style="height:230px;overflow-y: scroll;">
+            <div class="row" style="width:540px" *ngFor="let tenant of addTenant.appPoolsAllocated">
+              <div class="col-md-10" style="padding-top:25px">
+                <div class="row" style="padding-left: 15px">
+                  <label class="label-create-tenant2"> {{tenant.name}} </label>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4" style="width:120px">
+                    <label class="label-create-tenant">Allocated : </label>
+                    <label class="label-create-tenant"> {{tenant.capacity}}</label>
+                  </div>
+                  <div class="col-md-4" style="width:115px">
+                    <label class="label-create-tenant">Utilized : </label>
+                    <!-- <label class="label-create-tenant"> {{tenant.allocatedSpaces}}</label> -->
+                    <label class="label-create-tenant"> {{onLoadOfEditTenant ? tenant.allocatedSpaces : (tenant.capacity - (tenant.available - (tenant.currentTenantQuota-tenant.currentTenantQuotaTemp)))}}
+                      </label>
+                  </div>
+                  <div class="col-md-4" style="width:115px">
+                    <label class="label-create-tenant">Available : </label>
+                    <label class="label-create-tenant" *ngIf="tenant.available > tenant.currentTenantQuota">
+                      {{tenant.available - (tenant.currentTenantQuota == undefined ? 0: tenant.currentTenantQuota)}}</label>
+
+                    <label class="label-create-tenant" *ngIf="tenant.currentTenantQuota >= tenant.available">
+                      0</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2" style="padding-top:35px">
+                <input maxlength="3" value="{{tenant.currentTenantQuota}}" id="AllocationForNewTenanat_{{tenant.name}}"
+                  type="text" oncopy="return false" oncut="return false" onpaste="return false" 
+                  (input)="newtenatspaceallocaton(allocationForNewTenanat.value,tenant.available,addTenant.name, 'add')"
+                  class="textbox-allocated-space" onkeypress="return allowOnlyNumeric(event,this);"
+                  #allocationForNewTenanat [(ngModel)]="tenant.currentTenantQuota">
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+       <!-- <app-manage-team [tenantUserList]="tenantUserList" (ngModelChange)="objChanged($event)" [selectedTenantId]="addTenant.id" *ngIf="manageTenant"></app-manage-team> -->
+
+       <!-- Manage Tenant Owners/Readers -->
+  <div class="modal-body clsBody" style="height: 319px;" *ngIf="manageTenant"> 
+      <div class="row">
+        <div class="cols-md-12" style="padding-left: 15px">
+          <label style="font-size: 13px;color: #000000;line-height: 20px;padding-right: 5px">Add team
+            members</label>
+          <img src="assets/images/icon-information-normal2x.png" style="width:16px;height:16px" />
+        </div>
+      </div>
+    
+      <div class="row rowField">
+        <div class="input_block ui mb8 col-sm-12 colFieldLeft">
+          <input (input)="onSearchChange($event.target.value)" id="name" type="text" class="form-control clsTxtInput" placeholder="Search by name or e-mail"
+            #seachbynameoremail>
+        </div>
+      </div>
+      <div class="clsTenantUsers">
+      <div class="row" class="clsUserRow"  *ngFor="let user of userList">
+        <div class="col-md-1" style="padding-left: 0px">
+           <img height="48px" width="48px" graphImageUrl="{{user.imageUrl}}" src="assets/images/Mask.png" />
+        </div>
+        <div  class="col-md-5">
+          <p class="clsUserName">{{user.userName}}</p>
+          <p class="clsEmailId">{{user.userId}}</p>
+        </div>
+        <div  class="col-md-5">
+           <div class="clsRadioBtnRecipients">
+               <label class="rad clsRoleRadioBtn clsOptions">
+                   <input [value]="1" 
+                   [checked]="user.roleType === 1"
+                   [(ngModel)]="user.roleType"
+                    (change)="addToTenantUsers(user)"
+                    name="tenantRoleType_{{user.userId}}"
+                       type="radio">
+                   <i></i> Reader
+               </label>
+     
+               <label class="rad clsOptions">
+                   <input [value]="0"
+                   [checked]="user.roleType === 0"
+                   [(ngModel)]="user.roleType"
+                    (change)="addToTenantUsers(user)"
+                       name="tenantRoleType_{{user.userId}}"
+                        type="radio">
+                   <i></i> Owner
+               </label>
+     
+           </div>
+        </div>
+        <div style="padding-top: 15px;" class="col-md-1">
+           <img (click)="removeTheUser(user.userId)" src="assets/images/icon-close-popup2x.png" style="width:24px;height: 24px;color: #75787B;"/>
+        </div>
+       </div>
+      </div>
+    </div>
+    <!-- end tenant manage owners/readers -->
+
+        <!-- Modal footer -->
+        <div class="modal-footer clsFooter" style="height:64px;padding-top: 20px" *ngIf="createTenant">
+          <button type="button" class="btnCancel" (click)="closeCreateTenant()"
+            style="width:74px;height:32px">Cancel</button> &nbsp;
+          <button type="button" class="btn btn_blue clsCreateTenantBtn" style="width:90px;height:32px"
+            (click)="createTenantContinue()" [disabled]="diableConti">Continue</button>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer clsFooter" style="height:64px;padding-top: 20px" *ngIf="manageTenant">
+          <button type="button" style="width:74px;height:32px" class="btnCancel" data-target="#myModal"
+            data-toggle="modal" (click)="hidemodalManageTenantSpaceTeam()">
+            <img src="assets/images/icon-navigation-back.png" />
+            Back</button> &nbsp;&nbsp;
+          <button type="button" class="btnSave" style="width:74px;height:32px" (click)="CreateTenant()"
+            data-dismiss="modal">Create</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- The Modal Edit Tenant Space Team -->
+  <div class="modal-backdrop fade in" [style.display]="modaEditTenantSpaceTeam ? 'block' : 'none'"></div>
+  <div class="modal" id="modalEditTSTeam" tabindex="-1" role="dialog" style="display: none"
+    [style.display]="modaEditTenantSpaceTeam ? 'block' : 'none'">
+    <div class="clsEditTenantModal">
+      <div class="modal-content" style="border-radius:0px;height: 487px;">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="row" style="width:100%">
+            <div class="col-md-11">
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="label-create-tenant1" style="padding-left:10px">Edit tenant space</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1" style="padding-left: 30px;padding-top: 1px">
+              <a style="cursor: pointer;" (click)="hidemodalEditTenantSpaceTeam()">
+                <img src="assets/images/icon-close-popup2x.png" style="width:24px;height: 24px;color: #75787B;" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="cols-md-12" style="padding-left: 0px;padding: 0px">
+              <!-- Nav pills -->
+              <div class="width:600px;padding:0px">
+
+                <!-- Nav pills -->
+                <table style="padding:0px;width:100%">
+                  <tr>
+                    <td style="padding-left: 25px;text-align: left;height: 24px;width:190px;">
+                      <a [class]="clsTabActiveAllocate" (click)="editAllocateTenatSpace('tab1')"
+                        style="cursor: pointer;text-decoration: none; text-align: left">Allocate tenant space</a>
+                    </td>
+                    <td>
+                      <a [class]="clsTabActiveManage" (click)="editManageTenatSpace('tab2')"
+                        style="cursor: pointer;text-decoration: none;" >Manage tenant space team</a>
+                    </td>
+                  </tr>
+                  <tr style="height:0px;">
+                    <td colspan="2" style="padding-top: 10px;border-bottom: 1px solid lightgray;">
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div *ngIf="!manageTenant" id="allocateTenantSpace" style="padding-left:15px" class="clsAllocateModal"><br>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="cols-md-12" style="padding-left: 10px">
+                          <label class="label-create-tenant3" style="padding-right:5px">Tenant space name</label>
+                          <img src="assets/images/icon-information-normal2x.png" style="width:16px;height:16px" />
+                        </div>
+                      </div>
+
+                      <div class="row rowField">
+                        <div class="input_block ui mb8 col-sm-11 colFieldLeft">
+                          <input (keyup)="0" onkeypress="return allowAlphabetsWithHyphenAndUnderscore(event,this)" (input)="validateTenant('edit')" maxlength="25" id="name" type="text" class="form-control clsTxtInput"
+                            placeholder="Add Tenant space name" #tenantName [(ngModel)]="editTenantRecord.name">
+                        </div>
+
+                        <div class="col-sm-1 colFieldRight">
+                          <label class="clsCharacterCount">{{25-tenantName.value.length}}</label></div>
+                      </div>
+                      <div style="height:180px;overflow-y: scroll;">
+                        <div class="row" style="width:550px" *ngFor="let tenant of editTenantRecord.appPoolsAllocated">
+                          <div class="col-sm-9" style="padding-top:25px">
+                            <div class="row" style="padding-left: 15px">
+                              <label class="label-create-tenant2"> {{tenant.name}} </label>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-4">
+                                <label class="label-create-tenant">Allocated : </label>
+                                <label class="label-create-tenant"> {{tenant.capacity}}</label>
+                              </div>
+                              <div class="col-md-4">
+                                <label class="label-create-tenant">Utilized : </label>
+                                <!-- <label class="label-create-tenant"> {{tenant.allocatedSpaces}}</label> -->
+                                <label class="label-create-tenant" >
+                                  {{onLoadOfEditTenant ? tenant.allocatedSpaces : (tenant.capacity - (tenant.available - (tenant.currentTenantQuota-tenant.currentTenantQuotaTemp)))}}
+                                </label>
+                              </div>
+                              <div class="col-md-4">
+                                <label class="label-create-tenant">Available : </label>
+                                <label class="label-create-tenant" *ngIf="(tenant.currentTenantQuota <= tenant.capacity) && (tenant.available - (tenant.currentTenantQuota-tenant.currentTenantQuotaTemp))>=0">
+                                  {{onLoadOfEditTenant ? tenant.available : (tenant.available - (tenant.currentTenantQuota-tenant.currentTenantQuotaTemp))}}
+                                  <!-- {{(tenant.capacity - tenant.allocatedSpaces))}} -->
+
+                                  <!-- {{onLoadOfEditTenant?tenant.available : (tenant.capacity - tenant.allocatedSpaces) - (tenant.currentTenantQuota == undefined ? 0 : tenant.currentTenantQuota)}} -->
+                                </label>
+                                <label  class="label-create-tenant" *ngIf="(tenant.currentTenantQuota <= tenant.capacity) && (tenant.available - (tenant.currentTenantQuota-tenant.currentTenantQuotaTemp))<0">
+                                  0
+                                </label>
+                                <label class="label-create-tenant"
+                                *ngIf="tenant.currentTenantQuota > tenant.capacity">
+                                  0</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-3" style="padding-top:40px;text-align: right;padding-right:0px">
+                            <input maxlength="3" value="{{tenant.currentTenantQuota}}" id="AllocationForNewTenanat"
+                              (input)="newtenatspaceallocaton(allocationForNewTenanatEdit.value,tenant.available, tenant.name, 'edit', tenant)"
+                              type="text" onkeypress="return allowOnlyNumeric(event,this);"
+                              class="textbox-allocated-space" #allocationForNewTenanatEdit
+                              [(ngModel)]="tenant.currentTenantQuota">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="manageTenatSpace" *ngIf="manageTenant" class="clsManageTeamModal"><br>
+                    <!-- <app-manage-team [selectedTenantId]="editTenantRecord.id" ></app-manage-team> -->
+                    
+       <!-- Manage Tenant Owners/Readers -->
+  <div class="modal-body clsBody" style="height: 270px;padding-left: 25px;" *ngIf="manageTenant"> 
+      <div class="row">
+        <div class="cols-md-12" style="padding-left: 15px">
+          <label style="font-size: 13px;color: #000000;line-height: 20px;padding-right: 5px">Add team
+            members</label>
+          <img src="assets/images/icon-information-normal2x.png" style="width:16px;height:16px" />
+        </div>
+      </div>
+    
+      <div class="row rowField">
+        <div class="input_block ui mb8 col-sm-12 colFieldLeft">
+          <input (input)="onSearchChange($event.target.value)" id="name" type="text" class="form-control clsTxtInput" placeholder="Search by name or e-mail"
+            #seachbynameoremail>
+        </div>
+      </div>
+      <div class="clsTenantUsers">
+      <div class="row" class="clsUserRow"  *ngFor="let user of userList">
+        <div class="col-md-1" style="padding-left: 0px">
+           <img height="48px" width="48px" graphImageUrl="{{user.imageUrl}}" src="assets/images/Mask.png" />
+        </div>
+        <div  class="col-md-5">
+          <p class="clsUserName">{{user.userName}}</p>
+          <p class="clsEmailId">{{user.userId}}</p>
+        </div>
+        <div  class="col-md-5">
+           <div class="clsRadioBtnRecipients">
+               <label class="rad clsRoleRadioBtn clsOptions">
+                   <input [value]="1"
+                   [checked]="user.roleType === 1"
+                   [(ngModel)]="user.roleType"
+                    (change)="addToTenantUsers(user)"
+                    name="tenantRoleType_{{user.userId}}"
+                        type="radio">
+                   <i></i> Reader
+               </label>
+     
+               <label class="rad clsOptions">
+                   <input [value]="0"
+                   [checked]="user.roleType === 0"
+                   [(ngModel)]="user.roleType"
+                    (change)="addToTenantUsers(user)"
+                       name="tenantRoleType_{{user.userId}}"
+                        type="radio">
+                   <i></i> Owner
+               </label>
+     
+           </div>
+        </div>
+        <div style="padding-top: 15px;" class="col-md-1">
+           <img (click)="unassignTheUser(user)" src="assets/images/icon-close-popup2x.png" style="width:24px;height: 24px;color: #75787B;"/>
+        </div>
+       </div>
+      </div>
+    </div>
+    <!-- end tenant manage owners/readers -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer clsFooter" style="height:64px;padding-top: 20px">
+          <button type="button" class="btnCancel" style="width:74px;height:32px" data-toggle="modal"
+            (click)="hidemodalEditTenantSpaceTeam()">
+            Cancel</button> &nbsp;
+          <button type="button" style="width:74px;height:32px" class="btn btn_blue clsCreateTenantBtn"
+            [disabled]="diableConti" (click)="saveTenant()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Delte Create Tenant -->
+
+  <div class="modal-backdrop fade in" [style.display]="modalDeleteTenant ? 'block' : 'none'"></div>
+  <div class="modal" id="modalDeleteTenant" tabindex="-1" role="dialog" style="display: none"
+    [style.display]="modalDeleteTenant ? 'block' : 'none'">
+    <div class="clsModalDialog">
+      <div class="modal-content" style="border-radius:0px;">
+
+        <!-- Modal Header -->
+        <div class="modal-header clsModalHeader">
+          <h4 class="modal-title ui mb16 font_bold font_size_20 clsModalTitle">Delete tenant space</h4>
+          <span class="close icon icon-cross-special" (click)="closeDeletePopup()"><img
+              src="assets/images/icon-close-popup.png" /></span>
+          <div class="row">
+            <div class="col-xs-12">
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body clsModalBody">
+          Are you sure you want to delete Tenant space: <b>{{TenantSpaceNameDelete}}</b>?
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer clsFooter">
+          <button type="button" class="btn font_size_13 btn_gray clsCancel" (click)="closeDeletePopup()">Cancel</button>
+          <button type="button" class="btn font_size_13 btn_blue clsCreate"
+            (click)="confirmDeleteTenant()">Confirm</button>
+        </div>
+
+      </div>
+    </div>
+  </div>

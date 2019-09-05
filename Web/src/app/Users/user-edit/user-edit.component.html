@@ -1,0 +1,138 @@
+<div *ngIf="isLoaded" class="container clsAppViewContainer">
+  <div class="row clsRowMarginRight clsDisplayFlex">
+    <div *ngIf="fromUserPage=='true'" class="col-sm-12">
+      <h3 class="font_18 openSansNormal">
+        <b><i class="fa fa-angle-left pointer" (click)="goToUserList()"></i> &nbsp;Search Results:</b> {{selectedUser.userName}}
+      </h3>
+      <h4 class="marinLeft_15 fontSize_14 openSansNormal">3 roles found</h4>
+    </div>
+    <div style="margin-top: 35px;margin-bottom: 15px;" class="col-sm-12" *ngIf="fromUserPage=='false'">
+        <label class="label-field-head">Profile</label>
+      </div>
+    <!-- <div class="col-sm-4 clsCreateAppPoolDiv">
+                  <button class="btn btn_blue clsCreateAppPoolBtn" (click)="createAppPool()">Create Application Pool</button>
+                </div> -->
+  </div>
+  <div class="row clsRowMarginRight clsDisplayFlex userContainer">
+    <div class="container paddingLeft_0">
+      <div class="row clsBasicDetailsRow">
+        <div class="col-sm-2 widthCol">
+          <img graphImageUrl="{{selectedUser.imageUrl}}" src="assets/images/user_icon.png" />
+        </div>
+        <div class="col-sm-7">
+          <p class="openSansBold fontSize_16 paddingTop_10">{{selectedUser.userName}}</p>
+          <p class="fontSize_14">{{selectedUser.userId}}</p>
+          <p class="paddingTop_7">
+            <span [ngClass]="true?'dot green':'dot grey'"></span>&nbsp;
+            <span [ngClass]="true?'normalColor':'greyColor'" [innerHtml]="true?'Active':'Inactive'"> </span>
+          </p>
+        </div>
+      </div>
+      <!-- System Roles -->
+          <div *ngIf="selectedUser.systemRole && selectedUser.systemRole.systemRoleType>=0" class="row clsBasicDetailsRow paddingTop_15">
+              <p class="openSansSemiBold font_16">{{selectedUser.systemRole.systemRoleType==0?'System admin':'System reader'}}</p>
+              
+                 
+                  <table>
+                      <th>
+                          Created
+                        </th>
+                      <th>
+                        </th>
+                      <th>
+                        </th>
+                        <th></th>
+                        <tr >
+                            <td>
+                                {{selectedUser.createdDate | date: 'MMM dd, yyyy hh:mm a'}}
+                              </td>
+                  <td></td>
+                  <td></td>
+                  <td hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="fromUserPage=='true'" class="alignRight">
+                    <!-- <a>Unassign</a> -->
+                    <p ><a>Unassign</a></p>
+                  </td>
+                </tr>
+                </table>
+            </div>
+            <!-- Tenant users -->
+            <div *ngFor="let tenantRole of tenantRoles">
+            <div *ngIf="selectedUser.tenantRoles && filterTenantUserRoles(selectedUser.tenantRoles,tenantRole).length>0">
+          <div class="row clsBasicDetailsRow paddingTop_15">
+            <p class="openSansSemiBold font_16">{{tenantRole==0? 'Tenant owner' : 'Tenant reader'}}</p>
+            
+               
+                <table >
+                    <th>
+                        Created
+                      </th>
+                    <th>
+                        Tenant space name
+                      </th>
+                   <th></th>
+                      <th></th>
+                      <tr *ngFor="let tenant of filterTenantUserRoles(selectedUser.tenantRoles,tenantRole)">
+                          <td>
+                             <p>{{tenant.createdDate | date: 'MMM dd, yyyy hh:mm a'}}</p> 
+                            </td>
+                <td class="normalColor">
+                  <!-- {{tenantList.length==1?tenantList[0].name:'Multiple Tenants'}} -->
+                  <p >{{tenant.tenant.name}}</p>
+                </td>
+                
+                <td class="normalColor">
+                  <p></p>
+                </td>
+                <td hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="fromUserPage=='true'" class="alignRight">
+                  <!-- <a>Unassign</a> -->
+                  <p><a>Unassign</a></p>
+                </td>
+              </tr>
+              </table>
+          </div>
+        </div>
+      </div>
+        
+          <!-- Application Users -->
+          <div *ngFor="let appRole of appRoles">
+          <div *ngIf="selectedUser.applicationRoles && filterApplicationUserRoles(selectedUser.applicationRoles,appRole).length>0">
+            <p class="openSansSemiBold font_16">{{appRole==0?'Application owner':appRole==1?'Application reader':'Application notification owner'}}</p>
+            
+               
+                <table>
+                    <th>
+                        Created
+                      </th>
+                    <th >
+                        Tenant space name
+                      </th>
+                    <th >
+                        Application name
+                      </th>
+                      <th></th>
+                      <tr *ngFor="let appObj of filterApplicationUserRoles(selectedUser.applicationRoles,appRole)">
+                          <td>
+                             <p *ngFor="let item of appObj.associatedApplicationRoles">{{item.createdDate | date: 'MMM dd, yyyy hh:mm a'}}</p> 
+                            </td>
+                <td class="normalColor">
+                  <!-- {{tenantList.length==1?tenantList[0].name:'Multiple Tenants'}} -->
+                  <p >{{appObj.tenant.name}}</p>
+                </td>
+                
+                <td class="normalColor" >
+                    <div  >
+                    <p  *ngFor="let item of appObj.associatedApplicationRoles">{{item.application.name}}</p>
+                    </div>
+                </td>
+                <td hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="fromUserPage=='true'" class="alignRight">
+                  <!-- <a>Unassign</a> -->
+                  <p  *ngFor="let item of appObj.associatedApplicationRoles"><a>Unassign</a></p>
+                </td>
+              </tr>
+              </table>
+          </div>
+        </div>
+          
+    </div>
+  </div>
+</div>

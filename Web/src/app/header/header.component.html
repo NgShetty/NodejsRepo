@@ -1,0 +1,31 @@
+<header id="header">
+  <div class="layout-center-wrapper">
+    <div class="container_header">
+      <div class="header__logo">
+        <img src="assets/images/Logo.jpg" />
+        <span>|</span>&nbsp;&nbsp;PNS</div>
+
+      <div style="padding-top:9px;text-align: right;padding-right: 15px;">
+        <img width="30px" height="30px" graphImageUrl="{{userImage}}" src="assets/images/user_icon.png" />
+        <img (click)="showUserPopup()" src="assets/images/icons-arrow-down-small.png" />
+      </div>
+    </div>
+  </div>
+</header>
+<div *ngIf="showUserProfileDiv" class="profileViewContainer" clickElsewhere (clickOff)="closeDropdown($event)">
+  <div class="row noMargin clsPadding">
+    <div class="col-md-3">
+      <img height="40px" width="40px" graphImageUrl="{{userImage}}" src="assets/images/Mask.png"  />&nbsp;
+    </div>
+    <div class="col-md-7">
+      <p>{{username}}
+      <p>US - Hermitage</p>
+    </div>
+  </div>
+  <div class="row margin_15 clsPadding paddingLeft_15" >
+    <span (click)="redirectToProfile()" style="cursor: pointer !important"><i class="fa fa-gear"></i><span class="clsPaddingLeft">Profile</span></span>
+  </div>
+  <div class="row margin_15 clsPadding paddingLeft_15">
+    <span (click)="signout()" style="cursor: pointer !important"><i class="fa fa-sign-out"></i><span class="clsPaddingLeft">Sign out</span></span>
+  </div>
+</div>

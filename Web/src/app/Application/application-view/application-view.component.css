@@ -1,0 +1,17 @@
+.clsDefaultTopic
+{
+    background: #ECECEC;
+    border-radius: 2px;
+    border-radius: 2px;
+    width: fit-content;
+    padding: 2px 5px;
+}
+.clsCreateAppDiv .row, .clsCreateAppDiv br
+{
+    background-color: #fff !important;
+    margin-right:0px !important;
+} 
+.clsWhiteSpace
+{
+    height: 20px;
+}

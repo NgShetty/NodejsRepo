@@ -1,0 +1,101 @@
+
+.clsModal{
+    display: block;
+}
+
+.editTokenForm
+{
+    width: 100%;
+}
+
+.clsCreate
+{
+    background-color: #00a2e3;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 13px;
+    font-family: 'OpenSans-semibold'
+}
+.clsCancel
+{
+    border-radius: 2px;
+    background-color: #f8f8fa;
+    border: 1px solid #ddd;
+    color: black;
+    font-family: 'OpenSans-semibold';
+    font-size: 13px;
+}
+.clsModalContent
+{
+    border-radius: 1px;
+    width: 600px;
+    height: 390px;
+}
+.clsModalHeader
+{
+    padding-bottom: 0px;
+    padding-left: 25px;
+    color: black;
+}
+.clsModalBody
+{
+    color: black;
+    padding: 15px 25px;
+    height: 260px;
+}
+
+input::placeholder{
+    color:#97999B;
+    font-size: 13px;
+    font-weight: normal;
+}
+.clsModalDialog
+{
+    /* width: 400px; */
+    margin: 125px auto;
+}
+
+.icon-cross-special
+{
+    content: "\e91d";
+    margin-top: 0px;
+}
+.clsModalTitle
+{
+    float: left;
+}
+ 
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+.clsModalHeader img{
+    width: 24px;
+    height: 24px;
+}
+.clsFooter
+{
+    text-align: unset;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.clsLeftDiv
+{
+    text-align: left;
+}
+.clsRightDiv
+{
+    text-align: right;
+}
+textarea
+{
+    width: 550px;
+    height: 200px;
+    resize: none;
+     
+}
+.clsManualEditText
+{
+    color: #97999B;
+    font-size: 12px;
+    padding-left: 5px;
+}

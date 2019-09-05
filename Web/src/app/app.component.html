@@ -1,0 +1,30 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<!-- <div *ngIf="loadComponents" class="page-content-wrapper">
+  <loader></loader>
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  <app-footer></app-footer>
+</div> -->
+
+<div *ngIf="loadComponents" class="container">
+  <div class="row clsRowNoMargin">
+    <app-header></app-header>
+  </div>
+  
+  <div class="row clsRowNoMargin">
+      <div class="col-md-2 sidebar">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-md-10 main">
+          <loader></loader>
+        <router-outlet></router-outlet>
+      </div>
+  </div>
+  
+  <div class="row clsRowNoMargin">
+    <div class="cell footerDiv">
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>
+<!-- <loader></loader> -->

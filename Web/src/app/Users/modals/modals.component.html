@@ -1,0 +1,106 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">{{title}}</h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody">
+                <div class="row">
+                    <form [formGroup]="form" class="container addAppPoolForm">
+                        <div *ngIf="showTenantSpace" class="form-group">
+                            <p for="tenantSpaceLbl" class="ui font_semibold mb4 font_size_13">Tenant space name<span></span>
+                            </p>
+                            <div class="dropdown">
+                                <select
+                                    (change)="onSelectTenant($event.target.value)" 
+                                    [(ngModel)]="selectedTenantId"
+                                    formControlName="tenantSpace"
+                                    name="tenantSpace" class="form-control clsApplicationSelect" #tenantSpace>
+                                    <option value="all" selected>All tenant space</option>
+                                    <option *ngFor="let item of tenantList" [value]="item.id">{{item.name}}
+                                    </option>
+    
+                                </select>
+                            </div>
+                        </div>
+                        <div *ngIf="showApplication" class="form-group">
+                            <p for="appLbl" class="ui font_semibold mb4 font_size_13">Application<span></span>
+                            </p>
+                            <div class="dropdown">
+                                <select
+                                    (change)="onSelectApplication($event.target.value)" 
+                                    [(ngModel)]="selectedAppId" formControlName="application"
+                                    name="application" class="form-control clsApplicationSelect" #application>
+                                    <option value="all" selected>All application space</option>
+                                    <option *ngFor="let item of applicationList" [value]="item.id">{{item.name}}
+                                    </option>
+    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p for="Name" class="ui font_semibold mb4 font_size_13">{{roleLabelName}}<span></span>
+                            </p>
+
+                                        <ng-select formControlName="email" [virtualScroll]="true" [(ngModel)]="selectedUsers" [items]="userList" #select bindLabel="userId"
+                                [multiple]="true" [isOpen]="toggleDropdownOnSearch" (focus)="toggleDropdownOnSearch=true"
+                                [loading]="usersLoading"   (add)="onItemAdd($event,select)"
+                                [typeahead]="usersinput$"   [hideSelected]="true" (clear)="onClear($event,select)">
+                               
+                                <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+                                    <div class="cls4 clsUserSearch">
+                                            <span class="ng-value-label col-md-11">{{item.userId}}</span>
+                                        <span aria-hidden="true" class="ng-value-icon col-md-1"
+                                            (click)="clear(item)">×</span>
+                                    </div>
+
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-index="index">
+                                  <div class="row" (click)="disableItem($event,item)">
+                                    <div class="col-md-2">
+                                        <img height="28px" width="28px" src="assets/images/Mask.png" graphImageUrl="{{item.imageUrl}}" />&nbsp;
+                                  </div>
+                                  <div class="col-md-7 clsColPadding clsUserInfo">
+                                      <p style="color: #000000;">{{item.userName}}</p>
+                                     <p style="color: #97999B;">{{item.userId}}</p>
+                                  </div>
+                                  <div class="col-md-3 clsUserFlagExists" >
+                                    {{(item.roleType==0 || item.roleType==1)? "already exists":""}}
+                              </div>
+                                  <!-- <div *ngIf="(item.tenantRoleType)" class="col-md-3 clsUserFlagExists" >
+                                        {{item.tenantRoleType!=-1? "already exists":""}}
+                                  </div>
+                                  <div *ngIf="(item.applicationRoleType)" class="col-md-3 clsUserFlagExists" >
+                                    {{item.applicationRoleType!=-1? "already exists":""}}
+                              </div> -->
+                                  </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" >
+                                  <div [ngOptionHighlight]="search">{{item.userId}}</div>
+                                </ng-template>
+                                <ng-template ng-footer-tmp>
+                                   <button class="btn font_size_13 btn_gray clsCancel" (click)="toggleDropdownOnSearch = false">Close</button>
+                                  </ng-template>                               
+                            </ng-select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer clsFooter">
+                <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Cancel</button>
+                <button class="btn font_size_13 btn_blue clsCreate" (click)="create()">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>

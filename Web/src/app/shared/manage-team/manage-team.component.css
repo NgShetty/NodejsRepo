@@ -1,0 +1,138 @@
+.rowField
+{
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0px;
+}
+.colFieldLeft{
+    padding: 0;
+    width: 85%;
+    margin: 0px;
+}
+
+.clsTxtInput{
+    font-family : "OpenSans-Regular";
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    background: transparent;
+    border: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    color:black;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.clsTxtInput:focus
+{
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+.clsRadioBtnRecipients
+{
+    display: block;
+    padding-top: 15px;
+}
+.clsRoleRadioBtn
+{
+    padding-right: 40px;
+}
+.clsUserRow
+{
+    /* height:180px; */
+    overflow-y: scroll;
+    padding-top: 20px;
+}
+.clsBody
+{
+    height: 319px;
+}
+/* RADIO  STYLES */
+  /* DEFAULT <i> STYLE */
+  .rad > input{ /* HIDE ORG RADIO & CHECKBOX */
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .rad > i{ 
+      display: inline-block;
+      vertical-align: middle;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      transition: 0.2s;
+      box-shadow: inset 0 0 0 8px #fff;
+      /* border: 1px solid #00A2E3; */
+      background: gray;
+      border: 0.8px solid #D0D0CE;
+      margin-right: 2px;
+  }
+  
+  .rad
+  {
+      padding-left: 6px;
+      padding-right: 14px;
+      font-weight: normal;
+      cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  
+  .rad:hover > i{ /* HOVER <i> STYLE */
+    box-shadow: inset 0 0 0 3px #fff;
+    background: gray;
+  }
+  .rad > input:checked + i{ /* (RADIO CHECKED) <i> STYLE */
+      box-shadow: inset 0 0 0 4px #00A2E3;
+      background: #fff;
+      border:0;
+  }
+.clsUserName
+{ 
+    font-family: "OpenSans-Semibold";
+    font-size: 16px;
+    color: #000000;
+    line-height: 20px;
+}
+.clsEmailId
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 20px;
+    white-space: pre-line;
+    word-break: break-all;
+}
+.clsOptions
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #000000;
+    line-height: 20px;
+}
+.clsTenantUsers
+{
+    max-height: 236px;
+    overflow-y: scroll
+}
+
+.clsModal{
+    display: block;
+}
+.clsModalDialog
+{
+    width: fit-content;
+    margin: 100px auto;
+}
+.clsModalContent
+{
+    border-radius: 1px;
+    width: 720px;
+    /* height: 309px; */
+}

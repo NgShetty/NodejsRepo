@@ -1,0 +1,682 @@
+.clsContainer{
+    width:100%;
+    padding-left: 0px;
+    padding-right:0px;
+}
+.clsReportsContainer
+{
+    margin-top: 25px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    background-color: #fff;
+    height: auto;
+}
+.clsCustomCol
+{
+    width: 11%;    
+}
+.clsCustomCol1
+{
+    width: 15%;
+}
+.clsCustomCol2
+{
+    width: 9%;
+}
+.clsCustomCol1,.clsCustomCol,.clsCustomCol2
+{
+    font-family: "OpenSans-Semibold";
+    font-size: 14px;
+    color: #53565A;
+    height: 37px;
+    padding-left:25px;
+    line-height: 2.2;
+    width: auto;
+}
+.clsFilter
+{
+    background: #fff;
+    margin-left: 0px;
+    margin-right: 0;
+    padding-top: 11px;
+    border-bottom: 1px solid #ccc;
+}
+
+
+.lable-edit-tenat-head-active
+{
+font-size: 14px;
+color: #000000;
+/* padding-left: 10px; */
+border-bottom: 3px solid grey;
+font-family: "OpenSans-Semibold";
+border-radius: 0px;
+background-color: white;
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+padding-bottom: 15px;
+}
+
+.lable-edit-tenat-head-inactive
+{
+font-family: "OpenSans-Semibold";
+font-size: 14px;
+color: #53565A;
+/* padding-left: 20px; */
+border-bottom: 0px;
+font: bold;
+border-radius: 0px;
+background-color: white;
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+}
+.clsDownloadBtn
+{
+    background-color: #00A3E0;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 13px;
+    font-family: 'OpenSans-semibold';
+}
+.clsFloatRight
+{
+    text-align: right;
+    margin-right: 25px;
+}
+.clsSelect
+{
+    width:240px;
+    height: 32px;
+    border: 1px solid #D0D0CE;
+    border-radius: 1px;
+}
+.dropdown select {
+    /* border: 0 !important; */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background:url("../../assets/images/icon-arrow-down-small2x.png") no-repeat;
+    /* background-position: 82px 7px; */
+    /* width: 100px; */
+    position: relative;
+    /* left: 20px; */
+    background-position-x: 212px;
+    background-position-y: center;               /*Width of select dropdown to give space for arrow image*/
+    background-size: 24px;
+}
+.dropdown
+{
+    padding-left: 0px !important;
+}
+.clsFilterDrodpowns
+{
+    padding-left: 25px;
+    padding-top: 20px;
+    width:20%;
+}
+
+.clsDateCustom
+{
+    text-align: -webkit-right;
+    display: block;
+}
+.clsDateCustom input[type="text"],.timeControl{
+height: 32px;
+width: 140px;
+float: right;
+}
+.clsFilterBtn
+{
+    background: #F8F8FA;
+    border: 1px solid #DEDEE1;
+    border-radius: 2px;
+    border-radius: 2px;
+    width: 65px;
+    height: 32px;
+    margin-top: 27px;
+}
+.clsReset
+{
+    font-family: "OpenSans-Semibold";
+    font-size: 13px;
+    color: #00A3E0;
+    line-height: 24px;
+    padding-left: 20px;
+}
+.clsMostPopularTxt
+{
+    font-family: "OpenSans-Regular";
+font-size: 13px;
+color: #232600;
+text-align: right;
+line-height: 20px;
+}
+.clsFontSemiBold
+{
+    font-family: "OpenSans-Semibold";
+font-size: 13px;
+color: #000000;
+text-align: right;
+line-height: 20px;
+}
+.clsSortDiv
+{
+    padding-left: 25px;
+    /* height: 56px; */
+    /* box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.04); */
+}
+.clsDougnutDiv
+{
+    margin-top: 25px;
+    padding: 20px 25px;
+}
+.font-size_16px
+{
+    font-size: 16px;
+}
+.marginRight_15
+{
+    margin-right: 15px;
+}
+.greyColor
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #53565A;
+    line-height: 24px;
+}
+.sectionHeader
+{
+    font-size: 13px;
+    font-family: 'OpenSans-SemiBold';
+    line-height: 29px;
+}
+.clsDoughnutSec
+{
+    display: block;
+    width: 300px;
+    height: auto;
+    padding-top: 20px;
+}
+.clsLegendsCustom
+{
+    padding-top: 20px;
+    font-family: "OpenSans-Semibold";
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.roundRectangle
+{
+    height: 8px;
+    width: 16px;
+    border-radius: 8px;
+    display: inline-block;
+}
+.clsAndroidLegend
+{
+background-color: #86BC25;
+}
+.clsIOSLegend
+{
+background-color: #0076A8;
+}
+.greyFont
+{
+    font-family: "OpenSans-Regular";
+    font-size: 12px;
+    color: #3D3F00;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.clsFilterDiv
+{
+    display: -webkit-inline-box;
+    /* box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.04); */
+    padding-bottom: 12px;
+    width:100%;
+}
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+   .clsFilterDiv
+   {
+    display: block;
+   }
+    .clsFloatRight{
+        float: left;
+        padding: 20px;
+        padding-left: 25px;
+    }
+  }
+
+  :host ::ng-deep .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row, :host ::ng-deep .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell, :host ::ng-deep .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell
+  {
+      /* height:fit-content !important; */
+      display: table !important;
+  }
+
+  /* :host ::ng-deep .ngx-datatable .datatable-header
+  {
+      display: none !important;
+  } */
+  :host ::ng-deep .ngx-datatable.material
+  {
+      box-shadow: none !important;
+  }
+  /* :host ::ng-deep .ngx-datatable.material .datatable-header
+  {
+      border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+      border-top: 1px solid rgba(0,0,0,0.04) !important;
+  } */
+  :host ::ng-deep .ngx-datatable.material .datatable-header
+  {
+      height: auto !important;
+  }
+  :host ::ng-deep .ngx-datatable .datatable-body .datatable-scroll
+  {
+      width: 100% !important;
+  }
+  :host ::ng-deep .ngx-datatable .datatable-body .datatable-row-wrapper
+  {
+    border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+    border-top: 1px solid rgba(0,0,0,0.04) !important;
+  }
+  :host ::ng-deep .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell
+  {
+    border: none !important;
+    width: 100%;
+  }
+  /* :host ::ng-deep .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row:hover
+  {
+    background-color: #fff !important;
+  } */
+
+  /* Notification Delivery */
+  .clsContainerNotification
+{
+    /* margin-top: 25px; */
+    border-top: 1px solid rgba(0,0,0,0.04) !important;
+    /* box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12); */
+    /* width: 1220px; */
+    height: auto;
+    background: #fff;
+    padding-top:  15px;
+    padding-left: 25px;
+}
+.clsTotalNotifcationsDiv
+{
+    padding-top: 10px;
+}
+.clsNotificationSubHeaders
+{
+    font-family: "OpenSans-Semibold";
+    font-size: 13px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.clsBarTotal
+{
+    width: 100%;
+    height: 24px;
+    background-color: #6FC2B4;
+    display: flex;
+}
+.clsTotalSuccess
+{
+    /* width: 80% !important; */
+    height: 24px;
+    background-color: #6FC2B4 !important;
+}
+.clsTotalFailed
+{
+    /* width: 20% !important; */
+    height: 24px;
+    background-color: #DDEFE8 !important;
+    margin-top: 15px;
+}
+.clsBarLegends
+{
+    padding-top: 15px;
+    display: -webkit-inline-box;
+}
+.clsLegendsCustom
+{
+    padding-top: 20px;
+    font-family: "OpenSans-Semibold";
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.marginRight_15
+{
+    margin-right: 15px;
+}
+.roundRectangle
+{
+    height: 8px;
+    width: 16px;
+    border-radius: 8px;
+    display: inline-block;
+}
+.clsSuccessfulLegend
+{
+    background-color: #6FC2B4 !important;
+}
+.clsAndroidLegend
+{
+background-color: #86BC25;
+}
+.greyFont
+{
+    font-family: "OpenSans-Regular";
+    font-size: 12px;
+    color: #3D3F00;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.clsFailLegend
+{
+    background-color: #DDEFE8 !important;
+}
+.clsIOSLegend
+{
+background-color: #0076A8;
+}
+.clsBarTotalAndroid
+{
+    width: 70%;
+    height: 24px;
+    background-color: #86BC25;
+    display: flex;
+}
+.clsTotalSuccessAndroid
+{
+    /* width: 80% !important; */
+    height: 24px;
+    background-color: #86BC25 !important;
+}
+.clsTotalFailedAndroid
+{
+    /* width: 20% !important; */
+    height: 24px;
+    background-color: #C4D600 !important;
+    margin-top: 15px;
+}
+.clsAndroidSuccess
+{
+background-color: #86BC25;
+}
+.clsAndroidFailed
+{
+background-color: #C4D600;
+}
+.clsBarTotalIOS
+{
+    width: 30%;
+    height: 24px;
+    background-color: #0076A8;
+    display: flex;
+}
+.clsTotalSuccessIOS
+{
+    /* width: 80% !important; */
+    height: 24px;
+    background-color: #0076A8 !important;
+}
+.clsTotalFailedIOS
+{
+    /* width: 20% !important; */
+    height: 24px;
+    background-color: #00A3E0 !important;
+    margin-top: 15px;
+}
+.clsIOSSuccess
+{
+background-color: #0076A8;
+}
+.clsIOSFailed
+{
+background-color: #00A3E0;
+}
+.clsEmptyState
+{
+    padding-top: 50px;
+    padding-bottom: 100px;
+    text-align: -webkit-center;
+}
+.clsEmptyTxt
+{
+    width: 22%;
+    padding-top: 20px;
+    padding-left: 60px;
+    font-family: "OpenSans-Semibold";
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 0;
+    text-align: center;
+}
+.clsUsersDiv
+{
+    text-align: right;
+    padding-bottom: 20px;
+}
+.clsDevicesDiv
+{
+    text-align: left;
+    padding-bottom: 20px;
+}
+.clsTxtDownload
+{
+    font-family: "OpenSans-Semibold";
+    font-size: 16px;
+    color: #000000;
+    line-height: 24px;
+}
+.paddingBottom_15
+{
+    padding-bottom: 15px;
+}
+/* .clsUsersTxtDownload
+{
+    padding-right: 54px;
+}
+.clsDevicesTxtDownload
+{
+    padding-left: 50px;
+} */
+.clsTotalCountDownload
+{
+    font-family: "OpenSans-Semibold";
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.paddingTop_15
+{
+    padding-top: 15px;
+}
+
+.clsPaddingTotalDevicesDownload
+{
+    padding-top: 15px;
+    padding-left: 20px;
+}
+.clsBtnDownload
+{
+    background: #F8F8FA;
+    border: 1px solid #DEDEE1;
+    border-radius: 2px;
+    border-radius: 2px;
+    width: 110px;
+    height: 32px;
+    margin-top: 27px;
+}
+.marginLeft_20
+{
+    margin-left: 20px;
+}
+
+  @media only screen and (min-width: 768px) {
+    /* For mobile phones: */
+   .clsUsersDiv, .clsDevicesDiv
+   {
+    text-align: center !important;
+   }
+  }
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+   .clsUsersDiv, .clsDevicesDiv
+   {
+    text-align: center !important;
+   }
+  }
+
+  @media screen and (max-width: 1366px) {
+    .clsFilterDiv
+    {
+        display: grid !important;
+    }
+    .clsDateCustom
+    {
+        text-align: left !important;
+        float: left !important;
+    }
+  }
+
+  /* Multi Select Drodpown start */
+  :host ::ng-deep .dropdown-menu
+  {
+      position: relative !important;
+  }
+
+:host ::ng-deep ng-multiselect-dropdown[multiselect-custom-display] .multiselect-dropdown .dropdown-btn .selected-item{
+    display: none!important;
+}
+:host ::ng-deep .multiselect-dropdown {
+    background: url("../../assets/images/icon-arrow-down-small.png") no-repeat 0 !important;
+    background-position: 99% !important;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+    appearance: none;
+    outline-width: 0;
+    font-size: 13px;
+    height: 30px;
+}
+:host ::ng-deep .multiselect-dropdown{
+    position: relative!important;
+    top: -6px!important;
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item{
+    padding: 0px!important;
+    color: #000!important;
+    border: none!important;
+    background: none!important;
+    /* display: none!important; */
+   
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn {
+    border: none !important;
+    border-radius: 0px !important;
+    font-size: 13px !important;
+    color: #000000 !important;
+    line-height: 20px !important;
+    padding: 0px !important;
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-down, :host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-up {
+        display: none !important;
+    }
+    :host ::ng-deep ng-multiselect-dropdown[multiselect-custom-display] .multiselect-dropdown .dropdown-btn .selected-item{
+        display: none !important;
+    }
+
+    :host ::ng-deep .dropdown-list .filter-textbox{
+        display: none!important;
+     
+    }
+    :host ::ng-deep .dropdown-list{
+        z-index: 99;
+    }
+    :host ::ng-deep .dropdown-btn span {
+        left: 0!important;
+        top: 3px;
+        position: absolute!important;
+        width: 100%!important;
+    }
+    :host ::ng-deep .industry-align .dropdown-btn span {
+        position: absolute!important;
+         top: 8px!important;
+       
+     }
+     :host ::ng-deep .no-spin::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+    
+    :host ::ng-deep .multiselect-item-checkbox input[type=checkbox] + div:before {
+        border: 1px solid #D0D0CE!important;
+        width: 16px !important;
+        height: 16px !important;
+    }
+    :host ::ng-deep .multiselect-item-checkbox input[type=checkbox] + div:after{
+        width: 7px!important;
+        height: 3px!important;
+    }
+    :host ::ng-deep .multiselect-item-checkbox{
+        border-bottom: none!important;
+    }
+    :host ::ng-deep .dropdown-list {
+        padding-top: 0px !important;
+        border: none !important;
+        background: #FFFFFF !important;
+        border: 1px solid #E5E5E5 !important;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12) !important;
+        border-radius: 0px!important;
+        margin-left: -13px!important;
+        width: 110%!important;
+        margin-bottom: 20px!important;
+    }
+    @media (min-width: 1300px){
+        :host ::ng-deep .dropdown-list{
+            width: 107%!important;
+        }
+    }
+    :host ::ng-deep .dropdown-btn:focus{
+        outline: none!important;
+    }
+    :host ::ng-deep .multiselect-item-checkbox input[type=checkbox]:checked + div:before
+    {
+        background: #00a3e0!important;
+    }
+    :host ::ng-deep .multiselect-dropdown .dropdown-btn, .multiDropdown
+    {
+        padding-right: 0px !important;
+        border-radius: 2px !important;
+    }
+    .multiselect-item-checkbox input[type=checkbox] + div
+    {
+        word-break: break-all;
+    }
+    /* Multi Select Drodpown end */
+    .dropdown-space
+    {
+        font-family: 'OpenSans-Regular';
+        background: #FFFFFF;
+        border: 1px solid #D0D0CE;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 13px;
+        color: #000000;
+        text-align: left;
+        width: 240px;
+        height: 32px;
+    }
+    .clsNotificationSelect
+    {
+        width:240px;
+        height: 32px;
+        border: 1px solid #D0D0CE;
+    border-radius: 1px;
+    }

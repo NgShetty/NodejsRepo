@@ -1,0 +1,312 @@
+<div class="container clsTenantViewContainer">
+
+  <div class="row removeMargin" style="padding-top:3%">
+    <div class="col-md-8">
+      <div *ngIf="showUserLabel">
+      <label class="label-field-head">User management</label>
+      <img (click)="showUserLabel=false;" class="clsImgUserSearch" src="assets/images/icon-search-name-normal@2x.png">
+    </div>
+      <div *ngIf="!showUserLabel" class="clsSearchUserDiv">
+      <img class="clsImgUserSearch usrSearchCss" src="assets/images/icon-search-name-normal@2x.png">
+      <!-- <input type="text"> -->
+      <ng-select [virtualScroll]="true" [items]="filteredUserList" #select bindLabel="userId"
+      [multiple]="true" [isOpen]="toggleDropdownOnSearch" (focus)="toggleDropdownOnSearch=true"
+      (search)="onSearch($event,select)" (add)="onItemAdd($event,select)"
+       [hideSelected]="true" (clear)="onClear($event,select)">
+     
+      <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+          <div class="clsUser">
+              <span aria-hidden="true" class="ng-value-icon left"
+                  (click)="clear(item)">×</span>
+              <span class="ng-value-label">{{item.userId}}</span>
+          </div>
+
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item" let-index="index">
+        <div class="row">
+          <div class="col-md-2">
+              <img height="28px" width="28px" src="assets/images/Mask.png" graphImageUrl="{{item.imageUrl}}" />&nbsp;
+        </div>
+        <div class="col-md-7 clsColPadding clsUserInfo">
+            <p  style="color: #000000;" [ngOptionHighlight]="search">{{item.userName}}</p>
+           <p style="color: #97999B;" [ngOptionHighlight]="search">{{item.userId}}</p>
+        </div>
+        </div>
+      </ng-template>
+      <!-- <ng-template ng-option-tmp let-item="item" >
+        <div [ngOptionHighlight]="search">{{item.email}}</div>
+      </ng-template> -->
+      <ng-template ng-footer-tmp>
+         <button class="btn font_size_13 btn_gray clsCancel" (click)="toggleDropdownOnSearch = false">Close</button>
+        </ng-template>                               
+  </ng-select>
+  <span class="close icon icon-cross-special" ><img class="clsCloseSearch" (click)="showUserLabel=true"
+    src="assets/images/icon-close-popup@2x.png" /></span>
+     
+      </div>
+    </div>
+    <div *ngIf="selectedRole==2 || selectedRole==3 || selectedRole==4 || selectedRole==5 || selectedRole==6" class="col-md-4" hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" class="col-md-4 clsGridBtn" style="padding-left: 10px;text-align: right">
+      <label class="lable-Tenant-Space">Tenant space</label>
+      &nbsp;
+      <select [(ngModel)]="selectedTenantId"  id="tenantSpaceName" name="tenantSpaceName" class='dropdown-tenant-space' (change)="onChange($event,null,null)"
+        #tenantspacename>
+        <option  hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}}]" value="0" selected>All Tenant spaces</option>
+        <option *ngFor="let tenant of tenantList" [value]="tenant.id">{{tenant.name}}</option>
+      </select>
+      
+    </div>
+  </div>
+  <div class="clsUserContainer">
+    <div id="roles" class="row clsUserFilter">
+      <div name="sysAdmin" class="col-sm-2 clsCustomCol nav-link active lable-edit-tenat-head-active" [ngClass]="clsSysAdminRoleTabClick" (click)="tabClick('sysAdmin')"
+      style="cursor: pointer;text-decoration: none;">System admin</div>
+      <div name="sysReader" class="col-sm-2 clsCustomCol nav-link active" [ngClass]="clsSysReaderRoleTabClick" (click)="tabClick('sysReader')"
+      style="cursor: pointer;text-decoration: none;" >System reader</div>
+      <div name="tenOwner" class="col-sm-2 clsCustomCol nav-link active" [ngClass]="clsTenOwnerRoleTabClick" (click)="tabClick('tenOwner')"
+      style="cursor: pointer;text-decoration: none;" >Tenant owner</div>
+      <div name="tenReader" class="col-sm-2 clsCustomCol nav-link active" [ngClass]="clsTenReaderRoleTabClick" (click)="tabClick('tenReader')"
+      style="cursor: pointer;text-decoration: none;" >Tenant reader</div>
+      <div name="appOwner" class="col-sm-1 clsCustomCol1 nav-link active" [ngClass]="clsAppOwnerRoleTabClick" (click)="tabClick('appOwner')"
+      style="cursor: pointer;text-decoration: none;" >App owner</div>
+      <div name="appNotificationOwner" class="col-sm-2 clsCustomCol2 nav-link active" [ngClass]="clsAppNotificationOwnerRoleTabClick" (click)="tabClick('appNotificationOwner')"
+      style="cursor: pointer;text-decoration: none;" >App notification owner</div>
+      <div name="appReader" class="col-sm-2 clsCustomCol nav-link active" [ngClass]="clsAppReaderRoleTabClick" (click)="tabClick('appReader')"
+      style="cursor: pointer;text-decoration: none;" >App reader</div>
+    </div>
+    <div class="row clsIncludeUsrs">
+      <div *ngIf="userList && userList.length >= 0" class="col-sm-10 clsAlignLeft">Includes {{userList.length}} users</div>
+      <div *ngIf="!userList" class="col-sm-10 clsAlignLeft">No users</div>
+      <div hideIfUnauthorized="[{{roles.SystemAdmin}}]" class="col-sm-2 clsAlignRight">
+          <button class="btn font_size_13 btn_blue clsCreate" (click)="openModal();">Add {{roleName}}</button>
+      </div>
+    </div>
+    <div class="row" *ngIf="userList != null && userList.length >= 0">
+      <div class="col-md-12">
+        <ngx-datatable class='material expandable' [rows]='userList' [headerHeight]="50" [footerHeight]="40" [rowHeight]="66"
+          [count]="totalCount" [offset]="pageNumber" [limit]="pageSize" [columnMode]="'flex'" [externalPaging]="true" #userTable>
+
+          
+
+          <ngx-datatable-column [resizeable]="false"  name="Name" sortable="true" [flexGrow]="1" [cellClass]="'my-custom-cell'">
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <table>
+                    <tr>
+                      <td>
+                        <label class="grid-header-label">Name</label>
+                      </td>
+                    </tr>
+                  </table>
+            </ng-template>
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <img height="32px" width="32px" graphImageUrl="{{row.imageUrl}}" />&nbsp;
+              <span [innerHtml]="row.userName | highlightQuery: query"> </span>
+
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [resizeable]="false"  name="Email" sortable="false" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <table>
+                <tr>
+                  <td>
+                    <label class="grid-header-label">Email</label>
+                  </td>
+                  
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <div style="color:#97999B" [innerHtml]="row.userId | highlightQuery: query"> </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [resizeable]="false"  *ngIf="selectedRole!=0 && selectedRole!=1" name="tenantSpace" sortable="false" [flexGrow]="1">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <table>
+                  <tr>
+                    <td>
+                      <label class="grid-header-label">Tenant space name</label>
+                    </td>
+                    
+                  </tr>
+                </table>
+              </ng-template>
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <div *ngIf="(selectedRole==4 || selectedRole==5 || selectedRole==6) && row.tenantApplicationList">
+                  <div *ngIf="row.tenantApplicationList.length==1 && row.tenantApplicationList[0].tenantObj" [innerHtml]="row.tenantApplicationList[0].tenantObj.tenantName"> </div>
+                  <div *ngIf="row.tenantApplicationList.length>1 && row.tenantApplicationList.length>1">Multiple Tenants &nbsp;<i _ngcontent-c13="" aria-hidden="true" class="fa fa-ellipsis-v ng-star-inserted"></i></div>
+                </div>
+                <div *ngIf="(selectedRole==2 || selectedRole==3) && row.tenantSpaceNames">
+                    <div *ngIf="row.tenantSpaceNames.length==1" [innerHtml]="row.tenantSpaceNames[0].tenantName"> </div>
+                    <div *ngIf="row.tenantSpaceNames.length>1">Multiple Tenants &nbsp;<i _ngcontent-c13="" aria-hidden="true" class="fa fa-ellipsis-v ng-star-inserted"></i></div>
+                  </div>
+                   
+              </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Row Detail Template -->
+        <ngx-datatable-row-detail style="padding-left:0px;padding-right:0px;" [rowHeight]="auto" #myDetailRow (toggle)="onDetailToggle($event)">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+             <table style="width:100%;border-bottom: 1px solid lightgray">
+                 <!-- <div class="col-md-5">{{tenant.name}}</div> -->
+                 <tr  *ngFor="let tenant of filterItemsOfType(selectedRole,row)">
+                   <td class="paddingLeftRight_12" [style.width.px]="nameWidth"></td>
+                    <td class="paddingLeftRight_12" [style.width.px]="emailWidth">
+                      </td>
+                      
+          <td [style.width.px]="tenantSpaceWidth" class="normalColor paddingLeftRight_12">
+            <!-- {{tenantList.length==1?tenantList[0].name:'Multiple Tenants'}} -->
+            <p >{{tenant.tenantName}}</p>
+          </td>
+          
+          <!-- <td class="normalColor" >
+              <div  >
+              <p  *ngFor="let app of tenant.applicationList">{{app.name}}</p>
+              </div> 
+          </td> -->
+          <td class="paddingLeftRight_12" *ngIf="(selectedRole==4 || selectedRole==5 || selectedRole==6)" [style.width.px]="appNameWidth">
+              <p  *ngFor="let app of tenant.applicationList">{{app.applicationName}}</p>
+             </td>
+             <td class="paddingLeftRight_12" [style.width.px]="statusWidth">
+
+             </td>
+          <td hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="(selectedRole==4 || selectedRole==5 || selectedRole==6)"  [style.width.px]="unassignWidth" class="alignRight paddingLeftRight_12">
+            <p *ngFor="let app of tenant.applicationList"><a style="cursor: pointer;color: #00A3E0" (click)="openUnassignModal(expandedRow, app.applicationId,app.applicationName);">Unassign</a></p>
+            
+          </td>
+          <td hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="!(selectedRole==4 || selectedRole==5 || selectedRole==6)" [style.width.px]="unassignWidth" class="alignRight paddingLeftRight_12">
+              <p><a *ngIf="row.userId!=userId" style="cursor: pointer;color: #00A3E0" (click)="openUnassignModal(expandedRow, tenant.tenantId,tenant.tenantName)">Unassign</a></p>
+            </td>
+        </tr>
+              
+      </table>
+            </ng-template>
+          </ngx-datatable-row-detail>
+
+            <ngx-datatable-column [resizeable]="false"  *ngIf="selectedRole==4 || selectedRole==5 || selectedRole==6" name="app" sortable="false" [flexGrow]="1">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <table>
+                    <tr>
+                      <td>
+                        <label class="grid-header-label">App name</label>
+                      </td>
+                      
+                    </tr>
+                  </table>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                   <!-- <div *ngIf="row.applicationList && row.applicationList.length==1" [innerHtml]="row.applicationList[0].name"> </div>
+                  <div *ngIf="row.applicationList && row.applicationList.length>1">Multiple Applications &nbsp;<i _ngcontent-c13="" aria-hidden="true" class="fa fa-ellipsis-v ng-star-inserted"></i></div> -->
+
+                  <div *ngIf="(selectedRole==4 || selectedRole==5 || selectedRole==6) && row.tenantApplicationList">
+                      <div *ngIf="row.tenantApplicationList.length==1 && row.tenantApplicationList[0].applicationObjs && row.tenantApplicationList[0].applicationObjs.length==1" [innerHtml]="row.tenantApplicationList[0].applicationObjs[0].applicationName"> </div>
+                      <div *ngIf="(row.tenantApplicationList.length>1 || (row.tenantApplicationList[0].applicationObjs && row.tenantApplicationList[0].applicationObjs.length>1))">Multiple Applications &nbsp;<i _ngcontent-c13="" aria-hidden="true" class="fa fa-ellipsis-v ng-star-inserted"></i></div>
+                    </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+          <ngx-datatable-column [resizeable]="false"  name="Status" sortable="false" [cellClass]="'my-custom-cell-global'"
+            [flexGrow]="0.5">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <table>
+                <tr>
+                  <td>
+                    <label class="grid-header-label">Status</label>
+                  </td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <!-- <span [ngClass]="row.status=='False'?'dot green':'dot grey'" ></span>&nbsp;
+                <span [ngClass]="row.status=='False'?'normalColor':'greyColor'" [innerHtml]="row.status=='False'?'Active':'Inactive'"> </span> -->
+                <span class="dot green" ></span>&nbsp;
+                <span class="normalColor">Active</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- <ngx-datatable-column name="Unassign" sortable="false" [flexGrow]="0.3">
+            <ng-template let-column="column" ngx-datatable-header-template>
+            </ng-template>
+            <ng-template  let-row="row" let-value="value" ngx-datatable-cell-template>
+              
+            </ng-template>
+          </ngx-datatable-column> -->
+
+          <ngx-datatable-column 
+          [flexGrow]="0.3"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <div *ngIf="selectedRole!=0 && selectedRole!=1  && ((row.tenantSpaceNames && row.tenantSpaceNames.length>1) || ((row.tenantApplicationList && (row.tenantApplicationList.length > 1 ||  (row.tenantApplicationList[0].applicationObjs && row.tenantApplicationList[0].applicationObjs.length>1)))))" >
+            <img style="width:20px;height:20px;" href="javascript:void(0)"
+            *ngIf="!expanded"
+            title="Expand/Collapse Row"
+            (click)="toggleExpandRow(row)" src="assets/images/icon-arrow up-small@2x.png">
+
+            <img style="width:20px;height:20px;" href="javascript:void(0)"
+           *ngIf="expanded"
+            title="Expand/Collapse Row"
+            (click)="toggleExpandRow(row)" src="assets/images/icon-arrow down-small@2x.png">
+          </div>
+          <div hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="(selectedRole==0 || selectedRole==1 )">
+              <a *ngIf="row.userId!=userId" (click)="openUnassignModal(row, null,'')" style="cursor: pointer;color: #00A3E0"> Unassign</a>
+          </div>
+          <div hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="(selectedRole==2 || selectedRole==3 ) && (row.tenantSpaceNames && row.tenantSpaceNames.length==1)">
+              <a *ngIf="row.userId!=userId" (click)="openUnassignModal(row, row.tenantSpaceNames[0].tenantId,row.tenantSpaceNames[0].tenantName)" style="cursor: pointer;color: #00A3E0"> Unassign</a>
+          </div>
+          <div hideIfUnauthorized="[{{roles.SystemAdmin}}]" *ngIf="(selectedRole==4 || selectedRole==5 || selectedRole==6) && (row.tenantApplicationList && (row.tenantApplicationList.length==1 && row.tenantApplicationList[0].applicationObjs && row.tenantApplicationList[0].applicationObjs.length==1))">
+              <a *ngIf="row.userId!=userId" (click)="openUnassignModal(row, row.tenantApplicationList[0].applicationObjs[0].applicationId,row.tenantApplicationList[0].applicationObjs[0].applicationName)" style="cursor: pointer;color: #00A3E0"> Unassign</a>
+          </div>
+          </ng-template>
+        </ngx-datatable-column>
+ 
+          <ngx-datatable-footer>
+            <ng-template ngx-datatable-footer-template let-rowCount="itemsCount" let-pageSize="pageSize"
+              let-curPage="pageNumber" let-offset="offset">
+              <div style="padding: 5px 10px">
+                <div>
+                  <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+                  <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+                  onkeypress="return allowOnlyNumeric(event,this);"
+                    (input)="textboxpagechange(footertextboxpagenumber.value)" #footertextboxpagenumber />
+                </div>
+              </div>
+              <div style="text-align:left">
+                <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                  [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                  [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" [count]="totalCount"
+                  (change)="onFooterPage($event)" #footerSelectedPage>
+                </datatable-pager>
+              </div>
+              <div class="page-count" style="text-align:right">
+                <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}} </label>
+              </div>
+              <div>
+                <div style="padding-right:20px">
+                  <select id="recordsperpage" name="recordsperpage"
+                    class='form-control selectpicker grid-footer-dropdown'
+                    (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+                    <option value="10" selected>10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+              </div>
+            </ng-template>
+
+          </ngx-datatable-footer>
+
+        </ngx-datatable>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<app-modals [selectedRole]="selectedRole" (onModalClose)="close($event)" *ngIf="showModal">
+</app-modals>
+<app-user-unassign [assignedEntityName]="assignedEntityName" [user]="selectedUser" [selectedRole]="selectedRole" [appOrTenantId]="appOrTenantId" (onModalClose)="close($event)" *ngIf="showUnassignModal"></app-user-unassign>
+<!-- <app-user-edit [selectedUser]="selectedUser" (onModalClose)="close($event)" *ngIf="showViewModal"></app-user-edit> -->

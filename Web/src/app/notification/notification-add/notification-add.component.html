@@ -1,0 +1,326 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 *ngIf="!editMode" class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Create
+                    notification</h4>
+                <h4 *ngIf="editMode" class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Edit
+                    notification</h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody font_size_13">
+                <div class="row">
+                    <form [formGroup]="notificationForm" class="container addAppPoolForm">
+                        <div class="form-group">
+                            <div class="row rowField">
+                                <div class="col-sm-6">
+                                    <p for="Name" class="ui font_semibold font_size_13">Application name</p>
+
+
+                                    <div class="input_block ui mb8 col-sm-4 colFieldLeft dropdown">
+                                        <select [(ngModel)]="notificationObj.application.id"
+                                            (change)="onSelectApplication($event.target.value)"
+                                            formControlName="application" name="application"
+                                            class="form-control clsApplicationSelect" #application>
+                                            <option value="" selected>All application spaces</option>
+                                            <option *ngFor="let item of applicationList" [value]="item.id">{{item.name}}
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p for="platform" class="ui font_semibold font_size_13">Platform</p>
+                                    <div class="clsRadioBtnPlatform" formGroupName="platformCheckboxGroup">
+                                        <label class="chkContainer">iOS
+                                            <input [checked]="isIOS"
+                                            (change)="isIOS = !isIOS"                                            
+                                                formControlName="platformIOS" type="checkbox" for="platformIOS"
+                                                name="platformIOS">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="chkContainer">Android
+                                            <input [checked]="isAndroid"
+                                            (change)="isAndroid = !isAndroid"
+                                                formControlName="platformAndroid" type="checkbox" for="platformAndroid"
+                                                name="platformAndroid">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div formGroupName="recipientsGrp">
+                            <div class="form-group" >
+                                <p for="recipients" class="ui font_semibold font_size_13 radioGrp">Recipients</p>
+                                <fieldset [attr.disabled]="isRecipientsGrpDisable">
+                                <div class="clsRadioBtnRecipients">
+                                    <label class="rad">
+                                        <input [checked]="notificationObj.sendNotificationType==0"
+                                       
+                                            [(ngModel)]="notificationObj.sendNotificationType" (click)="clearRecipients()"
+                                            formControlName="recipients" value="0" type="radio">
+                                        <i></i> Broadcast
+                                    </label>
+
+                                    <label class="rad">
+                                        <input [checked]="notificationObj.sendNotificationType==1"
+                                        
+                                            [(ngModel)]="notificationObj.sendNotificationType" (click)="onSelectRecipients()"
+                                            formControlName="recipients" value="1" type="radio">
+                                        <i></i> User/ Group/ Custom topic/ Version
+                                    </label>
+
+                                </div>
+                            </fieldset>
+                                <div *ngIf="notificationObj.sendNotificationType==1" class="clsRadioBtnCategories">
+                                    <label class="chkContainer">User
+                                        <input formControlName="userCategory" [value]="userCategory==true" [(ngModel)]="userCategory"
+                                            [checked]="userCategory==true" type="checkbox" for="platformUser"
+                                            name="platformUser"
+                                            (change)="filterCollection(userCategory,platformUser,4)" #platformUser>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="chkContainer">Group
+                                        <input formControlName="groupCategory" [value]="groupCategory==true" [(ngModel)]="groupCategory"
+                                            [checked]="groupCategory==true" type="checkbox" for="platformGroup"
+                                            name="platformGroup"
+                                            (change)="filterCollection(groupCategory,platformGroup,2)"
+                                            #platformGroup>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="chkContainer">Custom topic
+                                        <input formControlName="topicCategory" [value]="topicCategory==true" [(ngModel)]="topicCategory"
+                                            [checked]="topicCategory==true" type="checkbox" for="platformTopic"
+                                            name="platformTopic"
+                                            (change)="filterCollection(topicCategory,platformTopic,3)"
+                                            #platformTopic>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="chkContainer">Version
+                                        <input formControlName="versionCategory" [value]="versionCategory==true" [(ngModel)]="versionCategory"
+                                            [checked]="versionCategory==true" type="checkbox" for="platformVersion"
+                                            name="platformVersion"
+                                            (change)="filterCollection(versionCategory,platformVersion,1)"
+                                            #platformVersion>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div *ngIf="notificationObj.sendNotificationType==1" class="form-group" >
+
+                                <!-- <ng-select [items]="filteredList" #select bindLabel="topicName" groupBy="topicType"
+                                    [multiple]="true" [(ngModel)]="selectedList" [isOpen]="ToggleDropdownOnSearch"
+                                    (search)="onSearch($event,select)" (add)="onItemAdd($event,select)"
+                                    [closeOnSelect]="true" [hideSelected]="true" (clear)="onClear($event,select)"
+                                    formControlName="categories">
+                                    <ng-template ng-optgroup-tmp let-item="item" let-index="index">
+
+                                        <div [ngClass]="'cssGroupImg img'+item.topicType"></div>
+                                        <div [ngClass]="'cssGroupName div'+item.topicType"> {{topicType[item.topicType]}} </div>
+
+                                    </ng-template>
+                                    <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+                                        <div [ngClass]="'cls' +item.topicType">
+                                            <span aria-hidden="true" class="ng-value-icon left"
+                                                (click)="clear(item)">×</span>
+                                            <span class="ng-value-label">{{item.topicName}}</span>
+                                        </div>
+
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm"
+                                        let-clear="clear">
+                                        <div [ngOptionHighlight]="search">{{item.topicName}}</div>
+                                    </ng-template>
+                                </ng-select> -->
+
+                                <ng-select [items]="recipientList" #select bindLabel="id" groupBy="topicType"
+                                    [multiple]="true" [(ngModel)]="selectedList" [isOpen]="ToggleDropdownOnSearch"
+                                    (search)="onSearch($event,select)" (add)="onItemAdd($event,select)"
+                                    [typeahead]="usersinput$" [closeOnSelect]="true" [hideSelected]="true" (clear)="onClear($event,select)"
+                                    formControlName="categories">
+                                    <ng-template ng-optgroup-tmp let-item="item" let-index="index">
+                                    <div>
+                                        <div [ngClass]="'cssGroupImg img'+item.topicType"></div>
+                                        <div [ngClass]="'cssGroupName div'+item.topicType"> {{topicType[item.topicType]}} </div>
+                                    </div>
+
+                                    </ng-template>
+                                    <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+                                        <div [ngClass]="'cls' +item.topicType">
+                                            <span aria-hidden="true" class="ng-value-icon left"
+                                                (click)="clear(item)">×</span>
+                                            <span class="ng-value-label">{{item.topicName}}</span>
+                                        </div>
+
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm"
+                                        let-clear="clear">
+                                        <div *ngIf="item.topicType==4">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <img height="28px" width="28px" src="assets/images/Mask.png"  />&nbsp;
+                                          </div>
+                                          <div class="col-md-7 clsColPadding clsUserInfo">
+                                              <p  style="color: #000000;" [ngOptionHighlight]="search">{{item.topicName}}</p>
+                                             <p style="color: #97999B;" [ngOptionHighlight]="search">{{item.topicValue}}</p>
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <div *ngIf="item.topicType!=4">
+                                        <div [ngOptionHighlight]="search">{{item.topicName}}</div>
+                                    </div>
+                                    </ng-template>
+                                </ng-select>
+
+                            </div>
+                            <p class="errorMessage" *ngIf="errorStyle"
+                                    style="color:red">Please select atleast one recipient.</p>
+                        </div>
+                        <div class="form-group">
+                            <p for="Title" class="ui font_semibold font_size_13">Title<span
+                                    class="clsOptional">(optional)</span></p>
+
+                            <div class="row rowFieldTitle">
+                                <div class="input_block ui mb8 col-sm-4 colFieldLeft">
+                                    <input formControlName="title" (keyup)="0" maxlength="50" type="text" name="Ttile"
+                                        class="form-control clsTxtInput" placeholder="Add notification title"
+                                        [(ngModel)]="notificationObj.title" #Title>
+
+                                </div>
+                                <div class="col-sm-4 colFieldRight">
+                                    <label class="clsCharacterCount">{{50-Title.value.length}}</label></div>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                                
+                            <p for="Title" class="ui font_semibold font_size_13">Message<span></span></p>
+
+                            <quill-editor [placeholder]="msgPlaceholder" id="richTextEditor" name="richTextEditor"
+                                [required]="true" [maxLength]="500" [style]="{height: '129px', overflow: 'scroll'}"
+                                [(ngModel)]="notificationObj.messageBody" [modules]="modules" (keyup) ="onRichTextBoxChange()"
+                                formControlName="richTextEditor" #richTextEditor>
+                                
+                            </quill-editor>                             
+                             <p *ngIf="richTextEditorerrormsgdisplay" class="errorMessage"
+                                    style="color:red">Maximum limit is 500</p>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="row rowField">
+                                <div class="col-sm-6">
+                                    <p for="notificationSound" class="ui font_semibold font_size_13">Notification
+                                        sound<span class="clsOptional">(optional)</span></p>
+
+
+                                    <div class="input_block ui mb8 col-sm-4 colFieldLeft dropdown">
+                                        <select [(ngModel)]="notificationSoundPath"
+                                            *ngIf="showNotificationSoundDropdown"
+                                            (change)="onSelectNotificationSound($event.target.value,filteredNotificationSounds)"
+                                            formControlName="notificationSound"
+                                            class="form-control clsApplicationSelect clsNotification"
+                                            #notificationSound>
+                                            <option *ngFor="let obj of filteredNotificationSounds" [value]="obj.value"
+                                                [title]="obj.FileName">{{obj.key}}</option>
+
+                                        </select>
+                                        <p *ngIf="!showNotificationSoundDropdown">No audio files to select</p>
+                                        <a *ngIf="showNotificationSoundDropdown"
+                                            (click)="downloadFile(notificationSoundPath,2)" style="cursor:pointer"
+                                            target="_self" download
+                                            class="notificationFile">{{notificationSoundSelected}}</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p for="notificationImage" class="ui font_semibold font_size_13">Notification
+                                        image<span class="clsOptional">(optional)</span></p>
+
+
+                                    <div class="input_block ui mb8 col-sm-4 colFieldLeft dropdown">
+                                        <select [(ngModel)]="notificationImagePath"
+                                            *ngIf="showNotificationImageDropdown"
+                                            (change)="onSelectNotificationImage($event.target.value,filteredNotificationImages)"
+                                            formControlName="notificationImage"
+                                            class="form-control clsApplicationSelect clsNotification"
+                                            #notificationImage>
+                                            <option *ngFor="let imgObj of filteredNotificationImages"
+                                                [value]="imgObj.value" [title]="imgObj.FileName">{{imgObj.key}}</option>
+                                        </select>
+                                        <p *ngIf="!showNotificationImageDropdown">No images to select</p>
+                                        <a *ngIf="showNotificationImageDropdown"
+                                            (click)="downloadFile(notificationImagePath,3)" style="cursor:pointer"
+                                            target="_self" download
+                                            class="notificationFile">{{notificationImageSelected}}</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <div class="clsRadioBtnRecipients">
+                                <label class="chkContainer">Schedule
+                                    <input [(ngModel)]="notificationObj.isScheduled" formControlName="scheduleNotification"
+                                        type="checkbox" for="scheduleNotification" name="scheduleNotification" (change)="onScheduleChange(notificationObj.isScheduled)">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <div class="col-sm-4 time_period_wrapper Todate clsDateCustom">
+                                <input container="" [value]="notificationObj.scheduledDate | date: 'MMM dd, yyyy'"
+                                    [(ngModel)]="notificationObj.scheduledDate" formControlName="datePickerInput"
+                                    type="text" class="form-control" [minDate]="minDateValue" [maxDate]=""
+                                    #dp="bsDatepicker" placement="top left" bsDatepicker
+                                    [attr.disabled]="!notificationObj.isScheduled ? 'true' : null">
+                            </div>
+                            <div class="col-sm-4 clsTimeCustom">
+                                <div class='input-group date' id='datetimepicker3'>
+                                    <input [(ngModel)]="notificationObj.scheduledTime" formControlName="timePickerInput"
+                                        type='time' class="form-control timeControl"
+                                        [attr.disabled]="!notificationObj.isScheduled ? 'true' : null" />
+                                    <span class="input-group-addon timeControlSpan">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </div>
+                                <!-- <timepicker ></timepicker> -->
+
+                            </div>
+                            <div class="col-sm-4 clsInternationalTimeDiv dropdown"
+                                [attr.disabled]="!notificationObj.isScheduled ? 'true' : null">
+                                <ng2-timezone-picker [disabled]="!notificationObj.isScheduled ? 'true' : null" #temp
+                                    [timezone]="" (change)="changeTimezone($event,temp)" showOffset="true">
+                                </ng2-timezone-picker>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer clsFooter">
+                <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Cancel</button>
+                <button *ngIf="!editMode" class="btn font_size_13 btn_blue clsCreate" (click)="createNotification()"
+                    [disabled]="notificationForm.invalid || notificationForm.pristine">Create</button>
+                <button *ngIf="editMode" class="btn font_size_13 btn_blue clsCreate" (click)="createNotification()"
+                    [disabled]="notificationForm.invalid || notificationForm.pristine">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>

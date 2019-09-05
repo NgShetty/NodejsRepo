@@ -1,0 +1,104 @@
+<div [class.modal] ="isApplication" [class.fade]="isApplication" [class.in]="isApplication" [class.clsModal]="isApplication" tabindex="-1"  (onHide)="onHide()">
+  <div [class.modal-dialog]="isApplication" [class.clsModalDialog]="isApplication">
+      <div [class.modal-content]="isApplication" [class.clsModalContent]="isApplication">
+
+<!-- Header -->
+<div *ngIf="isApplication" class="modal-header">
+  <div class="row" style="width:100%">
+    <div class="col-md-11">
+      <div class="row">
+        <div class="col-md-12">
+          <label class="label-create-tenant1">Manage application team members</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="label-create-tenant2" *ngIf="createTenant">Allocate tenant space</label>
+          <label class="label-create-tenant2" *ngIf="manageTenant">Manage tenant space team </label>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-1" style="padding-left: 30px;padding-top: 8px">
+      <a style="cursor: pointer;" (click)="onHide()">
+        <img src="assets/images/icon-close-popup2x.png" style="width:24px;height: 24px;color: #75787B;" />
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Body -->
+
+<div class="modal-body clsBody">
+  <div class="row">
+    <div class="cols-md-12" style="padding-left: 15px">
+      <label style="font-size: 13px;color: #000000;line-height: 20px;padding-right: 5px">Add team
+        members</label>
+      <img src="assets/images/icon-information-normal2x.png" style="width:16px;height:16px" />
+    </div>
+  </div>
+
+  <div class="row rowField">
+    <div class="input_block ui mb8 col-sm-12 colFieldLeft">
+      <input (input)="onSearchChange($event.target.value)" id="name" type="text" class="form-control clsTxtInput" placeholder="Search by name or e-mail"
+        #seachbynameoremail>
+    </div>
+  </div>
+  <div class="clsTenantUsers">
+  <div class="row" class="clsUserRow"  *ngFor="let user of userList">
+    <div class="col-md-1" style="padding-left: 0px">
+       <img height="48px" width="48px" graphImageUrl="{{user.imageUrl}}" src="assets/images/Mask.png" />
+    </div>
+    <div  class="col-md-4">
+      <p class="clsUserName">{{user.userName}}</p>
+      <p class="clsEmailId">{{user.userId}}</p>
+    </div>
+    <div  class="col-md-6">
+       <div class="clsRadioBtnRecipients">
+           <label class="rad clsRoleRadioBtn clsOptions">
+               <input [checked]="user.roleType===1"
+               [(ngModel)]="user.roleType"
+                (change)="addApplicationUsers(user)"
+                   name="tenantRoleType_{{user.userId}}"
+                   [value]="1" type="radio">
+               <i></i> Reader
+           </label>
+ 
+           <label class="rad clsOptions">
+               <input [checked]="user.roleType===0"
+               [(ngModel)]="user.roleType"
+              (change)="addApplicationUsers(user)"
+                   name="tenantRoleType_{{user.userId}}"
+                   [value]="0" type="radio">
+               <i></i> Owner
+           </label>
+
+           <label class="rad clsOptions">
+            <input [value]="2"
+            [checked]="user.roleType === 2"
+            [(ngModel)]="user.roleType"
+             (change)="addApplicationUsers(user)"
+                name="tenantRoleType_{{user.userId}}"
+                 type="radio">
+            <i></i>Notification Owner
+        </label>
+ 
+       </div>
+    </div>
+    <div style="padding-top: 15px;" class="col-md-1">
+       <img (click)="unassignTheUser(user)" src="assets/images/icon-close-popup2x.png" style="width:24px;height: 24px;color: #75787B;"/>
+    </div>
+   </div>
+  </div>
+</div>
+<!-- footer for application -->
+<div class="modal-footer clsFooter" style="height:64px;padding-top: 20px" *ngIf="isApplication">
+  <button type="button" class="btnCancel" (click)="onHide()"
+    style="width:74px;height:32px">Cancel</button> &nbsp;
+  <button type="button" class="btn btn_blue clsCreateTenantBtn" style="width:90px;height:32px"
+    (click)="createAppUsers()" [disabled]="diableConti">Save</button>
+</div>
+</div>
+</div>
+</div>

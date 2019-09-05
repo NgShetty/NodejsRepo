@@ -1,0 +1,113 @@
+
+/* btn */
+.btn {
+    display: inline-block;
+    text-align: center;
+    padding: 0 16px;
+    border: 1px solid;
+    border-radius: 2px;
+    font-family: opensans_semibold, Arial, Helvetica, sans-serif;
+    height: 32px;
+    line-height: 31px;
+    outline: none !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.btn:hover {
+    text-decoration: none;
+}
+.btn_green {
+    background: #86bc25;
+    border-color: #86bc25;
+    color: #fff !important;
+}
+.btn_green:hover {
+    color: #fff !important;
+    background: #79ad1e;
+    border-color: #79ad1e;
+}
+.btn_green:active,
+.btn_green.pressed {
+    color: #fff !important;
+    background: #6d9d1a;
+    border-color: #6d9d1a;
+}
+.btn_gray {
+    background:#f8f8fa;
+    border:1px solid #d0d0ce;
+    color: #000 !important;
+}
+.btn_gray:hover {
+    background: #e9e9eb;
+    color: #000 !important;
+}
+.dropdown.open .btn_gray,
+.btn_gray:active,
+.btn_gray.pressed {
+    background:#d9d9dc;
+    color: #000 !important;
+}
+.btn_blue {
+    background: #00a3e0;
+    border-color: #00a3e0;
+    color: #fff !important;
+}
+.btn_blue:hover {
+    background: #0099d1;
+    border-color: #0099d1;
+    color: #fff !important;
+}
+.btn_blue:active,
+.btn_blue.pressed {
+    background: #008ec2;
+    border-color: #008ec2;
+    color: #fff !important;
+}
+.btn[disabled],
+.btn.disabled {
+    cursor: default;
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.btn_w120 {
+    min-width: 120px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.btn_size_s {
+    padding: 0 12px;
+}
+.btn_size_m {
+    min-width: 111px;
+    height: 38px;
+    line-height: 37px;
+}
+.btn .ico {
+    margin-left: 10px;
+}
+
+.btn-group {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.btn-group .btn {
+    float: left;
+    margin-left: -1px;
+    border-radius: 0;
+}
+.btn-group .btn:first-child {
+    margin-left: 0;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+.btn-group .btn:last-child {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+.btn-group .btn:hover {
+    position: relative;
+    z-index: 1;
+}

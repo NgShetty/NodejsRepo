@@ -1,0 +1,330 @@
+<div *ngIf="appRecord" class="clsCreateAppDiv" style="padding-left: 10px">
+
+  <div class="row" style="padding-top:25px;padding-left:0px">
+    <div class="col-md-1" style="width: 20px">
+      <img style="width:24px;height:24px;cursor: pointer;" src="assets/images/icon-navigation-back2x.png"
+        (click)="backtoApplicationList()" />
+    </div>
+    &nbsp;
+    <div class="col-md-11">
+      <label class="label-filed-f18">Application details</label>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 15px;padding-bottom: 10px">
+    <div class="col-md-12">
+        <label class="lable-Tenant-Space" style="margin-right: 10px;">Tenant space:</label>
+      <label class="label-filed-f16"> {{appRecord.tenant.name}} </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <span class="activeCircle" *ngIf="appRecord.status"></span> &nbsp;
+      <label class="label-filed-f13" *ngIf="appRecord.status">Active</label>
+
+      <span class="inActiveCircle" *ngIf="!appRecord.status"></span>
+      <label class="label-filed-f13" *ngIf="!appRecord.status">Inactive</label>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top:20px;padding-left: 17px">
+    <div class="col-md-3" style="width:255px;">
+      <div class="row">
+        <label class="label-filed-f13">Application name:</label>
+      </div>
+      <div class="row">
+        <label class="lblApplicationView">{{appRecord.name}} </label>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="row">
+        <label class="label-filed-f13">Application token:</label>
+      </div>
+      <div class="row">
+        <label class="lblApplicationView"> {{appRecord.token}}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clsWhiteSpace">
+    </div>
+  <!-- <div *ngIf="appRecord.name" class="row">
+      <div class="col-md-12">
+        <label class="label-filed-f13">Default topics</label>
+      </div>
+    </div>
+    <div  *ngIf="appRecord.name" class="row">
+      <div class="col-md-5">
+        <div class="clsDefaultTopic">
+        {{appRecord.name}}
+        </div>
+      </div>
+    </div> -->
+    <div class="row clsWhiteSpace">
+      </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label class="label-filed-f13">Topics:</label>
+    </div>
+    <div class="row" style="display:inline-flex;margin:0;padding-left:15px;">
+          <div class="col-md-5 clsDefaultTopic" style="margin-right:15px" *ngFor="let topic of appRecord.topics" >
+          {{topic.topicName}}
+          </div>
+      </div>
+  </div>
+
+  <!-- <div class="row">
+    <label class="lblApplicationView">Blockchain; Innovation; Marketing and sales</label>
+  </div> -->
+  <div class="row clsWhiteSpace">
+    </div>
+    <div class="row clsWhiteSpace">
+      </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label class="label-filed-f16">Application & notification media</label> &nbsp;
+      <img src="assets/images/icon-information-normal2x.png" style="height: 16px;width: 16px;" />
+    </div>
+  </div>
+  <div class="row clsWhiteSpace">
+    </div>
+
+  <div class="row">
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-f13">Application image</label>
+    </div>
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-f13">Notification sounds</label>
+    </div>
+    <div class="col-md-6">
+      <label class="label-filed-f13">Notification images</label>
+    </div>
+  </div>
+  <div class="row" style="padding-top:10px">
+    <div class="col-md-3" style="width:230px">
+      <div *ngIf="applicationImage">
+        <div class="row clsFileRow" >
+          <label class="lblApplicationView" style="padding-left:18px">{{applicationImage.key}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" style="width:230px">
+
+      <div *ngIf="audioFiles">
+        <div class="row clsFileRow" *ngFor="let file of audioFiles">
+          <label class="lblApplicationView" style="padding-left:18px">{{file.key}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+
+      <div *ngIf="notificationImageFiles">
+        <div class="row clsFileRow" *ngFor="let file of notificationImageFiles">
+          <label class="lblApplicationView" style="padding-left:18px">{{file.key}}</label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row clsWhiteSpace">
+    </div>
+
+
+    <div *ngIf="appRecord" class="row" style="padding:0px;">
+        <table style="padding:0px;width:100%;">
+          <tr>
+            <td style="text-align: left;height: 40px;width: 50px;padding-bottom: 10px;padding-left: 20px">
+              <a [class]="IsIosActive ? 'tab-head-active' : 'tab-head-inactive'" (click)="iosactive('tab1')"
+                style="width:175px; cursor: pointer;text-decoration: none; text-align: left">
+                <b>iOS</b></a>
+            </td>
+            <td style="padding-left: 25px;padding-bottom: 10px;height: 25px;">
+              <a [class]="IsAndroidActive ? 'tab-head-active' : 'tab-head-inactive'" (click)="androidactive('tab2')"
+                style="cursor: pointer;text-decoration:none;">
+                <b>Android</b></a>
+            </td>
+          </tr>
+      
+          <tr>
+            <td colspan="2">
+              <table style="width:100%;padding:0px;border: 1px solid #e5e5e5;padding-top: 10px">
+                <tr>
+                  <td style="padding-left:20px">
+                    <div id="diviOS" style="padding:0px" [style.display]=" IsIosActive ? 'Block': 'none'">
+                      <div class="row">
+                        <div class="col-md-12" style="padding-top:25px;padding-bottom:15px">
+                          <span class="activeCircle" *ngIf="appRecord.iosConfig && appRecord.iosConfig.enabled"></span>
+                          &nbsp;
+                          <label class="label-filed-f13" *ngIf="appRecord.iosConfig && appRecord.iosConfig.enabled">Enabled</label>
+      
+                          <span class="inActiveCircle" *ngIf="appRecord.iosConfig && !appRecord.iosConfig.enabled"></span>
+                          &nbsp;
+                          <label class="label-filed-f13" *ngIf="appRecord.iosConfig && !appRecord.iosConfig.enabled">Disabled</label>
+      
+                        </div>
+                      </div>
+      
+                      <div class="row">
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="label-filed-f13">iOS app token</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="lblApplicationView">{{appRecord.iosConfig.appToken}}</label>
+                            </div>
+                          </div>
+                        </div>
+      
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+      
+                            <label class="label-filed-f13">Bundle ID</label>
+      
+                          </div>
+                          <div class="row">
+                            <label class="lblApplicationView">{{appRecord.iosConfig.bundleId}}</label>
+                          </div>
+                        </div>
+      
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="label-filed-f13">Certificate expires On</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-10">
+                              <label class="lblApplicationView"
+                                *ngIf="appRecord.iosConfig && appRecord.iosConfig.certificateThumbPrint != ''">{{appRecord.iosConfig.expiresOn | date: 'MMM dd, yyyy'}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <div class="row clsWhiteSpace">
+                        </div>
+                      <div class="row">
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="label-filed-f13">Certificate thumbprint</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <label class="lblApplicationView"> {{appRecord.iosConfig.certificateThumbPrint}}</label>
+                          </div>
+                        </div>
+      
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+                            <label class="label-filed-f13">Certificate password</label>
+                          </div>
+                          <div class="row">
+                            <label class="lblApplicationView">{{appRecord.iosConfig.certificatePassword}}</label>
+                          </div>
+                        </div>
+      
+                      </div>
+                      <div class="row clsWhiteSpace">
+                        </div>
+                      <div class="row" style="padding-bottom:25px">
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+      
+                            <div class="col-md-12">
+                              <label class="label-filed-f13">APNS Certificate</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="lblApplicationView" *ngIf="appRecord.iosConfig && appRecord.iosConfig.enabled">apns-app-cert</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div id="divAndroid" style="padding:0px" [style.display]="IsAndroidActive ? 'Block': 'none'">
+                      <div class="row">
+                        <div class="col-md-12" style="padding-top:25px;padding-bottom:15px">
+                          <span class="activeCircle" *ngIf="appRecord.androidConfig.enabled"></span> &nbsp;
+                          <label class="label-filed-f13" *ngIf="appRecord.androidConfig.enabled">Enabled</label>
+      
+                          <span class="inActiveCircle" *ngIf="!appRecord.androidConfig.enabled"></span> &nbsp;
+                          <label class="label-filed-f13" *ngIf="!appRecord.androidConfig.enabled">Disabled</label>
+                        </div>
+                      </div>
+      
+                      <div class="row">
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="label-filed-f13">Android app token</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="lblApplicationView">{{appRecord.androidConfig.appToken}}</label>
+                            </div>
+                          </div>
+                        </div>
+      
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+                            <label class="label-filed-f13">Package name</label>
+                          </div>
+                          <div class="row">
+                            <label class="lblApplicationView">{{appRecord.androidConfig.packageName}}</label>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <div class="row clsWhiteSpace">
+                        </div>
+                      <div class="row">
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="label-filed-f13">FCM API Key</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="lblApplicationView">{{appRecord.androidConfig.fcmApiKey}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row clsWhiteSpace">
+                        </div>
+                      <div class="row" style="padding-bottom:25px">
+                        <div class="col-md-3" style="width:265px">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label class="label-filed-f13">Google Service JSON</label>
+                            </div>
+                          </div>
+                          <div class="row" style="width:84px">
+                            <div class="col-md-12">
+      
+                              <label class="lblApplicationView" *ngIf="appRecord.androidConfig.enabled">
+                                {{appRecord.androidConfig.googleServicesJsonFilePath}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+</div>

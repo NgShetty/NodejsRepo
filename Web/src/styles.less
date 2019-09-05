@@ -1,0 +1,613 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '../node_modules/@swimlane/ngx-datatable/release/index.css';
+@import '../node_modules/@swimlane/ngx-datatable/release/themes/material.css';
+@import '../node_modules/@swimlane/ngx-datatable/release/assets/icons.css';
+
+// @import "~bootstrap/dist/css/bootstrap.min.css";
+@import './assets/less/variables';
+@import './assets/less/ui-modifiers';
+@import './assets/less/btn';
+// @import './assets/less/datepicker';
+// @import './assets/less/datepicker-click';
+
+@import "./assets/css/default-select-theme.css";
+
+
+
+/* common code for all components */
+@font-face {
+   font-family: 'OpenSans-Regular';
+   src: url('./assets/fonts/OpenSans-Regular.ttf') format('truetype');
+   /* src: url('./assets/fonts/opensans-regular.woff') format('woff'); */
+   font-weight: normal;
+}
+@font-face {    
+   font-family: 'OpenSans-SemiBold';
+   src: url('./assets/fonts/OpenSans-Semibold.ttf') format('truetype');
+   /* src: url('./assets/fonts/opensans-semibold-webfont.woff') format('woff'); */
+   font-weight: normal;
+}
+@font-face {    
+   font-family: 'OpenSans-Light';
+   src: url('./assets/fonts/OpenSans-Light.ttf') format('truetype');
+   /* src: url('./assets/fonts/opensans-semibold-webfont.woff') format('woff'); */
+   font-weight: normal;
+}
+@font-face {    
+   font-family: 'OpenSans-Bold';
+   src: url('./assets/fonts/OpenSans-Bold.ttf') format('truetype');
+   /* src: url('./assets/fonts/opensans-semibold-webfont.woff') format('woff'); */
+   font-weight: normal;
+}
+
+ .label-field
+ {
+    font: bold;
+    font-size: 17px;
+ }
+
+ .label-filed-f13
+ {
+    font-family: 'OpenSans-Semibold';
+    font-size: 13px;
+    color: #000000;
+    text-align: left;
+ }
+
+ .label-filed-opensans-f13
+ {
+    font-family: 'OpenSans-Regular';
+    font-size: 13px;
+    color: #000000;
+    text-align: left;
+ }
+
+
+ .label-filed-f16
+ {
+    font-family: 'OpenSans-Semibold';
+    font-size: 16px;
+    color: #000000;
+    text-align: left;
+ }
+
+ .label-filed-f18
+ {
+   font-family: 'OpenSans-Semibold';
+   font-size: 18px;
+   color: #000000;
+   line-height: 24px;
+ }
+ .label-filed-gray-f12
+ {
+ font-family:  'OpenSans-SemiBold';
+ font-size: 12px;
+ color: #97999B;
+ }
+ .clsRowMarginRight{
+   margin-right: 0px !important;
+}
+
+.ngx-datatable .datatable-footer .datatable-pager .pager li a
+{
+   border: 0px;
+   outline: none;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+   height: 22px;
+   min-width: 24px;
+   line-height: 22px;
+   padding: 0;
+   border-radius: 3px;
+   margin: 0 3px;
+   text-align: center;
+   vertical-align: top;
+   text-decoration: none;
+   vertical-align: bottom;
+   color: #ededed;
+}
+.ngx-datatable.material .datatable-footer
+{
+   border-top: none;
+   color: rgba(0, 0, 0, 0.54);
+}
+
+.ngx-datatable.material .datatable-footer .datatable-pager li.active a {
+   background-color:#53565A;
+   border-radius: 2px;
+   height: 24px;
+   width: 24px;
+   font-family: sans-serif;
+   font-size: 12px;
+   color: #FFFFFF;
+   letter-spacing: 0;
+   text-align: center;
+   line-height: 16px;
+   padding-top: 4px;
+   
+}
+// .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell .datatable-body-cell-label
+//   {
+//       position: absolute;
+//   }
+.ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell
+{
+   text-align: left;
+   padding: .9rem 1.2rem;
+   vertical-align: top;
+   border-top: 0;
+   color: rgba(0, 0, 0, 0.87);
+   transition: width 0.3s ease;
+   font-size: 14px;
+   font-weight: 400;
+   border-bottom: 1px solid lightgray;
+   cursor: pointer;
+   word-break: break-all;
+   white-space: normal !important;
+}
+
+//  .ngx-datatable .datatable-body
+//  {
+//    height:664px !important;
+//  }
+
+ 
+
+.clsViewContainer{
+   width:100%;
+   padding-left: 0px;
+   padding-right:0px;
+}
+.noPaddingLeft_15
+{
+  padding-left: 0px !important;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  // height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  // width: 29px;
+  // height: 19px;
+}
+body,a,h1,h2,h3,h4,p,span,div {
+   font-family: 'OpenSans-Regular';
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 11px;
+  width: 11px;
+  left: 2px;
+  right: 2px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .1s;
+  transition: .1s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+  height:17px;
+}
+
+.time_period_wrapper input {
+   background: url(./assets/images/ic_calendar.svg) no-repeat 0 ;
+   background-position: 92% !important;
+   -webkit-appearance: none!important;
+   border-radius: 0px;
+   outline-width: 0;
+   width: 97%;
+   cursor: pointer;
+   padding-top: 7px!important;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.time_period_wrapper .float_right {
+   float: right;
+}
+
+.label-field-head
+{
+   font-family: 'OpenSans-Semibold';
+   font-size: 18px;
+   color: #000000;
+   line-height: 24px;
+}
+
+::-webkit-scrollbar {
+   width: 5px;
+ }
+
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+   background:#97999B; 
+   border-radius: 2.5px;
+ }
+ 
+ /* Handle on hover */
+ ::-webkit-scrollbar-thumb:hover {
+   background: #97999B; 
+ }
+
+.activeCircle
+{
+   height: 10px;
+   width: 10px;
+   background-color:#86BC25;
+   border-radius: 50%;
+   display: inline-block;
+}
+.inActiveCircle
+{
+   height: 10px;
+   width: 10px;
+   background-color:gray;
+   border-radius: 50%;
+   display: inline-block;
+}
+
+.lblApplicationView
+{
+   font-family: 'OpenSans-Light';
+   font-size: 13px;
+   color: #000000;
+   text-align: left;
+}
+
+.tab-head-active
+{
+ font-family: 'OpenSans-SemiBold';
+ font-size: 14px;
+ color: #000000;
+ border-bottom: 4px solid grey;
+ border-radius: 0px;
+ border-top: 0px;
+ border-left: 0px;
+ border-right: 0px;
+ padding-bottom: 14px;
+}
+
+.tab-head-inactive
+{
+font-family: 'OpenSans-SemiBold';
+ font-size: 14px;
+ color: #53565A;
+ /* padding-left: 20px; */
+ border-bottom: 0px;
+ border-radius: 0px;
+ border-top: 0px;
+ border-left: 0px;
+ border-right: 0px;
+}   
+
+/* checkbox styles */
+
+/* The chkContainer */
+.chkContainer {
+   display: block;
+   position: relative;
+   padding-left: 25px;
+   padding-right: 15px;
+   margin-bottom: 12px;
+   cursor: pointer;
+   font-size: 13px;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   font-weight: normal;
+ }
+ 
+ /* Hide the browser's default checkbox */
+ .chkContainer input {
+   position: absolute;
+   opacity: 0;
+   cursor: pointer;
+   height: 0;
+   width: 0;
+ }
+ 
+ /* Create a custom checkbox */
+ .checkmark {
+   position: absolute;
+   top: 0;
+   left: 0;
+   height: 16px;
+   width: 16px;
+   background: #fff;
+   border: 1px solid #ccc;
+   border-radius: 2px;
+ }
+ 
+ /* On mouse-over, add a grey background color */
+ .chkContainer:hover input ~ .checkmark {
+   background-color: #ccc;
+ }
+ 
+ /* When the checkbox is checked, add a blue background */
+ .chkContainer input:checked ~ .checkmark {
+   background-color: #2196F3;
+   border:none;
+ }
+ 
+ /* Create the checkmark/indicator (hidden when not checked) */
+ .checkmark:after {
+   content: "";
+   position: absolute;
+   display: none;
+ }
+ 
+ /* Show the checkmark when checked */
+ .chkContainer input:checked ~ .checkmark:after {
+   display: block;
+ }
+ 
+ /* Style the checkmark/indicator */
+ .chkContainer .checkmark:after {
+   left: 6px;
+   top:2px;
+   width: 5px;
+   height: 10px;
+   border: solid white;
+   border-width: 0 2px 2px 0;
+   -webkit-transform: rotate(45deg);
+   -ms-transform: rotate(45deg);
+   transform: rotate(45deg);
+ }
+
+.lable-text-gray
+{
+font-family: 'OpenSans-Light';
+font-size: 13px;
+color: #97999B;
+text-align: left;
+line-height: 24px;
+}
+
+.grid-footer-lable
+{
+   font-family: sans-serif;
+   font-weight: 550;
+   font-size: 13px;
+   color: #000000;
+   line-height: 20px;
+}
+
+.grid-footer-textbox
+{
+background: #FFFFFF;
+border: 1px solid #D0D0CE;
+font-family: sans-serif;
+font-size: 13px;
+color: #000000;
+width: 56px;
+height: 32px;
+font-weight: 550;
+padding-left: 10px;
+}
+
+.grid-footer-pagesize{
+    font-family: sans-serif;
+    font-size: 600px;
+    font-size: 13px;
+    color: #000000;    
+}
+
+.grid-footer-dropdown
+{
+    font-weight: 600;
+    font-family: sans-serif;
+    font-size: 13px;
+    color: #000000;
+    line-height: 20px;
+}
+
+/*tool tip css*/
+
+.clsTooltip {
+   position: relative;
+   display: inline-block;
+   opacity: unset;
+ }
+ 
+ .clsTooltip .tooltiptext {
+  visibility: hidden; 
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -7px;
+  left: 85px;
+  margin-left: -60px;
+  transition: opacity 0.3s;
+  width: 239px;
+  height: 57px;
+  font-size: 12px;
+  font-family: 'OpenSans-Semibold';
+ }
+ 
+ .clsTooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 20%;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-radius: px;
+  border-right: 8px solid #555;
+ }
+
+ .btnCancel
+ {
+   background: #F8F8FA;
+   border: 1px solid #DEDEE1;
+   border-radius: 2px;
+   font-family: 'OpenSans-Semibold';
+   font-size: 13px;
+   color: #000000;
+   line-height: 24px;
+ }
+
+ .btnSave
+ {
+   background: #00A2E3;
+   border-radius: 2px ;
+   border: 1px solid  #00A2E3;
+   font-family: 'OpenSans-Semibold';
+   font-size: 13px;
+   color: #FFFFFF;
+   text-align: center;
+   line-height: 24px;
+ }
+ 
+ .clsTooltip:hover .tooltiptext {
+   visibility: visible;
+   opacity: 1;
+ }
+ @media only screen and (max-width: 768px) {
+   /* For mobile phones: */
+  .clsFooter
+  {
+      padding:5px !important;
+  }
+   
+ }
+ .errorMessage
+ {
+   font-family: 'OpenSans-Regular';
+   font-size:13px;
+   padding-top:5px;
+ }
+ .clsGridBtn
+ {
+  padding-right: 0px !important;
+  text-align: right !important;
+ }
+ .noMargin
+ {
+   margin-left: 0 !important;
+   margin-right: 0 !important;
+ }
+  :host ::ng-deep .datatable-header-cell
+ {
+   white-space: pre-line !important;
+ }
+ .overflowFixed
+{
+    overflow-y: hidden;
+}
+.clsImgAndAudioToolTip .tooltiptext
+  {
+    height: auto;
+    background-color: #53565A !important;
+    color: #fff !important;
+    text-align: left;
+    border-radius: 2px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    top: -10px !important;
+    left: 86px !important;
+    transition: opacity 0.3s;
+    width: 230px !important;
+    font-size: 12px;
+    font-family: 'OpenSans-Regular';
+    border: 1px solid #53565A !important;
+  }
+  .clsImgAndAudioToolTip .tooltiptext::after{
+    content: "";
+    position: absolute;
+    left: -8px !important;
+    top: 20% !important;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-radius: px;
+    border-right: 8px solid #53565A !important;
+}
+
+.custom-input-btn
+{
+    width:  -webkit-fill-available;
+    text-align: center;
+}
+.clsImgAndAudioToolTip
+{
+  padding-left: 3px !important;
+}
+
+.clsAutoPopulateField
+{
+    padding-top: 8px;
+    padding-left: 5px;
+}
+.icon-cross-special
+{
+    opacity: unset !important;
+}
+input::-ms-clear {
+  display: none;
+}
+.dropdown select {
+  /* border: 0 !important; */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background:url("assets/images/icon-arrow-down-small2x.png") no-repeat;
+  /* background-position: 82px 7px; */
+  /* width: 100px; */
+  position: relative;
+  /* left: 20px; */
+  background-position-x: 212px;
+  background-position-y: center;               /*Width of select dropdown to give space for arrow image*/
+  background-size: 24px;
+}
+.clsSelectDrodpown
+    {
+        width:240px;
+        height: 32px;
+        border: 1px solid #D0D0CE;
+    border-radius: 1px;
+    }
+    .dropdown-list li {
+      word-break: break-all;
+  }

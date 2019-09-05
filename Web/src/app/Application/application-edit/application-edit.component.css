@@ -1,0 +1,9 @@
+.clsCreateAppDiv .row, .clsCreateAppDiv br
+{
+    background-color: #fff !important;
+    margin-right:0px !important;
+} 
+.clsWhiteSpace
+{
+    height: 20px;
+}

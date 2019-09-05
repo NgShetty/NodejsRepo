@@ -1,0 +1,334 @@
+
+
+.clsModal{
+    display: block;
+}
+
+.addAppPoolForm
+{
+    width: 100%;
+}
+
+.clsTxtInput{
+    font-family : "OpenSans-Regular";
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    background: transparent;
+    border: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    color:black;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.clsTxtInput:focus
+{
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.clsTxtInputGridSearch{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    background: transparent;
+    border: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    color:black;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.datatable-body-cell {
+    padding: 30px !important;
+  }
+  
+
+.clsTxtInputGridSearch:focus
+{
+    background: transparent;
+    border: none;
+    /* border-bottom: 1px solid #9ecaed; */
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.clsCreate
+{
+    background-color: #00a2e3;
+    color: #fff;
+    border-radius: 2px;
+}
+.clsCancel
+{
+    border-radius: 2px;
+    background-color: #f8f8fa;
+    border: 1px solid #ddd;
+    color: black;
+    font-weight: bold;
+}
+.clsModalContent
+{
+    border-radius: 1px;
+}
+.clsModalHeader
+{
+    padding-bottom: 0px;
+    padding-left: 25px;
+    color: black;
+}
+.clsModalBody
+{
+    color: black;
+    padding: 15px 25px;
+}
+.clsCapacity{
+    width: 45%;
+}
+.clsModalDialog
+{
+    width: 400px;
+}
+
+.rowField
+{
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0px;
+}
+.colFieldLeft{
+    padding: 0;
+    width: 85%;
+    margin: 0px;
+}
+.colFieldRight{
+    width: 5%;
+    float: right;
+}
+.clsCharacterCount
+{
+    padding-top: 6px;
+    color: #ccc;
+}
+
+.icon-cross-special
+{
+    content: "\e91d";
+    margin-top: 0px;
+}
+.clsModalTitle
+{
+    float: left;
+}
+.clsMaxCapacity
+{
+    color: #ccc;
+    font-size: small;
+}
+.label-tenat-apppoolname
+{
+font-family: OpenSans-Semibold;
+font-size: 16px;
+color: #000000;
+ 
+} 
+
+.label-create-tenant
+{
+font-family:"OpenSans-Light";
+color: #97999B;
+font-size: 13px;
+letter-spacing: 0; 
+}
+
+.label-create-tenant1
+{
+font-family: 'OpenSans-SemiBold';
+font-size: 20px;
+color: #000000;
+line-height: 28px
+}
+
+.label-create-tenant2
+{
+font-family: 'OpenSans-SemiBold';
+font-size: 16px;
+color: #000000;             
+}
+
+.label-create-tenant3
+{
+    font-family: 'OpenSans-SemiBold';
+    font-size: 13px;
+    color: #000000;             
+}
+
+.btn-cust-primary
+{
+background: #00A2E3;
+border-radius: 2px;
+font-size: 13px;
+color: #FFFFFF;
+text-align: center;
+line-height: 24px;
+}
+
+.btn-cust-cancel
+{
+    font-family: 'OpenSans-Semibold';
+    background: #F8F8FA;
+    border: 1px solid #DEDEE1;
+    border-radius: 2px;
+    font-size: 13px;
+    color: #000000;
+    line-height: 24px
+}
+
+.clsTenantViewContainer{
+    width:100%;
+    padding-left: 0px;
+    padding-right:0px;
+}
+
+.clsCreateTenantBtn
+{
+    border-radius: 2px;
+    background-color: #00A3E0;
+    font-size: 13px;
+    font-family: 'OpenSans-semibold';
+}
+
+
+.label-filed-grid-f13
+ {
+    font-family: 'OpenSans-SemiBold';
+    font-size: 13px;
+    color: #000000;
+    text-align: left;
+    padding-top: 5px;
+ }
+ 
+.grid-header-label
+{
+    font-family: 'OpenSans-Semibold';
+    font-size: 13px;
+    color: #97999B;
+    letter-spacing: 0;
+    line-height: 20px;
+    padding-top: 5px;
+}
+ 
+.grid-icon-style
+{
+   font-size: 20px;    
+    color: #000000;
+    text-align: center;
+    height: 20px;
+}
+
+/* .datatable-icon-left
+{
+
+}
+
+.datatable-icon-right
+{
+background-color: royalblue;
+     background-image: image('assets/images/icons-next2x.png');  
+    height: 24px;
+    width: 24px;;
+background-image: -moz-linear-gradient();
+}
+
+.datatable-icon-prev
+{}
+.datatable-icon-last
+{} */
+ 
+
+.lable-edit-tenat-head-active
+{
+font-size: 14px;
+color: #000000;
+/* padding-left: 10px; */
+border-bottom: 3px solid grey;
+font-family: "OpenSans-Semibold";
+border-radius: 0px;
+background-color: white;
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+padding-bottom: 11px;
+}
+
+.lable-edit-tenat-head-inactive
+{
+font-family: "OpenSans-Semibold";
+font-size: 14px;
+color: #53565A;
+padding-left: 20px;
+border-bottom: 0px;
+font: bold;
+border-radius: 0px;
+background-color: white;
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+}
+
+.clsModal{
+    display: block;
+}
+
+ .textbox-allocated-space
+ {
+    background: #FFFFFF;
+    border:1px solid #D0D0CE; 
+    border-radius: 0px; text-align:right; 
+    width: 87px; height: 32px;
+    padding-right: 10px;
+ }
+
+ .cell {
+    width: 100%;
+}
+
+.cell-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.disabledAnchor
+{
+    color: #ccc;
+    text-decoration: none;
+}
+.dropdown-tenant-space
+{
+  font-family: 'OpenSans-Regular';
+  background: #FFFFFF;
+  border: 1px solid #D0D0CE;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  color: #000000;
+  text-align: left;
+  width: 240px;
+  height: 32px;
+  padding: 6px 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url("../../../assets/images/icon-arrow-down-small2x.png") no-repeat;
+  position: relative;
+  background-position-x: 212px;
+  background-position-y: center; /*Width of select dropdown to give space for arrow image*/
+  background-size: 24px;
+  background-color: #FFFFFF;
+}
+.overflow-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

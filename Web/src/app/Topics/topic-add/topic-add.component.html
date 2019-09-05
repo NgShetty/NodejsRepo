@@ -1,0 +1,145 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 *ngIf="!editMode" class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Create new
+                    topic</h4>
+                <h4 *ngIf="editMode" class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Edit topic
+                </h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody">
+                <form [formGroup]="form" class="editTokenForm">
+                    <div class="form-group">
+                        <p class="ui font_semibold mb4 font_size_13">Topic name<span></span></p>
+
+                        <!-- <div class="row rowField clsName">
+                            <div class="input_block ui mb8 col-sm-4 colFieldLeft"> -->
+                                <label style="font-weight: normal">{{topic.topicValue? topicName+'-'+topic.topicValue:topicName}}</label>
+                                   
+                            <!-- </div> -->
+                            <!-- <div class="col-sm-4 colFieldRight">
+                                <label class="clsCharacterCount">{{50-name.value.length}}</label></div> -->
+
+                        <!-- </div> -->
+                    </div>
+                    <div class="form-group">
+                        <p class="ui font_semibold mb4 font_size_13">Description<span></span></p>
+
+                        <div class="input_block ui mb8">
+                            <textarea formControlName="description" [(ngModel)]="topic.topicDescription"
+                                onkeypress="return allowAlphabets(event,this)" maxlength="150" type="text"
+                                id="description" name="description" class="form-control clsDescription borderRadius_1"
+                                placeholder="Add description" trim="blur" #description></textarea>
+                        </div>
+                        <div class="divCharacterCountDesc">
+                            <label class="clsCharacterCountDesc">{{150-description.value.length}}</label></div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="chkContainer">Application specific topic
+                            <input formControlName="isApplicationSpecific" [(ngModel)]="topic.isApplicationSpecific"
+                                type="checkbox" for="appTopic" name="appTopic">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div> -->
+                    <p class="ui font_semibold mb4 font_size_13">Application<span></span></p>
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <select [(ngModel)]="topic.associatedAppId"
+                                (change)="onSelectApplication($event,topic.associatedAppId)" formControlName="associatedApp"
+                                name="application" class="form-control clsSelect" #application>
+                                <option value="" selected=true>Select application</option>
+                                <option *ngFor="let item of applicationList" [value]="item.id" >{{item.name}}
+                                </option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <!-- <label class="chkContainer">Group topic type
+                            <input formControlName="isGroupTopic" [(ngModel)]="topic.isGroupTopic" type="checkbox"
+                                for="groupTopic" name="groupTopic">
+                            <span class="checkmark"></span>
+                        </label> -->
+                        <div class="clsRadioBtnRecipients">
+                                <label class="rad">
+                                        <input [checked]="topic.topicType==1" value="1" formControlName="topicType"
+                                        (click)="onTopicChange(versionTopic.value)"    [(ngModel)]="topic.topicType" name="topicType" type="radio" #versionTopic>
+                                        <i></i> Version
+                                    </label>
+                                    <!-- Uncomment for Aure AD groups -->
+                            <label class="rad">
+                                <input [checked]="topic.topicType==2" value="2" formControlName="topicType"
+                                (click)="onTopicChange(groupTopic.value)" [(ngModel)]="topic.topicType" name="topicType" type="radio" #groupTopic>
+                                <i></i> Group
+                            </label>
+                            <label class="rad">
+                                <input [checked]="topic.topicType==3" value="3" formControlName="topicType"
+                                (click)="onTopicChange(customTopic.value)"  [(ngModel)]="topic.topicType" name="topicType" type="radio" #customTopic>
+                                <i></i> Custom
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                            <p for="topicStatus" class="ui font_semibold font_size_13 radioGrp">Version/Group/Custom</p>
+                            <!-- Uncomment for Aure AD groups -->
+                       <div class="form-group" *ngIf="topic.topicType==2"> <ng-select [items]="securityGroups"
+                        bindLabel="displayName" bindValue="displayName"
+                        (add)="onItemAdd($event,select)" [closeOnSelect]="true" clickElsewhere (clickOff)="closeDropdown($event)"
+                        placeholder="Select azure AD group" formControlName="groupName" [hideSelected]="true"
+                        [isOpen]="toggleDropdownOnSearch" [(ngModel)]="topic.topicValue" (search)="onSearch($event)" #select>
+                            
+                    
+                    </ng-select></div>
+
+                        <div *ngIf="topic.topicType==1 || topic.topicType==3" class="row rowField clsName">
+                            <div class="input_block ui mb8 col-sm-4 colFieldLeft">
+                                <input formControlName="versionName" [(ngModel)]="topic.topicValue"
+                                    maxlength="20" type="text" 
+                                     name="versionName" class="form-control clsTxtInput borderRadius_1" [placeholder]="topic.topicType==1?'Add version name':'Add a custom message'"
+                                    trim="blur" #versionName>
+                            </div>
+                            <div class="col-sm-4 colFieldRight">
+                                <label class="clsCharacterCount">{{20-versionName.value.length}}</label></div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <p for="topicStatus" class="ui font_semibold font_size_13 radioGrp">Topic status</p>
+                        <div class="clsRadioBtnRecipients">
+                            <label class="rad">
+                                <input [checked]="topic.topicStatus==true" value="true" formControlName="topicStatus"
+                                    [(ngModel)]="topic.topicStatus" name="topicStatus" type="radio">
+                                <i></i> Enabled
+                            </label>
+                            <label class="rad">
+                                <input [checked]="topic.topicStatus==false" value="false" formControlName="topicStatus"
+                                    [(ngModel)]="topic.topicStatus" name="topicStatus" type="radio">
+                                <i></i> Disabled
+                            </label>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Cancel</button>
+                <button *ngIf="!editMode" class="btn font_size_13 btn_blue clsCreate"
+                    [disabled]="form.pristine || form.invalid" (click)="createTopic()">Create</button>
+                <button *ngIf="editMode" class="btn font_size_13 btn_blue clsCreate"
+                    [disabled]="form.pristine || form.invalid" (click)="saveTopic()">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>

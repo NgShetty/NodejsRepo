@@ -1,0 +1,497 @@
+<div class="clsCreateAppDiv">
+
+  <div class="row" style="padding-top:25px;padding-left:0px">
+    <div class="col-md-1" style="width: 20px">
+      <img style="width:24px;height:24px;cursor: pointer;" src="assets/images/icon-navigation-back2x.png"
+        (click)="backtoApplicationList()" />
+    </div>
+    &nbsp;
+    <div class="col-md-11">
+      <label class="label-create-application">Edit application
+      </label>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 10px;padding-bottom: 10px">
+    <div class="col-md-12">
+        <label class="lable-Tenant-Space" style="margin-right: 5px;">Tenant space:</label>
+      <input style="border:0;box-shadow: none; width:201.8px;padding-left: 8px;background: none"
+        class="label-filed-f16" [(ngModel)]="tenantName" disabled="disabled">
+    </div>
+  </div>
+
+  <div *ngIf="application" class="row">
+    <div class="col-md-12">
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="application.status">
+        <span class="slider round"></span>
+      </label> &nbsp;
+      <label class="label-filed-f13">App active</label>
+    </div>
+  </div>
+
+  <div *ngIf="application" class="row" style="padding-top:20px">
+    <div class="col-md-3" style="width:255px">
+      <div class="row label-rowField">
+        <label class="label-filed-f13">Application name </label>
+      </div>
+      <div class="row rowField clicker">
+        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+          <input (change)="application.isAppMetadataChanged=true" (keyup)="0" maxlength="50" id="applicationName" type="text"
+            onkeypress="return allowAlphaNumerics(event,this);"
+            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px;" class="form-control clsTxtInput"
+            [(ngModel)]="application.name" #applicationName>
+        </div>
+        <div class="col-sm-2 colFieldRight">
+          <label class="clsCharacterCount">{{50-applicationName.value.length}}</label></div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="row label-rowField">
+        <label class="label-filed-f13">Application token</label>
+      </div>
+      <div class="row rowField clicker">
+        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+          <!-- <input disabled (change)="application.isAppMetadataChanged=true" (keyup)="0" maxlength="15" id="applicationToken" type="text"
+            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px" class="form-control clsTxtInput"
+            [(ngModel)]="application.token" onkeypress="return allowFewCharacters(event,this)" #applicationToken> -->
+            <div *ngIf="application.name" class="clsAutoPopulateField">
+              {{application.name | lowercase}}.token
+              </div>
+        </div>
+        <!-- <div class="col-sm-2 colFieldRight">
+          <label class="clsCharacterCount">{{15-applicationToken.value.length}}</label></div> -->
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="row clsWhiteSpace">
+    </div>
+   <div *ngIf="application.name" class="row">
+      <div class="col-md-12">
+        <label class="label-filed-f13">Default topics</label>
+      </div>
+    </div>
+    <div  *ngIf="application.name" class="row">
+      <div class="col-md-5">
+        <div class="clsDefaultTopic">
+        {{application.name}}
+        </div>
+      </div>
+    </div> -->
+    <div class="row clsWhiteSpace">
+      </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label class="label-filed-f13">Topics</label>
+    </div>
+  </div>
+  <div class="col-md-5">
+  <div class="row" >
+      <div class="col-md-5 clsDefaultTopic" style="margin-right:15px" *ngFor="let topic of application.topics" >
+      {{topic.topicName}}
+      </div>
+  </div>
+</div>
+   <!-- <div class="row">
+    <div class="col-md-5">
+        <ng-select [virtualScroll]="true" [(ngModel)]="selectedTopics" [items]="topicsList" #select bindLabel="topicName"
+        [multiple]="true" [isOpen]="toggleDropdownOnSearch" (focus)="toggleDropdownOnSearch=true"
+        (search)="onSearch($event,select)" (add)="onItemAdd($event,select)"
+         [hideSelected]="true" (clear)="onClear($event,select)">
+       
+        <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+            <div class="cls3">
+                <span aria-hidden="true" class="ng-value-icon left"
+                    (click)="clear(item)">×</span>
+                <span class="ng-value-label">{{item.topicName}}</span>
+            </div>
+
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" >
+          <div [ngOptionHighlight]="search">{{item.topicName}}</div>
+        </ng-template>
+        <ng-template ng-footer-tmp>
+           <button class="btn font_size_13 btn_gray clsCancel" (click)="toggleDropdownOnSearch = false">Close</button>
+          </ng-template>                               
+    </ng-select>
+    </div>
+  </div>  -->
+
+  <div class="row clsWhiteSpace">
+    </div>
+    <div class="row clsWhiteSpace">
+      </div>
+      <div class="row clsWhiteSpace">
+        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label class="label-filed-f16">Application & notification media</label>
+
+      <span class="clsTooltip clsImgAndAudioToolTip"> <img onmouseover="changeToolTipImageonHover(this)"
+          src="assets/images/icon-information-normal2x.png" style="height: 16px;width: 16px;" />
+        <img hidden onmouseout="changeToolTipImageonMouseOut(this)"
+          src="assets/images/icon-information-normal2x-active.png" style="height: 16px;width: 16px;" />
+        <div class="tooltiptext"><span theme="dark" placement="right" show-delay="0">Click&nbsp;</span><img
+            src="assets/images/icon-tooltip-upload@2x.png">
+          <span>&nbsp;icons to upload files.</span>
+          <br><span>Maximum allowable file size is 1Mb</span>
+        </div>
+      </span>
+
+    </div>
+  </div>
+  <div class="row clsWhiteSpace">
+    </div>
+
+  <div class="row">
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-f13">Application image</label>
+    </div>
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-f13">Notification sounds</label>
+    </div>
+    <div class="col-md-6">
+      <label class="label-filed-f13">Notification images</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-gray-f12">Application image: {{ 1- (selectedAppImageFile.key?1:0)}}</label>
+    </div>
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-gray-f12">Notification sounds: {{5-selectedAudioFile.length}}</label>
+    </div>
+    <div class="col-md-6">
+      <label class="label-filed-gray-f12">Notification images: {{5-selectedImageFiles.length}}</label>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top:10px">
+    <div class="col-md-3" style="width:230px">
+      <div class="image-upload">
+        <label for="file-input">
+          <img [hidden]="selectedAppImageFile.key"
+            (click)=" selectedAppImageFile.key || fileInputAppImg.click()"
+            src="assets/images/img-svg-normal2x.png" style="width:42px;height:53px" />
+          <img [hidden]="!(selectedAppImageFile.key)" src="assets/images/img-svg-inactive@2x.png"
+            style="width:42px;height:53px" />
+        </label>
+
+        <input #appImg (change)="upload(appImg.files,'AppImage',3)" id="file-input-AppImg" type="file" accept="image/png"
+          #fileInputAppImg />
+      </div>
+      <div *ngIf="selectedAppImageFile.key">
+        <div class="row clsFileRow">
+          <div class="col-md-7 clsFileName">
+            <a (click)="downloadFile(selectedAppImageFile.value,3)" style="cursor:pointer" target="_self" download>{{selectedAppImageFile.key}}</a></div>
+          <div class="col-md-1">
+            <img *ngIf="selectedAppImageFile.key" src="assets/images/icon-close-popup.png" style="cursor:pointer"
+              (click)="removeTheFile(selectedAppImageFile,'appImage',selectedAppImageFile,3)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" style="width:230px">
+      <div class="image-upload">
+        <label for="file-input">
+          <img [hidden]="selectedAudioFile.length>=5" (click)=" selectedAudioFile.length>=5 || fileInputAudio.click()"
+            src="assets/images/img-wav-normal2x.png" style="width:42px;height:53px" />
+          <img [hidden]="!(selectedAudioFile.length==5)" src="assets/images/img-wav-inactive@2x.png"
+            style="width:42px;height:53px" />
+        </label>
+
+        <input #notificationAudioFile (change)="upload(notificationAudioFile.files,'NotificationAudio',2)"
+          id="file-input-audio" type="file" accept="audio/wav" #fileInputAudio multiple />
+      </div>
+      <div *ngIf="selectedAudioFile.length>0">
+        <div class="row clsFileRow" *ngFor="let file of selectedAudioFile">
+          <div class="col-md-9 clsFileName"><a (click)="downloadFile(file.value,2)" style="cursor:pointer" target="_self"
+              download>{{file.key}}</a></div>
+          <div class="col-md-1"><img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+              (click)="removeTheFile(file,'audio',selectedAudioFile,2)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="image-upload">
+        <label for="file-input">
+          <img [hidden]="selectedImageFiles.length>=5" (click)=" selectedImageFiles.length>=5 || fileInputImg.click()"
+            src="assets/images/img-svg-normal2x.png" style="width:42px;height:53px" />
+          <img [hidden]="!(selectedImageFiles.length==5)" src="assets/images/img-svg-inactive@2x.png"
+            style="width:42px;height:53px" />
+        </label>
+        <input #notificationImgfile (change)="upload(notificationImgfile.files,'NotificationImage',3)" id="file-input-img"
+          type="file" accept="image/svg+xml" #fileInputImg multiple>
+      </div>
+      <div *ngIf="selectedImageFiles.length>0">
+        <div class="row clsFileRow" *ngFor="let file of selectedImageFiles">
+          <div class="col-md-3 clsFileName">
+            <a style="cursor:pointer" (click)="downloadFile(file.value,3)" target="_self" download>{{file.key}}</a></div>
+          <div class="col-md-1">
+            <img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+              (click)="removeTheFile(file,'image',selectedImageFiles,3)">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row clsWhiteSpace">
+    </div>
+
+  <div *ngIf="application" class="row" style="padding:0px;">
+
+    <table style="padding:0px;width:100%;">
+      <tr>
+        <td style="text-align: left;height: 40px;width: 50px;padding-bottom: 10px;padding-left: 20px">
+          <a [class]="IsIosActive ? 'tab-head-active' : 'tab-head-inactive'" (click)="iosactive('tab1')"
+            style="width:175px; cursor: pointer;text-decoration: none; text-align: left">
+            <b>iOS</b></a>
+        </td>
+        <td style="padding-left: 15px;padding-bottom: 10px;height: 25px;">
+          <a [class]="IsAndroidActive ? 'tab-head-active' : 'tab-head-inactive'" (click)="androidactive('tab2')"
+            style="cursor: pointer;text-decoration:none;">
+            <b>Android</b></a>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <table style="width:100%;padding:0px;border: 1px solid #eeeeee;padding-top: 10px">
+            <tr>
+              <td style="padding-left:20px">
+                <div id="diviOS" style="padding:0px" [style.display]=" IsIosActive ? 'block': 'none'">
+                  <div class="row">
+                    <div class="col-md-12" style="padding-top:25px;padding-bottom:15px">
+                      <label class="switch">
+                        <input (change)="application.isIosConfigChanged=true" type="checkbox" *ngIf="application.iosConfig" [(ngModel)]="application.iosConfig.enabled" #iosenable>
+                        <span class="slider round"></span>
+                      </label> &nbsp;
+                      <label class="label-filed-f13">Enabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">iOS app token</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-12 colFieldLeft">
+                          <!-- <input (change)="application.isIosConfigChanged=true" (keyup)="0" id="iosAppToken" maxlength="25" type="text"
+                            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px"
+                            class="form-control clsTxtInput" *ngIf="application.iosConfig" [(ngModel)]="application.iosConfig.appToken" #iosapptoken
+                            [disabled]="!application.iosConfig.enabled"> -->
+                            <div *ngIf="application.name" class="clsAutoPopulateField">
+                              {{application.name | lowercase}}.iOS
+                              </div>
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                          <label *ngIf="application.iosConfig" class="clsCharacterCount">{{25-application.iosConfig.appToken.length}}</label></div> -->
+                      </div>
+                    </div>
+
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Bundle ID</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <input (change)="application.isIosConfigChanged=true" (keyup)="0" id="bundleid" type="text"
+                            style="border:0;box-shadow: none; width:240px;padding-left: 8px"
+                            class="form-control clsTxtInput"  *ngIf="application.iosConfig" [(ngModel)]="application.iosConfig.bundleId" #bundleid
+                            [disabled]="!application.iosConfig.enabled">
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                              <label class="clsCharacterCount">{{50-bundleid.value.length}}</label></div> -->
+                      </div>
+                    </div>
+
+                    <div *ngIf="application.iosConfig && application.iosConfig.expiresOn" class="col-md-3">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Certificate expires On</label>
+                      </div>
+                      <div class="row">
+                        <div class="input_block ui mb8 col-sm-10">
+                          <label  
+                            class="lblApplicationView">{{application.iosConfig.expiresOn | date: 'MMM dd, yyyy'}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row">
+                    <div *ngIf="application.iosConfig && application.iosConfig.certificateThumbPrint" class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Certificate thumbprint</label>
+                      </div>
+                      <div class="row label-rowField" style="word-break:break-word">
+                        <label class="lblApplicationView"
+                          style="width:240px">{{application.iosConfig.certificateThumbPrint}}</label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Certificate password</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <input (change)="application.isIosConfigChanged=true" (keyup)="0" id="password" type="password"
+                            style="border:0;box-shadow: none; width:240px;padding-left: 8px"
+                            class="form-control clsTxtInput"  *ngIf="application.iosConfig" [(ngModel)]="application.iosConfig.certificatePassword"
+                            #password [disabled]="!application.iosConfig.enabled">
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                              <label class="clsCharacterCount">{{50-password.value.length}}</label></div> -->
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row" style="padding-bottom:25px">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">APNS Certificate</label>
+                      </div>
+                      <div class="row rowField" style="width:183px">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <label class="btn custom-input-btn">
+                            <input type="file" name="apnscertificate" (change)="uplaodApnsCert($event)"
+                              style="display:none" accept="*" #apnscertificate
+                              [disabled]="!application.iosConfig.enabled" />
+                            <label class="label-filed-f13" style="cursor:pointer" (click)="apnscertificate.click()">
+                              Upload APNS Certificate </label>
+                              <label class="clsApnsCertificateName">{{APNSCertificate}}</label><span *ngIf="APNSCertificate!=''"><img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+                                (click)="cancelApnsUpload()"/></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="divAndroid" style="padding:0px" [style.display]="IsAndroidActive ? 'block': 'none'">
+                  <div class="row">
+                    <div class="col-md-12" style="padding-top:25px;padding-bottom:15px">
+                      <label class="switch">
+                        <input (change)="application.isAndroidConfigChanged=true" type="checkbox" [(ngModel)]="application.androidConfig.enabled">
+                        <span class="slider round"></span>
+                      </label> &nbsp;
+                      <label class="label-filed-f13">Enabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Android app token</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <!-- <input (change)="application.isAndroidConfigChanged=true" (keyup)="0" maxlength="25"  type="text"
+                            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px"
+                            class="form-control clsTxtInput" [(ngModel)]="application.androidConfig.appToken"
+                            #androidapptoken [disabled]="!application.androidConfig.enabled"> -->
+                            <div *ngIf="application.name" class="clsAutoPopulateField">
+                              {{application.name | lowercase}}.Droid
+                              </div>
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                          <label class="clsCharacterCount">{{25-application.androidConfig.appToken.length}}</label></div> -->
+                      </div>
+                    </div>
+
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Package name</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <input (change)="application.isAndroidConfigChanged=true"  type="text" style="border:0;box-shadow: none; width:240x;padding-left: 8px"
+                            class="form-control clsTxtInput" [(ngModel)]="application.androidConfig.packageName"
+                            #packagename [disabled]="!application.androidConfig.enabled"
+                            onkeypress="return allowFewCharacters(event,this)" />
+
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                                <label class="clsCharacterCount">{{50-packagename.v alue.length}}</label></div> -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">FCM API Key</label>
+                      </div>
+                      <div class="row rowField">
+                        <input (change)="application.isAndroidConfigChanged=true" (keyup)="0" type="text"
+                          style="width:240px;height: 32px; padding-left: 8px;background-color: transparent"
+                          class="form-control clsTxtInput" onkeypress="return allowAlphaNumerics(event,this)"
+                          [(ngModel)]="application.androidConfig.fcmApiKey" #fcmapikey
+                          [disabled]="!application.androidConfig.enabled">
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row" style="padding-bottom:25px">
+                    <div class="col-md-8">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Google Service JSON</label>
+                      </div>
+                      <div class="row" style="padding-left:16px">
+                        <div class="input_block ui mb8 col-sm-4 colFieldLeft rowField" style="width:84px">
+                          <label class="btn custom-input-btn">
+                            <input type="file" name="googlejson" [disabled]="!application.androidConfig.enabled"
+                              (change)="upload(googlejson.files,'googleJson',1)" style="display:none" accept="*"
+                              #googlejson />
+                            <label class="label-filed-f13" style="cursor: pointer;" (click)="googlejson.click()"> Upload
+                            </label>
+                          </label>
+                        </div>
+
+                        <div class="col-sm-8" *ngIf="selectedJsonFile.length>0">
+                          <div class="row clsFileRow" *ngFor="let file of selectedJsonFile">
+                            <div class="col-md-4 clsFileName">
+                              <a (click)="downloadFile(file.filePath,1)" style="cursor:pointer" target="_self"
+                                download>{{googleJsonFileName}}</a></div>
+                            <div class="col-md-1">
+                              <img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+                                (click)="removeTheFile(file,'jsonFile',selectedJsonFile,1)"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-top:1px solid #e5e5e5;height: 64px;padding-right: 30px">
+                <div class="row noMargin" style="text-align:right;">
+                  <button type="button" class="btn font_size_13 btn_gray clsCancel" (click)="backtoApplicationList()">
+                    Cancel</button> &nbsp;
+                  <button type="button" class="btn font_size_13 btn_blue clsCreate" [disabled]="isCreateDisabled"
+                    (click)="saveApplication()">Save</button>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+</div>

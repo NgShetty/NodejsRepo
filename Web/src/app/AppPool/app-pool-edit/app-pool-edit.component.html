@@ -1,0 +1,64 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Edit application pool</h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody">
+                <div class="row">
+                    <form [formGroup]="form" class="container addAppPoolForm">
+                        <div class="form-group">
+                            <p for="name" class="ui font_semibold mb4 font_size_13">Application pool name<span></span>
+                            </p>
+
+                            <div class="row rowField">
+                                <div class="input_block ui mb8 col-sm-4 colFieldLeft">
+                                    <input onkeypress="return allowAlphabetsWithHyphenAndUnderscore(event,this)" maxlength="25" id="name"
+                                        name="name" formControlName="name" [(ngModel)]="appPoolDetails.name" type="text"
+                                        class="form-control clsTxtInput" placeholder="Add application pool name"
+                                        trim="blur" #name>
+
+                                </div>
+                                <div class="col-sm-4 colFieldRight">
+                                    <label class="clsCharacterCount">{{25-name.value.length}}</label></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <p for="capacity" class="ui font_semibold mb4 font_size_13">Capacity</p>
+                            <div class="input_block ui mb8">
+                                <input onkeypress="return allowOnlyNumeric(event,this);" id="capacity" max="100"
+                                    [customMin]="appPoolDetails.allocatedSpaces" formControlName="capacity" type="text"
+                                    class="form-control clsCapacity" [(ngModel)]="appPoolDetails.capacity"
+                                    name="capacity" placeholder="Add capacity"
+                                    [style.border-color]="appPoolDetails.capacity>100?'red':'#ccc'">
+                            </div>
+                            <p class="font_size_12 clsMaxCapacity">You cannot edit below the allocated space:
+                                {{appPoolDetails.allocatedSpaces}}</p>
+                            <p class="errorMessage" [style.display]="appPoolDetails.capacity>100?'block':'none'"
+                                style="color:red">Maximum limit is 100</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer clsFooter">
+                <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Cancel</button>
+                <button class="btn font_size_13 btn_blue clsCreate" (click)="Save(appPoolDetails.id,appPoolDetails)"
+                    [disabled]="form.invalid">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>

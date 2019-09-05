@@ -1,0 +1,67 @@
+<div class="container clsAppViewContainer">
+  <div class="row clsRowMarginRight clsDisplayFlex">
+    <div class="col-sm-4 clsAppPoolViewHeader">
+      <h3 class="font_18">
+        Application pools
+      </h3>
+    </div>
+    <div hideIfUnauthorized="[{{roles.SystemAdmin}}]" class="col-sm-4 clsCreateAppPoolDiv">
+      <button class="btn btn_blue clsCreateAppPoolBtn" (click)="createAppPool()">Create application pool</button>
+    </div>
+  </div>
+  <div *ngIf="appPoolListObj && appPoolListObj.length>0" class="row clsDivAppPoolList clsRowMarginRight">
+    <div *ngFor="let obj of appPoolListObj" class="col-sm-4 clsListAppPool">
+      <div [className]="obj.allocatedSpaces!=0?'clsGreenDiv':'clsGrayDiv'">
+      </div>
+      <div class="clsAppPoolDetails">
+        <h4 class="font_20 clsViewAppPoolName">{{obj.name}}</h4>
+        <div class="clsDivViewAppPoolAvailable">
+          <span class="font_12 clsViewAppPoolAvailable">available: </span><span
+            class="font_14">{{obj.capacity-obj.allocatedSpaces}}&nbsp;/&nbsp;{{obj.capacity}}</span>
+        </div>
+      </div>
+      <div class="font_12 clsCreatedAndEdit">
+        <p>Created: {{obj.createdDate | date: 'MMM dd, yyyy'}}</p>
+        <div class="cldViewAppPoolIcons">
+          <img hideIfUnauthorized="[{{roles.SystemAdmin}}]"  onmouseover="changeEditImageonHover(this)" (click)="editAppPool(obj)"
+            src="assets/images/icon-edit-normal@2x.png" />
+          <img hideIfUnauthorized="[{{roles.SystemAdmin}}]"  onmouseout="changeEditImageonMouseOut(this)" hidden (click)="editAppPool(obj)"
+            src="assets/images/icon-edit-hover-active@2x.png" /><span hideIfUnauthorized="[{{roles.SystemAdmin}}]">|</span>
+
+          <img [hidden]="!(obj.allocatedSpaces!=0)" onmouseover="changeViewImageonHover(this)"
+            (click)="viewAppPoolTenants(obj.id)" src="assets/images/icon-tenants-list-normal@2x.png" />
+          <img hidden onmouseout="changeViewImageonMouseOut(this)" (click)="viewAppPoolTenants(obj.id)"
+            src="assets/images/icon-tenants-list-hover-active@2x.png" />
+
+          <img hideIfUnauthorized="[{{roles.SystemAdmin}}]"  [hidden]="!(obj.allocatedSpaces==0)" onmouseover="changeDeleteImageonHover(this)"
+            (click)="deleteAppPool(obj);" src="assets/images/icon-delete-normal@2x.png" />
+          <img hideIfUnauthorized="[{{roles.SystemAdmin}}]"  hidden onmouseout="changeDeleteImageonMouseOut(this)" (click)="deleteAppPool(obj);"
+            src="assets/images/icon-delete-hover-active@2x.png" />
+
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+  <div class="row" style="padding-top:25px" *ngIf="appPoolListObj == null || appPoolListObj.length==0">
+      <div class="col-md-12">
+        <label> <b>No application pool(s) found.</b></label>
+      </div>
+    </div>
+  <app-app-pool-edit [appPoolDetails]="selectedAppPoolDTO" (onModalClose)="close($event)" [hidden]="!showEditModal">
+
+
+  </app-app-pool-edit>
+  <app-app-pool-add (onModalClose)="close($event)" [hidden]="!showModal">
+
+
+  </app-app-pool-add>
+  <app-app-pool-delete [appPoolDetails]="selectedAppPoolDTO" (onModalClose)="close($event)" [hidden]="!showDeleteModal">
+
+  </app-app-pool-delete>
+  <app-app-pool-tenants [appPoolTenantDetails]="selectedAppPoolTenantDTO" (onModalClose)="close($event)"
+    [hidden]="!showTenantModal">
+
+  </app-app-pool-tenants>
+
+</div>

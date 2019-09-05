@@ -1,0 +1,136 @@
+<div class="container clsViewContainer">
+    <div class="row clsRowMarginRight" style="padding-top:3%">
+
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label class="label-field-head">Dashboard</label>
+            </div>
+            <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" class="col-s-2" style="padding-top: 5px;padding-left: 10px;text-align: left; float: left;">
+                <label class="lable-Tenant-Space">Tenant space</label>
+            </div>
+            <!-- &nbsp; -->
+            <div class="col-md-3">
+                <ng-multiselect-dropdown [placeholder]="'Select Tenant'" name="tenantSpace" [data]="tenantList" [settings]="dropdownSettings" (onSelect)="onSelect($event,'tenant')" (onDeSelectAll)="onDeSelectAll($event,'tenant')" (onDeSelect)="onDeSelect($event,'tenant')" (onSelectAll)="onSelectAll($event,'tenant')" [(ngModel)]="selectedTenantsList" class="form-control multiDropdown">
+                </ng-multiselect-dropdown>
+            </div>
+            <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" class="col-s-2" style="padding-top: 5px;padding-left: 10px;text-align: left; float: left;">
+                <label class="lable-app-Space">Application</label>
+            </div> 
+               
+        <!-- <select (change)="onSelectApplication($event.target.value)"  id="appName" name="appName" class='dropdown-app-space' #appName>
+          <option value="all" selected>All</option>
+          <option *ngFor="let app of applicationList" [value]="app.id">{{app.name}}</option>
+        </select> -->
+        <div class="col-md-3">
+            <ng-multiselect-dropdown [placeholder]="'Select Application'" name="application" [data]="applicationList" [settings]="dropdownSettings" (onSelect)="onSelect($event,'app')" (onDeSelectAll)="onDeSelectAll($event,'app')" (onDeSelect)="onDeSelect($event,'app')" (onSelectAll)="onSelectAll($event,'app')" [(ngModel)]="selectedAppsList" class="form-control multiDropdown">
+            </ng-multiselect-dropdown>
+        </div>
+      
+            
+        </div>
+    </div>
+</div>
+
+<div class="clsDashboardContainer" *ngIf="showNotificationDashboard">
+    <div class="row">
+        <div class="col-md-2 noMargin font-size_16px sectionHeader">Notifications</div>
+        <div class="col-md-10 time_period_wrapper Todate clsDateCustom">
+            <label class="marginRight_15 sectionHeader">Time period</label>
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="Start date" placement="left" [(ngModel)]="dtStartDate" (bsValueChange)="onStartDateChange()"
+            [(bsValue)]="dtStartDate"  >
+            
+            <input type="text" class="form-control marginRight_15" #dp="bsDatepicker" bsDatepicker placeholder="End date" 
+            [(ngModel)]="dtEndDate" (bsValueChange)="onEndDateChange()"  [(bsValue)]="dtEndDate"  >
+        
+        </div>
+    </div>
+    <div class="row noMargin clsTotalNotifcationsDiv" *ngIf="showNotificationDashboard">
+        <label class="clsNotificationSubHeaders">Total</label>
+        <div class="row noMargin clsBarTotal">
+            <div class="col-md-6 clsTotalSuccess" [style.width.%]="notificationStatus.totalSuccessfulNotificationsPercentage"></div>
+            <div class="col-md-6 clsTotalFailed" [style.width.%]="notificationStatus.totalFailedNotificationsPercentage"></div>
+        </div>
+        <div class="row noMargin clsBarLegends clsLegendsCustom">
+            <p class="marginRight_15"> <span class="roundRectangle clsSuccessfulLegend clsAndroidLegend"></span>&nbsp;<span>Successful<span
+              class="greyFont">- {{notificationStatus.totalSuccessfulNotifications}}</span></span>
+            </p>
+            <p><span class="roundRectangle clsFailLegend clsIOSLegend"></span>&nbsp;<span>Failed<span class="greyFont">-
+          {{notificationStatus.totalFailedNotifications}}</span></span>
+            </p>
+        </div>
+    </div>
+    <div class="row noMargin clsTotalNotifcationsDiv" *ngIf="showNotificationDashboard">
+        <label class="clsNotificationSubHeaders">Android</label>
+        <div class="row noMargin clsBarTotalAndroid">
+            <div class="col-md-6 clsTotalSuccessAndroid" [style.width.%]="notificationStatus.totalSuccessfulNotificationsPercentageAndroid"></div>
+            <div class="col-md-6 clsTotalFailedAndroid" [style.width.%]="notificationStatus.totalFailedNotificationsPercentageAndroid"></div>
+        </div>
+        <div class="row noMargin clsBarLegends clsLegendsCustom">
+            <p class="marginRight_15"> <span class="roundRectangle clsAndroidSuccess"></span>&nbsp;<span>Successful<span
+                class="greyFont">- {{notificationStatus.totalSuccessfulNotificationsAndroid}}</span></span>
+            </p>
+            <p><span class="roundRectangle clsAndroidFailed"></span>&nbsp;<span>Failed<span class="greyFont">-
+            {{notificationStatus.totalFailedNotificationsAndroid}}</span></span>
+            </p>
+        </div>
+    </div>
+    <div class="row noMargin clsTotalNotifcationsDiv">
+        <label class="clsNotificationSubHeaders">iOS</label>
+        <div class="row noMargin clsBarTotalIOS">
+            <div class="col-md-6 clsTotalSuccessIOS" [style.width.%]="notificationStatus.totalSuccessfulNotificationsPercentageIOS"></div>
+            <div class="col-md-6 clsTotalFailedIOS" [style.width.%]="notificationStatus.totalFailedNotificationsPercentageIOS"></div>
+        </div>
+        <div class="row noMargin clsBarLegends clsLegendsCustom">
+            <p class="marginRight_15"> <span class="roundRectangle clsIOSSuccess"></span>&nbsp;<span>Successful<span
+                  class="greyFont">-  {{notificationStatus.totalSuccessfulNotificationsIOS}}</span></span>
+            </p>
+            <p><span class="roundRectangle clsIOSFailed"></span>&nbsp;<span>Failed<span class="greyFont">-
+              {{notificationStatus.totalFailedNotificationsIOS}}</span></span>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row noMargin" *ngIf="showNotificationDashboard">
+    <div class="col-md-5 clsDevicesCol">
+        <label class="marginRight_15 font-size_16px sectionHeader">Devices</label>
+        <p class="marginRight_15 greyColor">Total devices quantity - {{deviceStatus.totalDeviceCount}}</p>
+        <div>
+            <div class="row">
+                <div class="col-md-2 clsDoughnutDiv">
+                    <canvas baseChart [data]="doughnutDeviceChartData" [labels]="doughnutDeviceChartLabels" [chartType]="doughnutChartType" [colors]="chartColors" [options]="chartOptions">
+                    </canvas>
+                </div>
+                <div class="col-md-5 clsLegendsCustom">
+                    <p> <span class="roundRectangle clsAndroidLegend"></span>&nbsp;<span>Total Android devices<span
+                  class="greyFont">- {{deviceStatus.androidTotalDeviceCount}}</span></span>
+                    </p>
+                    <p><span class="roundRectangle clsIOSLegend"></span>&nbsp;<span>Total iOS devices<span class="greyFont">-
+              {{deviceStatus.iosTotalDeviceCount}}</span></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 clsEmptyCol"></div>
+    <div class="col-md-5 clsUsersCol" *ngIf="showNotificationDashboard">
+        <label class="marginRight_15 font-size_16px sectionHeader">Users</label>
+        <p class="marginRight_15 greyColor">Total users quantity - {{userStatus.totalUserCount}}</p>
+        <div>
+            <div class="row">
+                <div class="col-md-2 clsDoughnutDiv">
+                    <canvas baseChart [data]="doughnutUserChartData" [labels]="doughnutUserChartLabels" [chartType]="doughnutChartType" [colors]="chartColors" [options]="chartOptions">
+                    </canvas>
+                </div>
+                <div class="col-md-5 clsLegendsCustom">
+                    <p> <span class="roundRectangle clsAndroidLegend"></span>&nbsp;<span>Total Android devices<span
+                  class="greyFont">- {{userStatus.androidTotalUserCount}}</span></span>
+                    </p>
+                    <p><span class="roundRectangle clsIOSLegend"></span>&nbsp;<span>Total iOS devices<span class="greyFont">-
+              {{userStatus.iosTotalUserCount}}</span></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div></div>
+</div>

@@ -1,0 +1,48 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Edit token</h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody">
+                <div class="row">
+                    <form [formGroup]="form" class="container editTokenForm">
+                        <div class="form-group">
+                            <p for="token" class="ui font_semibold mb4 font_size_13">Notification token<span
+                                    *ngIf="manualEdit==true" class="clsManualEditText">(manually changed)</span></p>
+                            <textarea formControlName="token" class="form-control" placeholder="Edit token" trim="blur"
+                                [(ngModel)]='selectedDeviceRow.newNotificationToken' #token></textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row modal-footer clsFooter">
+                <div class="col-sm-4 clsLeftDiv">
+                    <button *ngIf="manualEdit!=true" class="btn font_size_13 btn_gray clsCancel"
+                        [disabled]="selectedDeviceRow.newNotificationToken!=selectedDeviceRow.oldNotificationToken"
+                        (click)="copyToken(token)">Copy number</button>
+                    <button *ngIf="manualEdit==true" class="btn font_size_13 btn_blue clsCreate"
+                        (click)="restoreOriginalToken()">Restore to default</button>
+                </div>
+                <div class="col-sm-8 clsRightDiv">
+                    <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Cancel</button>
+                    <button *ngIf="manualEdit!=true" class="btn font_size_13 btn_blue clsCreate" (click)="saveToken()"
+                        [disabled]="form.pristine || form.invalid">Save</button>
+                    <button *ngIf="manualEdit==true" class="btn font_size_13 btn_blue clsCreate"
+                        (click)="saveToken()">Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

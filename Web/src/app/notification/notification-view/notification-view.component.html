@@ -1,0 +1,104 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Notification details</h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody">
+                <div class="form-group">
+                    <div class="row rowField">
+                        <div class="col-sm-3">
+                            <p class="ui font_semibold font_size_13">Application name</p>
+                            <p class="font_size_13">{{notificationObj.application.name}}</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="ui font_semibold font_size_13">Platform</p>
+                            <p class="font_size_13">{{notificationObj.platformDisplayText}}</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="ui font_semibold font_size_13">Sent by</p>
+                            <p class="font_size_13">{{notificationObj.sentBy}}</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="ui font_semibold font_size_13">Sent time</p>
+                            <p class="font_size_13"></p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p class="ui font_semibold font_size_13">Title</p>
+                    <p class="font_size_13">{{notificationObj.title}}</p>
+                </div>
+                <div class="form-group">
+                    <p class="ui font_semibold font_size_13">Message</p>
+                    <p class="font_size_13" [innerHTML]="notificationObj.messageBody"></p>
+                </div>
+                <div class="form-group">
+                    <div class="row rowField">
+                        <div class="col-sm-6">
+                            <p class="ui font_semibold font_size_13">Notification sound</p>
+                            <a>{{notificationObj.notificationSound['key']}}</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="ui font_semibold font_size_13">Notification image</p>
+                            <a>{{notificationObj.notificationImage['key']}}</a>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+                    <div class="row rowField clsDevice">
+                        <div class="col-sm-3">
+                            <p class="ui font_semibold font_size_13">Recipients</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="ui font_semibold font_size_13">Device</p>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="ui font_semibold font_size_13">Notification token</p>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="ui font_semibold font_size_13">Error</p>
+
+                        </div>
+
+                    </div>
+                    <div class="row rowField clsDevice">
+                        <div class="col-sm-3">
+                            <p class="font_size_13 clsBlack">mchinni@deloitte.com</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="font_size_13 clsBlack">Android</p>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="font_size_13 cell-overflow clsToken">
+                                hyjjhiyujmnklhujuasdcskefiulrjnsdmcnsjdcskufhifskcnsjmcjusehfirfvnsdvskjhfksrfhrsdjvbsjdskudfhskvnsdc
+                            </p>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="font_size_13 cell-overflow" style="text-overflow: clip">The meximum number of $
+                                end attempts to send the numjgasd csdcsdcfds sdfsf fsdf</p>
+
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Close</button>
+            </div>
+        </div>
+    </div>

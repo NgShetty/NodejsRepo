@@ -1,0 +1,256 @@
+<div class="container clsTenantViewContainer">
+
+  <div class="row clsRowMarginRight" style="padding-top:3%">
+    <div class="col-md-6">
+      <label class="label-field-head">Devices</label>
+    </div>
+    <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" class="col-md-6 clsGridBtn" style="padding-left: 10px;text-align: right">
+      <label class="lable-Tenant-Space">Tenant space</label>
+      &nbsp;
+      <select [(ngModel)]="selectedTenantId"  id="tenantSpaceName" name="tenantSpaceName" class='dropdown-tenant-space' (change)="onChange($event,null,null)"
+        #tenantspacename>
+        <option  hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}}]" value="all">All Tenant spaces</option>
+        <option *ngFor="let tenant of tenantList" [value]="tenant.id">{{tenant.name}}</option>
+      </select>     
+    </div>
+  </div>
+
+  <div class="row" *ngIf="deviceList != null && deviceList.length >= 0" style="padding-top:25px">
+    <div class="col-md-12">
+
+      <ngx-datatable class='material' [rows]='deviceList' [headerHeight]="50" [footerHeight]="40" [rowHeight]="66"
+        [count]="totalCount" [offset]="pageNumber" [limit]="pageSize" [columnMode]="'flex'" [externalPaging]="true">
+
+        <ngx-datatable-column name="User name" sortable="true" [flexGrow]="1.2" [resizeable]="false" [cellClass]="'my-custom-cell'">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="grid-header-search-label">
+              <table style="width: 70%;">
+                <tr
+                  [style.border-bottom]="(showserarchImage == true || searchUserNameText != 0)  ? '2px solid #9ecaed':'' ">
+
+                  <td style="padding-top:5px">
+                    <img [style.display]="(!showserarchImage && searchUserNameText == 0) ? 'block' : 'none'"
+                      src="assets/images/icon-search-name-normal.png" />
+                    <img [style.display]="(showserarchImage== true || searchUserNameText != 0) ? 'block' : 'none'"
+                      style="width: 24px;height: 24px;" src="assets/images/icon-search-name-active2x.png" />
+                  </td>
+                  <td style="width:128px;padding-left: 0px">
+                    <input type="text" style="width:80px;font-family:'OpenSans-Semibold'"
+                      class="form-control clsTxtInputGridSearch" (keyup)="updateFilter($event,'UserName')"
+                      (click)="focus('Username')" (focusout)="focusout('Username')" placeholder="User name"
+                      [(ngModel)]="query">
+                  </td>
+                  <td style="padding-left:0px">
+                    <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('UserID','Descending')"
+                      style="height:16px;width:16px;cursor: pointer;" *ngIf="!sortByUsername && hideSortByUsername" />
+
+                    <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('UserID','Ascending')"
+                      style="height:16px;width:16px;cursor: pointer"
+                      *ngIf="usernameDsc && sortByUsername && hideSortByUsername" />
+                    <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('UserID','Descending')"
+                      style="height:16px;width:16px;cursor: pointer"
+                      *ngIf="!usernameDsc && sortByUsername && hideSortByUsername" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <img height="16px" width="16px" style="display:none" src="assets/images/icon-sort-up-normal2x.png" />
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div style="padding-left: 20px" [innerHtml]="row.userID | highlightQuery: queryApp"> </div>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Application" sortable="false" [cellClass]="'my-custom-cell-global'" [resizeable]="false"
+          [flexGrow]="1.2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="grid-header-search-label">
+               <table style="width: 70%;"> <!--changed by nkkumar from 75 to 70 -->
+                <tr
+                  [style.border-bottom]="(showserarchImageForApp == true || searchAppNameText != 0)  ? '2px solid #9ecaed':'' ">
+                  <td style="padding-top:5px">
+                    <img [style.display]="(!showserarchImageForApp && searchAppNameText == 0) ? 'block' : 'none'"
+                      src="assets/images/icon-search-name-normal.png" />
+                    <img [style.display]="(showserarchImageForApp== true || searchAppNameText != 0) ? 'block' : 'none'"
+                      style="width: 24px;height: 24px;" src="assets/images/icon-search-name-active2x.png" />
+                  </td>
+                  <td style="width:128px;padding-left: 0px">
+                    <input type="text" style="width:80px;font-family:'OpenSans-Semibold'"
+                      class="form-control clsTxtInputGridSearch" (keyup)="updateFilter($event,'ApplicationName')"
+                      (click)="focus('Application')" (focusout)="focusout('Application')" placeholder="Application"
+                      [(ngModel)]="queryApp">
+                  </td>
+                  <td style="padding-bottom:5px"><!-- removed padding-left:2px;-->
+                    <img style="width: 16px;height: 16px;font-size: 16px; color: #97999B;"
+                      src="assets/images/icon-filter-normal2x.png" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <img height="32px" width="32px" src="assets/images/Mask.png" />
+            <span style="padding-left: 20px" [innerHtml]="row.associatedApplication.application.name | highlightQuery: queryApp"> </span>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Platform" sortable="false" [flexGrow]="1" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <table style="width: 75%;">
+              <tr>
+                <td style="width:40px">
+                  <label class="grid-header-label">Platform</label>
+                </td>
+                <td style="padding-left:2px;padding-bottom:5px">
+                  <img style="width: 16px;height: 16px;font-size: 16px; color: #97999B;"
+                    src="assets/images/icon-filter-normal2x.png" />
+                </td>
+              </tr>
+            </table>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div [innerHtml]="row.platform"> </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="" sortable="false" [flexGrow]="0.005" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <span hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" tooltip="manually changed" theme="dark" placement="top" show-delay="0">
+              <img *ngIf="row.newNotificationToken!=row.oldNotificationToken" (click)="openModalToEditToken(row)"
+                src="assets/images/icon-manually-changed.png">
+            </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="NotificationToken" sortable="false" [flexGrow]="1.5" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <table style="width: 75%;">
+              <tr>
+                <td style="width:100px">
+                  <label class="grid-header-label">Notification token</label>
+                </td>
+                <td style="padding-left:5px;padding-bottom:5px">
+                  <img style="width: 16px;height: 16px;font-size: 16px; color: #97999B;"
+                    src="assets/images/icon-filter-normal2x.png" />
+                </td>
+              </tr>
+            </table>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div class="cell">
+              <div class="cell-overflow">
+
+                <a *ngIf="row.isEnabled" (click)="openModalToEditToken(row)"> {{row.newNotificationToken}} </a>
+                <a *ngIf="(!row.isEnabled)" class="disabledAnchor"> {{row.newNotificationToken}} </a>
+              </div>
+            </div>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Registered" sortable="false" [flexGrow]="1.2" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <div class="col-sm-5">
+                <label [ngClass]="(sortByDate == true) ? 'label-filed-grid-f13' : 'grid-header-label'">Registered</label>
+              </div>
+
+              <div class="col-sm-3" style="padding-top:5px">
+                <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!sortByDate" />
+
+                <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('CreatedDate','Ascending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="createdDateDsc && sortByDate" />
+                <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!createdDateDsc && sortByDate" />
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div class="clsModifiedDate">{{row.createdDate | date: 'MMM dd, yyyy hh:mm a'}} </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="State" sortable="false" [flexGrow]="0.3" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <label class="grid-header-label">&nbsp;State</label>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <label class="switch margin_4">
+              <input hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" 
+              [appId]="row.associatedApplication.application.id" 
+              [tenantId]="row.associatedApplication.application.associatedTenant.tenant.id"
+              [(ngModel)]="row.isEnabled" type="checkbox" [checked]="row.isEnabled" 
+              [isDisable]="true"
+              (change)="deviceStatus(row)">
+              <span class="slider round"></span>
+            </label>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Delete" sortable="false" [flexGrow]="0.3" [resizeable]="false">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]"
+            [appId]="row.associatedApplication.application.id" [tenantId]="row.associatedApplication.application.associatedTenant.tenant.id"
+            (click)="deleteDevice(row)">
+              <img class="grid-icon-style" style="cursor: pointer" src="assets/images/icon-delete-normal2x.png" /></a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-footer>
+          <ng-template ngx-datatable-footer-template let-rowCount="itemsCount" let-pageSize="pageSize"
+            let-curPage="pageNumber" let-offset="offset">
+            <div style="padding: 5px 10px">
+              <div>
+                <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+                <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+                onkeypress="return allowOnlyNumeric(event,this);"
+                  (input)="textboxpagechange(footertextboxpagenumber.value)" #footertextboxpagenumber />
+              </div>
+            </div>
+            <div style="text-align:left">
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" [count]="totalCount"
+                (change)="onFooterPage($event)" #footerSelectedPage>
+              </datatable-pager>
+            </div>
+            <div class="page-count" style="text-align:right">
+              <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}} </label>
+            </div>
+            <div>
+              <div style="padding-right:20px">
+                <select id="recordsperpage" name="recordsperpage" class='form-control selectpicker grid-footer-dropdown'
+                  (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+          </ng-template>
+
+        </ngx-datatable-footer>
+
+      </ngx-datatable>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top:25px" *ngIf="deviceList == null">
+    <div class="col-md-12">
+      <label> <b>No device(s) found.</b></label>
+    </div>
+  </div>
+
+</div>
+
+<app-device-edit-token [selectedDeviceRow]="selectedDeviceDTO" [manualEdit]="manualEdit" (onModalClose)="close($event)"
+  [hidden]="!showEditTokenModal"></app-device-edit-token>
+
+<app-device-delete [selectedDeviceRow]="selectedDeviceDTO" (onModalClose)="close($event)" *ngIf="showDeleteModal">
+</app-device-delete>

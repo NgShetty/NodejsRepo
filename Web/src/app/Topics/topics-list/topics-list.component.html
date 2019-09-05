@@ -1,0 +1,204 @@
+<div class="container clsTenantViewContainer">
+
+  <div class="row clsRowMarginRight" style="padding-top:3%">
+    <div class="col-md-4">
+      <label class="label-field-head">Topics</label>
+    </div>
+    <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" class="col-md-6 clsGridBtn" style="padding-left: 10px;text-align: right">
+        <label class="lable-Tenant-Space">Tenant space</label>
+        &nbsp;
+        <select [(ngModel)]="selectedTenantId"  id="tenantSpaceName" name="tenantSpaceName" class='dropdown-tenant-space' (change)="onChange($event,null,null)"
+          #tenantspacename>
+          <option  hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}}]" value="0" selected>All Tenant spaces</option>
+          <option *ngFor="let tenant of tenantList" [value]="tenant.id">{{tenant.name}}</option>
+        </select>
+        
+      </div>
+    <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" class="col-md-2 clsGridBtn">
+      <button type="button" class="btn btn_blue clsCreateTenantBtn" data-toggle="modal" [disabled]="selectedTenantId==0"
+        (click)="openCreateTopicModal()">Create new topic</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="topicList != null && topicList.length > 0" style="padding-top:25px">
+    <div class="col-md-12">
+
+      <ngx-datatable class='material' [rows]='topicList' [headerHeight]="50" [footerHeight]="40" [rowHeight]="66"
+        [count]="totalCount" [offset]="pageNumber" [limit]="pageSize" [columnMode]="'flex'" [externalPaging]="true">
+
+        <ngx-datatable-column [resizeable]="false"  name="Topic name" sortable="true" [flexGrow]="1.2" [cellClass]="'my-custom-cell'">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <div class="col-sm-5">
+                <label [ngClass]="(sortByTopic == true) ? 'label-filed-grid-f13' : 'grid-header-label'">Topic name</label>
+              </div>
+
+              <div class="col-sm-3" style="padding-top:5px">
+                <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('TopicName','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!sortByTopic" />
+
+                <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('TopicName','Ascending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="topicDsc && sortByTopic" />
+                <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('TopicName','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!topicDsc && sortByTopic" />
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div [innerHtml]="row.topicName"> </div>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Description" sortable="false" [cellClass]="'my-custom-cell-global'"
+          [flexGrow]="1.2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <label class="grid-header-label">&nbsp; Description</label>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div class="overflow-ellipsis" [innerHtml]="row.topicDescription"> </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Type" sortable="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <table style="width: 75%;">
+              <tr>
+                <td style="width:60px">
+                  <label class="grid-header-label">Type</label>
+                </td>
+              </tr>
+            </table>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{row.topicTypeDisplayText}} </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Associated apps" sortable="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+              <table style="width: 75%;">
+                  <tr>
+                    <td style="width:60px">
+                      <label class="grid-header-label">Associated app</label>
+                    </td>
+                  </tr>
+                </table>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <div *ngIf="row.associatedApplication">{{row.associatedApplication.name}} </div>
+              <!-- <div *ngIf="row.associatedApplication && row.associatedApplication.length>1">{{row.associatedApplications.length}}&nbsp; apps</div> -->
+          </ng-template>
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column [resizeable]="false"  name="Created" sortable="false" [flexGrow]="1.2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <div class="col-sm-5">
+                <label [ngClass]="(sortByDate == true) ? 'label-filed-grid-f13' : 'grid-header-label'">Created</label>
+              </div>
+
+              <div class="col-sm-3" style="padding-top:5px">
+                <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!sortByDate" />
+
+                <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('CreatedDate','Ascending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="createdDateDsc && sortByDate" />
+                <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!createdDateDsc && sortByDate" />
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <div [innerHtml]="row.createdDate | date: 'MMM dd, yyyy'"> </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Status" sortable="false" [flexGrow]="0.3">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <label class="grid-header-label">&nbsp;Status</label>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <label class="switch">
+              <input hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" [appId]="row.associatedApplication.application.id" [tenantId]="row.associatedApplication.application.associatedTenant.tenant.id" [isDisable]="true" [(ngModel)]="row.topicStatus" type="checkbox" [checked]="row.topicStatus==true" (change) = "changeStatus(row)">
+              <span class="slider round"></span>
+            </label>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"   name="Action/Edit" sortable="false" [flexGrow]="0.3">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" [appId]="row.associatedApplication.application.id" [tenantId]="row.associatedApplication.application.associatedTenant.tenant.id" *ngIf="row.topicType==1 || row.topicType==2 || row.topicType==3" (click)="openEditTopicModal(row)" style="cursor: pointer"> <img class="grid-icon-style"
+                src="assets/images/icon-edit-normal2x.png" /></a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Delete" sortable="false" [flexGrow]="0.3">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" [appId]="row.associatedApplication.application.id" [tenantId]="row.associatedApplication.application.associatedTenant.tenant.id" *ngIf="row.topicType==1 || row.topicType==2 || row.topicType==3" (click)="openDeleteTopicModal(row)">
+              <img class="grid-icon-style" style="cursor: pointer" src="assets/images/icon-delete-normal2x.png" /></a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-footer>
+          <ng-template ngx-datatable-footer-template let-rowCount="itemsCount" let-pageSize="pageSize"
+            let-curPage="pageNumber" let-offset="offset">
+            <div style="padding: 5px 10px">
+              <div>
+                <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+                <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+                onkeypress="return allowOnlyNumeric(event,this);"
+                  (input)="textboxpagechange(footertextboxpagenumber.value)" #footertextboxpagenumber />
+              </div>
+            </div>
+            <div style="text-align:left">
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" [count]="totalCount"
+                (change)="onFooterPage($event)" #footerSelectedPage>
+              </datatable-pager>
+            </div>
+            <div class="page-count" style="text-align:right">
+              <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}} </label>
+            </div>
+            <div>
+              <div style="padding-right:20px">
+                <select id="recordsperpage" name="recordsperpage" class='form-control selectpicker grid-footer-dropdown'
+                  (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+          </ng-template>
+
+        </ngx-datatable-footer>
+
+      </ngx-datatable>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top:25px" *ngIf="topicList == null || topicList.length==0">
+    <div class="col-md-12">
+      <label> <b>No topic(s) found.</b></label>
+    </div>
+  </div>
+
+</div>
+
+<app-topic-edit [selectedTopicRow]="selectedTopicDTO" (onModalClose)="close($event)" *ngIf="showEditTopicModal">
+</app-topic-edit>
+
+<app-topic-delete [selectedTopicRow]="selectedTopicDTO" (onModalClose)="close($event)" [hidden]="!showDeleteModal">
+</app-topic-delete>
+<app-topic-add [topic]="selectedTopicDTO" [tenantId]="selectedTenantId" (onModalClose)="close($event)" *ngIf="showCreateTopicModal"></app-topic-add>

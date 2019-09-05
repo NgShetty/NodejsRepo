@@ -1,0 +1,39 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">
+                    {{appPoolTenantDetails.name}}&nbsp;Content</h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody">
+                <div class="row clsSubHeaderTenant">
+                    <div class="col-sm-6">
+                        Tenant space name
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        Allocated space
+                    </div>
+                </div>
+                <div *ngFor="let tenant of appPoolTenantDetails.tenants; last as isLast"
+                    [className]="isLast?'row clsTenantRowLast':'row clsTenantRow'">
+                    <div class="col-sm-6 clsColTenant">{{tenant.name}}</div>
+                    <div class="col-sm-6 text-right clsColTenant">{{tenant.allocatedSpace}}</div>
+                </div>
+            </div>
+
+            <div class="modal-footer clsFooter">
+                <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>

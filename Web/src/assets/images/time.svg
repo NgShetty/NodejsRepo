@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>04-icons / time</title>
+    <desc>Created with Sketch.</desc>
+    <g id="05-Notifications" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="Deloitte_special_icon_font_v4" font-size="18" font-weight="normal" line-spacing="18">
+        <g id="00-05-01-Notifications" transform="translate(-637.000000, -822.000000)" fill="#53565A">
+            <g id="Modal-Small-Form" transform="translate(340.000000, 48.000000)">
+                <g id="Group-7" transform="translate(24.000000, 733.000000)">
+                    <g id="Group-3" transform="translate(160.000000, 32.000000)">
+                        <g id="04-icons-/-time" transform="translate(108.000000, 4.000000)">
+                            <g id="icon-timepicker-normal" transform="translate(3.000000, 3.000000)">
+                                <g id="subtitle">
+                                    <text>
+                                        <tspan x="0" y="17"></tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

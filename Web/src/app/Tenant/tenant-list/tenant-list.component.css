@@ -1,0 +1,485 @@
+
+
+.clsModal{
+    display: block;
+}
+
+.addAppPoolForm
+{
+    width: 100%;
+}
+
+.clsTxtInput{
+    font-family : "OpenSans-Regular";
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    background: transparent;
+    border: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    color:black;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.clsTxtInput:focus
+{
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.clsTxtInputGridSearch{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    background: transparent;
+    border: none;    
+    box-shadow: none;
+    border-radius: 0px;
+    color:black;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.datatable-body-cell {
+    padding: 30px !important;
+  }
+  
+
+.clsTxtInputGridSearch:focus
+{
+    background: transparent;
+    border: none;
+    /* border-bottom: 1px solid #9ecaed; */
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.clsCreate
+{
+    background-color: #00a2e3;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 13px;
+    font-family: 'OpenSans-semibold';
+}
+.clsCancel
+{
+    border-radius: 2px;
+    background-color: #f8f8fa;
+    border: 1px solid #ddd;
+    color: black;
+    font-weight: bold;
+    font-size: 13px;
+    font-family: 'OpenSans-semibold';
+}
+.clsModalContent
+{
+    border-radius: 1px;
+}
+.clsModalHeader
+{
+    padding-bottom: 0px;
+    padding-left: 25px;
+    color: black;
+}
+.clsModalBody
+{
+    color: black;
+    padding: 15px 25px;
+}
+.clsCapacity{
+    width: 45%;
+}
+.clsModalDialog
+{
+    width: 400px;
+}
+
+.rowField
+{
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0px;
+}
+.colFieldLeft{
+    padding: 0;
+    width: 85%;
+    margin: 0px;
+}
+.colFieldRight{
+    width: 5%;
+    float: right;
+}
+.clsCharacterCount
+{
+    padding-top: 6px;
+    color: #ccc;
+}
+
+.icon-cross-special
+{
+    content: "\e91d";
+    margin-top: 0px;
+}
+.clsModalTitle
+{
+    float: left;
+}
+.clsMaxCapacity
+{
+    color: #ccc;
+    font-size: small;
+}
+.label-tenat-apppoolname
+{
+font-family: OpenSans-Semibold;
+font-size: 16px;
+color: #000000;
+ 
+} 
+
+.label-create-tenant
+{
+font-family:"OpenSans-Light";
+color: #97999B;
+font-size: 13px;
+letter-spacing: 0; 
+}
+
+.label-create-tenant1
+{
+font-family: 'OpenSans-SemiBold';
+font-size: 20px;
+color: #000000;
+line-height: 28px
+}
+
+.label-create-tenant2
+{
+font-family: 'OpenSans-SemiBold';
+font-size: 16px;
+color: #000000;             
+}
+
+.label-create-tenant3
+{
+    font-family: 'OpenSans-SemiBold';
+    font-size: 13px;
+    color: #000000;             
+}
+
+.btn-cust-primary
+{
+background: #00A2E3;
+border-radius: 2px;
+font-size: 13px;
+color: #FFFFFF;
+text-align: center;
+line-height: 24px;
+}
+
+.btn-cust-cancel
+{
+    font-family: 'OpenSans-Semibold';
+    background: #F8F8FA;
+    border: 1px solid #DEDEE1;
+    border-radius: 2px;
+    font-size: 13px;
+    color: #000000;
+    line-height: 24px
+}
+
+.clsTenantViewContainer{
+    width:100%;
+    padding-left: 0px;
+    padding-right:0px;
+}
+
+.clsCreateTenantBtn
+{
+    border-radius: 2px;
+    background-color: #00A3E0;
+    font-size: 13px;
+    font-family: 'OpenSans-semibold';
+}
+
+
+.label-filed-grid-f13
+ {
+    font-family: 'OpenSans-SemiBold';
+    font-size: 13px;
+    color: #000000;
+    text-align: left;
+    padding-top: 5px;
+ }
+ 
+.grid-header-label
+{
+    font-family: 'OpenSans-Semibold';
+    font-size: 13px;
+    color: #97999B;
+    letter-spacing: 0;
+    line-height: 20px;
+    padding-top: 5px;
+}
+ 
+.grid-icon-style
+{
+   font-size: 20px;    
+    color: #000000;
+    text-align: center;
+    height: 20px;
+}
+
+/* .datatable-icon-left
+{
+
+}
+
+.datatable-icon-right
+{
+background-color: royalblue;
+     background-image: image('assets/images/icons-next2x.png');  
+    height: 24px;
+    width: 24px;;
+background-image: -moz-linear-gradient();
+}
+
+.datatable-icon-prev
+{}
+.datatable-icon-last
+{} */
+ 
+
+.lable-edit-tenat-head-active
+{
+font-size: 14px;
+color: #000000;
+/* padding-left: 10px; */
+border-bottom: 3px solid grey;
+font-family: "OpenSans-Semibold";
+border-radius: 0px;
+background-color: white;
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+padding-bottom: 11px;
+}
+
+.lable-edit-tenat-head-inactive
+{
+font-family: "OpenSans-Semibold";
+font-size: 14px;
+color: #53565A;
+padding-left: 0px;
+border-bottom: 0px;
+font: bold;
+border-radius: 0px;
+background-color: white;
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+}
+
+.clsModal{
+    display: block;
+}
+
+ .textbox-allocated-space
+ {
+    background: #FFFFFF;
+    border:1px solid #D0D0CE; 
+    border-radius: 0px; text-align:right; 
+    width: 87px; height: 32px;
+    padding-right: 10px;
+ }
+ .clsModalDialog
+ {
+     margin: 0 auto;
+     top: 25%;
+     position: relative;
+     width: 400px;
+ }
+ .clsCreateTenantModal
+ {
+    width: 500px;
+    margin: 50px auto;
+    margin: 0 auto;
+    top: 10%;
+    position: relative; 
+ }
+.clsEditTenantModal
+{
+    margin: 0 auto;
+    top: 10%;
+    position: relative;
+    width: 600px;
+}
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+   .clsFooter
+   {
+       padding:5px !important;
+   }
+    
+  }
+
+  :host ::ng-deep .datatable-body-cell-label
+  {
+      position: absolute;
+  }
+.clsAppPoolAssigned
+{
+    top: -10px !important;
+    left: 110px !important;
+}
+  .clsTooltip .tooltiptext
+  {
+    height: auto;
+    background-color: #fff;
+    color: #000;
+    text-align: left;
+    border-radius: 2px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    top: -26px;
+    left: 78px;
+    transition: opacity 0.3s;
+    width: 173px;
+    font-size: 12px;
+    font-family: 'OpenSans-Regular';
+    border: 1px solid #E5E5E5;
+  }
+  .clsOwnersToolTip,.clsReadersToolTip
+  {
+    top: -15px !important;
+    left: 74px !important;
+  }
+  .clsTooltip .tooltiptext::after{
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 20%;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-radius: px;
+    border-right: 8px solid #fff;
+}
+ 
+.clsAllocatedToolTip
+{
+    top: -12px !important;
+    left: 85px !important;
+}
+.clsSpaceAllocatedCell:hover, .clsAssignedAppPoolCount:hover{
+    color:#00A3E0;
+}
+.greyColor
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #97999B;
+    text-align: left;
+    line-height: 24px;
+}
+.clsOwnersSpn:hover,.clsReadersSpn:hover
+{
+    color:#00B3E6;
+}
+.clsTenantUsers
+{
+    max-height: 206px;
+    overflow-y: scroll
+}
+.clsUserRow
+{
+    /* height:180px; */
+    overflow-y: scroll;
+    padding-top: 20px;
+}
+.clsUserName
+{ 
+    font-family: "OpenSans-Semibold";
+    font-size: 16px;
+    color: #000000;
+    line-height: 20px;
+}
+.clsEmailId
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 20px;
+    white-space: pre-line;
+    word-break: break-all;
+}
+.clsOptions
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #000000;
+    line-height: 20px;
+}
+/* RADIO  STYLES */
+  /* DEFAULT <i> STYLE */
+  .rad > input{ /* HIDE ORG RADIO & CHECKBOX */
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .rad > i{ 
+      display: inline-block;
+      vertical-align: middle;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      transition: 0.2s;
+      box-shadow: inset 0 0 0 8px #fff;
+      /* border: 1px solid #00A2E3; */
+      background: gray;
+      border: 0.8px solid #D0D0CE;
+      margin-right: 2px;
+  }
+  
+  .rad
+  {
+      padding-left: 6px;
+      padding-right: 14px;
+      font-weight: normal;
+      cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  
+  .rad:hover > i{ /* HOVER <i> STYLE */
+    box-shadow: inset 0 0 0 3px #fff;
+    background: gray;
+  }
+  .rad > input:checked + i{ /* (RADIO CHECKED) <i> STYLE */
+      box-shadow: inset 0 0 0 4px #00A2E3;
+      background: #fff;
+      border:0;
+  }
+  .clsRadioBtnRecipients
+{
+    display: block;
+    padding-top: 15px;
+}
+.clsRoleRadioBtn
+{
+    padding-right: 40px;
+}
+.clsUserRow
+{
+    /* height:180px; */
+    overflow-y: scroll;
+    padding-top: 20px;
+}

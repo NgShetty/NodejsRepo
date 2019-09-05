@@ -1,0 +1,143 @@
+
+.clsModal{
+    display: block;
+}
+
+.addAppPoolForm
+{
+    width: 100%;
+}
+
+.clsTxtInput{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.clsTxtInput:focus
+{
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+.clsCreate
+{
+    background-color: #00a2e3;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 13px;
+    font-family: 'OpenSans-semibold'
+}
+.clsCancel
+{
+    border-radius: 2px;
+    background-color: #f8f8fa;
+    border: 1px solid #ddd;
+    color: black;
+    font-family: 'OpenSans-semibold';
+    font-size: 13px;
+}
+.clsModalContent
+{
+    border-radius: 1px;
+    width: 400px;
+    /* height: 309px; */
+}
+.clsModalHeader
+{
+    padding-bottom: 0px;
+    padding-left: 25px;
+    color: black;
+}
+.clsModalBody
+{
+    color: black;
+    padding: 15px 25px;
+}
+.clsCapacity{
+    width: 45%;
+}
+input::placeholder{
+    color:#97999B;
+    font-size: 13px;
+    font-weight: normal;
+}
+.clsModalDialog
+{
+    width: 400px;
+    margin: 150px auto;
+}
+
+.rowField
+{
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0px;
+}
+.colFieldLeft{
+    padding: 0;
+    width: 85%;
+    margin: 0px;
+}
+.colFieldRight{
+    width: 5%;
+    float: right;
+}
+.clsCharacterCount
+{
+    padding-top: 6px;
+    color: #ccc;
+}
+
+.icon-cross-special
+{
+    content: "\e91d";
+    margin-top: 0px;
+}
+.clsModalTitle
+{
+    float: left;
+}
+/* Hide HTML5 Up and Down arrows. */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+ 
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+.clsModalHeader img{
+    width: 24px;
+    height: 24px;
+}
+.clsColPadding
+{
+    padding-left: 0;
+    padding-right: 0;
+}
+.clsUserInfo
+{
+    font-family: 'OpenSans-Regular';
+    font-size: 12px;
+    text-align: left;
+    line-height: 16px;
+}
+.clsUserSearch
+{
+    white-space: pre-line;
+    word-break: break-all;
+    display: inline-block;
+}
+.clsUserFlagExists
+{
+    font-family: 'OpenSans-Regular';
+    font-size: 12px;
+    color: #97999B;
+    padding-left: 0;
+    padding-right: 0;
+}

@@ -1,0 +1,815 @@
+<div class="container clsViewContainer">
+
+  <div *ngIf="!isCreateApplication">
+    <div class="row clsRowMarginRight" style="padding-top:3%">
+      <div class="col-md-6">
+        <label class="label-field-head">Applications</label>
+      </div>
+      <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" class="col-md-6 clsGridBtn" style="padding-left: 10px;text-align: right">
+        <label class="lable-Tenant-Space">Tenant space</label>
+        &nbsp;
+        <select [(ngModel)]="selectedTenantId"  id="tenantSpaceName" name="tenantSpaceName" class='dropdown-tenant-space' (change)="onChange($event,null,null)"
+          #tenantspacename>
+          <option  hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}}]" value="all">All Tenant spaces</option>
+          <option *ngFor="let tenant of tenantList" [value]="tenant.id">{{tenant.name}}</option>
+        </select>
+        &nbsp;&nbsp;
+        <span  tooltip="You must select a Tenant space to create an application" theme="dark" placement="bottom"
+          show-delay="0">
+          <button type="button" title="" style="width:149px;height:32px" class="btn btn_blue clsCreateTenantBtn"
+            data-toggle="modal" (click)="gotoapplication()" [disabled] = "dasableCreateApplication">Create
+            application
+          </button> </span>
+      </div>
+    </div>
+      
+    <div class="row" style="padding-top:25px" 
+    *ngIf=" applicationListView!=null && applicationListView.length >= 0">
+          <div class="col-md-12">
+            <ngx-datatable class='material' [rows]='applicationListView' [headerHeight]="50" 
+            [footerHeight]="40" [rowHeight]="66" 
+            [count]="totalCount" 
+             [offset]="pageNumber" [limit]="pageSize"
+              [columnMode]="'flex'" 
+              [externalPaging]="true" (activate)="onActivate($event)">  
+                
+              <ngx-datatable-column name="ApplicationName" sortable="true" [flexGrow]="2" [cellClass]="'my-custom-cell'" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <div class="grid-header-search-label">
+      
+                     <table style="width: 60%;">
+                      <tr style="width:100px" [style.border-bottom]="(showserarchImage == true || searchTenantNameText != 0)  ? '2px solid #9ecaed':'' ">
+      
+                        <td style="padding-top:5px;width:26px">
+                          <img [style.display]="(!showserarchImage && searchTenantNameText == 0) ? 'block' : 'none'"
+                            src="assets/images/icon-search-name-normal.png" />
+                          <img [style.display]="(showserarchImage== true || searchTenantNameText != 0) ? 'block' : 'none'"
+                            style="width: 24px;height: 24px;" src="assets/images/icon-search-name-active2x.png" />
+                        </td>
+                        <td style="width:128px;padding-left: 0px">
+                          <input type="text"
+                            style="width:123px;font-family:OpenSans-Semibold"
+                            class="form-control clsTxtInputGridSearch" (keyup)='updateFilter($event)' (click)="focus()" (focusout)="focusout()"
+                             placeholder="Application name" [(ngModel)]="query" maxlength="50"/>
+                        </td>
+                        <td style="padding-left:0px">
+                          <!-- <img src="assets/images/icon-sort-down-normal2x.png" (click) ="gridSort('ApplicationName','Ascending')" 
+                          style="height:16px;width:16px" *ngIf="!appNameDsc" /> -->
+                          <img src="assets/images/icon-sort-up-normal2x.png" (click) ="gridSort('ApplicationName','Descending')" 
+                          style="height:16px;width:16px;cursor: pointer;" *ngIf="!sortByAppName && hideSortByAppName" />
+  
+                          <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('ApplicationName','Ascending')"
+                          style="height:16px;width:16px;cursor: pointer" *ngIf="appNameDsc && sortByAppName && hideSortByAppName" />
+                        <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('ApplicationName','Descending')"
+                          style="height:16px;width:16px;cursor: pointer" *ngIf="!appNameDsc && sortByAppName && hideSortByAppName" />
+                        </td>
+                      </tr>
+                    </table> 
+                  </div>
+                </ng-template>
+    
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div class="row">
+                    <div class="col-sm-1">
+                      <img height="32px" width="32px" src="assets/images/Mask.png" />
+
+                      <!-- <img height="32px" width="32px" *ngIf = "row.imagePath != ''" src="{{row.appIconPath}}" />  -->
+                    </div>
+                    <div class="col-sm-8">
+                      <div style="padding-left: 20px;padding-top: 5px" [innerHtml]="row.name | highlightQuery: query"> </div>
+                    </div>
+                  </div>
+                  </ng-template>
+              </ngx-datatable-column>
+               
+              <ngx-datatable-column name="OwenrsReaders" sortable="false" [flexGrow]="1" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <label class="grid-header-label">Own. / Read. / N.Own. </label>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <p class="greyColor">
+                      <span class="clsTooltip">
+                          <span class="clsOwnersSpn">{{filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationOwner).length}}</span>
+                          <div *ngIf="filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationOwner).length>0" class="tooltiptext clsOwnersToolTip">
+                            <p style="font-family: OpenSans-Semibold;font-size:12px">Owners:</p>
+                            <div placement="right" show-delay="0" *ngFor="let user of filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationOwner)">
+                              <p><img height="28px" width="28px" graphImageUrl="{{user.imageUrl}}" />&nbsp;
+                              <span>{{user.userName}}</span></p>
+                            </div>
+            
+                          </div>
+                        </span>
+                      
+                      / <span class="clsTooltip">
+                          <span class="clsReadersSpn">{{filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationReader).length}}</span>
+                          <div *ngIf="filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationReader).length>0" class="tooltiptext clsReadersToolTip">
+                            <p style="font-family: OpenSans-Semibold;font-size:12px">Readers:</p>
+                            <div placement="right" show-delay="0" *ngFor="let user of filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationReader)">
+                              <p><img height="28px" width="28px" graphImageUrl="{{user.imageUrl}}" />&nbsp;
+                              <span>{{user.userName}}</span></p>
+                            </div>
+            
+                          </div>
+                        </span>
+                        / <span class="clsTooltip">
+                            <span class="clsReadersSpn">{{filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationNotificationOwner).length}}</span>
+                            <div *ngIf="filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationNotificationOwner).length>0" class="tooltiptext">
+                              <p style="font-family: OpenSans-Semibold;font-size:12px">Notification Owners:</p>
+                              <div placement="right" show-delay="0" *ngFor="let user of filterUsersBasedOnRole(row.teamMembers,applicationRoles.applicationNotificationOwner)">
+                                <p><img height="28px" width="28px" graphImageUrl="{{user.imageUrl}}" />&nbsp;
+                                <span>{{user.userName}}</span></p>
+                              </div>
+              
+                            </div>
+                          </span>
+                          <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" [tenantId]="row.associatedTenant.tenant.id" [appId]="row.id" (click)="editRoles($event,row)">
+                          <img style="margin-left: 2px; margin-bottom: 5px;" height="20px" width="20px" 
+            src="assets/images/icon-edit-normal@2x.png" /></a>
+                      </p>
+                  </ng-template>
+              </ngx-datatable-column>
+      
+              <ngx-datatable-column name="Platforms" sortable="false" [flexGrow]="1" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <label class="grid-header-label">Platform</label>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template> 
+                      <label class="grid-row-cust-label">Android</label>&nbsp;
+                      <label class="lable-text-gray">{{row.registeredAndroidDevices}}</label> <br/>
+                    <label class="grid-row-cust-label">iOS</label>&nbsp;<label class="lable-text-gray">{{row.registerediOSDevices}}</label>
+                 </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="Topcis" sortable="false" [flexGrow]="1" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <label class="grid-header-label">Topics</label>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <label *ngIf="row.topics.length>1" class="grid-row-label">Multiple Topics</label>
+                    <label *ngIf="row.topics.length==1" style="width: 85%;"
+                    class="grid-row-label">{{row.topics[0].topicName}}</label>
+                   &nbsp;&nbsp; 
+
+                   <div class="clsTooltip clsTopics">
+                      <span class="clsTopicEllipsis">
+                          <i *ngIf="row.topics.length>1" class="fa fa-ellipsis-v" aria-hidden="true"></i> </span>
+                      <div class="tooltiptext clsTopicToolTip">
+                        <p style="font-family: OpenSans-Semibold;font-size:12px">Topics:</p>
+                        <div placement="right" show-delay="0" *ngFor="let topic of row.topics">
+                            <p>{{topic.topicName}}</p>
+                        </div>
+        
+                      </div>
+                    </div>
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="Created" sortable="false" [flexGrow]="1" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <div class="row" >
+                    <div class="col-sm-5" style="width: 54px"> <label
+                        [ngClass]="(sortByDate == true) ? 'label-filed-grid-f13' : 'grid-header-label'">Created</label></div>
+                    <div class="col-sm-3" style="padding-top:5px">
+                      <!-- <img src="assets/images/icon-sort-down-normal2x.png" (click)="gridSort('CreatedDate','Ascending')"
+                                    style="height:16px;width:16px" *ngIf="!createdDateDsc" /> -->
+                      <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('CreatedDate','Descending')"
+                        style="height:16px;width:16px;cursor: pointer" *ngIf="!sortByDate" />
+                  
+                      <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('CreatedDate','Ascending')"
+                        style="height:16px;width:16px;cursor: pointer" *ngIf="createdDateDsc && sortByDate" />
+                      <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('CreatedDate','Descending')"
+                        style="height:16px;width:16px;cursor: pointer" *ngIf="!createdDateDsc && sortByDate" />
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                 <label class="grid-row-label">{{row.createdDate | date: 'MMM dd, yyyy'}} </label> 
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="Status" sortable="false" [flexGrow]="1" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  <label class="grid-header-label">Status</label>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                 <label class="grid-row-label" *ngIf="row.status">Active</label>
+                 <label class="grid-row-label" *ngIf="!row.status">Inactive</label>
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="Action/Edit" sortable="false" [flexGrow]="0.3" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}}]" [tenantId]="row.associatedTenant.tenant.id" [appId]="row.id" (click)="editTenant(row.id)" style="cursor: pointer"> <img class="grid-icon-style"
+                      src="assets/images/icon-edit-normal2x.png" /></a>
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="Action/Delete" sortable="false" [flexGrow]="0.3" [resizeable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      
+                  <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}}]" [appId]="row.id" [tenantId]="row.associatedTenant.tenant.id" (click)="deleteApplication(row.id, row.name)">
+                    <img class="grid-icon-style" style="cursor: pointer"
+                      src="assets/images/icon-delete-normal2x.png" /></a>
+                </ng-template>
+              </ngx-datatable-column>
+      
+               <ngx-datatable-footer>
+      
+                <ng-template ngx-datatable-footer-template 
+                  let-rowCount="itemsCount"
+                  let-pageSize="pageSize"
+                  let-curPage="pageNumber"
+                  let-offset="offset">
+                  <div style="padding: 5px 10px">
+                    <div>
+                      <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+      
+                      <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+                      onkeypress="return allowOnlyNumeric(event,this);"
+                        (input)="textboxpagechange(footertextboxpagenumber.value)"
+                         onkeypress="return allowOnlyNumeric(event,this,null);" #footertextboxpagenumber />
+      
+                    </div>
+                  </div>
+      
+                  <div style="text-align:left">
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                      [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                      [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" 
+                      [count]="totalCount"  
+                      (change)="onFooterPage($event)" #footerSelectedPage> 
+                    </datatable-pager>
+                  </div>
+                  <div class="page-count" style="text-align:right">
+      
+                    <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}}  </label>
+                    
+                  </div>
+                  <div>
+                    <div style="padding-right:20px">
+                      <select id="recordsperpage" name="recordsperpage" class='form-control selectpicker grid-footer-dropdown'
+                        (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                      </select>
+                    </div>
+                  </div>
+      
+                </ng-template>
+      
+              </ngx-datatable-footer> 
+      
+            </ngx-datatable>
+  
+
+      </div>
+    </div>
+
+    <div class="row" style="padding-top:25px" *ngIf="applicationListView == null">
+      <div class="col-md-12">
+        <label> <b>No application(s) found.</b></label>
+      </div>
+    </div>
+
+  </div> 
+
+
+  <div class="modal-backdrop fade in" [style.display]="modalDeleteApplicatoin ? 'block' : 'none'"></div>
+  <div class="modal" id="modalDeleteApplicatoin" tabindex="-1" role="dialog" style="display: none"
+    [style.display]="modalDeleteApplicatoin ? 'block' : 'none'">
+    <div class="clsModalDialog">
+      <div class="modal-content" style="border-radius:0px;">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="row" style="width:100%">
+            <div class="col-md-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="lable-Delete-Application" style="padding-left:10px">Delete application</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2" style="padding-left: 40px;padding-top: 1px">
+              <a  style="cursor: pointer;" (click)="closeDeletePopup()">
+                <img src="assets/images/icon-close-popup2x.png" style="width:24px;height: 24px;color: #75787B;"/>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12" style="padding-left:28px">
+                Are you sure you want to delete Application: <label class="label-filed-grid-f13"> {{ApplicationName}} </label>?
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn font_size_13 btn_gray clsCancel" (click)="closeDeletePopup()">Cancel</button>
+          <button type="button" class="btn font_size_13 btn_blue clsCreate" (click)="confirmDeleteApplication()">Confirm</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isCreateApplication" class="clsCreateAppDiv">
+
+  <div class="row" style="padding-top:25px;padding-left:0px">
+    <div class="col-md-1" style="width: 20px">
+      <img style="width:24px;height:24px;cursor: pointer;" src="assets/images/icon-navigation-back2x.png"
+        (click)="backtoApplicationView()" />
+    </div>
+    &nbsp;
+    <div class="col-md-11">
+      <label class="label-create-application">Create application</label>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 10px;padding-bottom: 10px">
+    <div class="col-md-6">
+        <label class="lable-Tenant-Space" style="margin-right: 10px;">Tenant space:</label>
+      <label class="label-create-application-tenant-name"> {{TenantName}} </label>
+    </div>
+    
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="application.status" (change) = "appStatus($event)">
+        <span class="slider round"></span>
+      </label> &nbsp;
+      <label class="label-filed-f13">App active</label>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top:20px">
+    <div class="col-md-3" style="width:255px">
+      <div class="row label-rowField">
+        <label class="label-filed-f13">Application name</label>
+      </div>
+      <div class="row rowField clicker">
+        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+          <input (keyup)="0" maxlength="50" id="applicationName" type="text"  onkeypress="return allowAlphaNumerics(event,this);"
+            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px;" class="form-control clsTxtInput"
+            [(ngModel)]="application.name" #applicationName>
+        </div>
+        <div class="col-sm-2 colFieldRight">
+          <label class="clsCharacterCount">{{50-applicationName.value.length}}</label></div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="row label-rowField">
+        <label class="label-filed-f13">Application token</label>
+      </div>
+      <div class="row rowField clicker">
+        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+          <!-- <input (keyup)="0" maxlength="15" id="applicationToken" type="text"
+            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px" class="form-control clsTxtInput"
+            [(ngModel)]="application.token"  onkeypress="return allowFewCharacters(event,this)" #applicationToken> -->
+            <div *ngIf="application.name" class="clsAutoPopulateField">
+              {{application.name | lowercase}}.token
+              </div>
+        </div>
+        <!-- <div class="col-sm-2 colFieldRight">
+          <label class="clsCharacterCount">{{15-applicationToken.value.length}}</label></div> -->
+      </div>
+    </div>
+  </div>
+<div class="row clsWhiteSpace">
+</div>
+  
+  <div *ngIf="application.name" class="row">
+      
+    <div class="col-md-12">
+      <label class="label-filed-f13">Default topics</label>
+    </div>
+  </div>
+  <div *ngIf="application.name" class="row">
+    <div class="col-md-5">
+      <div class="clsDefaultTopic">
+      {{application.name}}
+      </div>
+    </div>
+  </div>
+   <!--<div class="row clsWhiteSpace">
+    </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label class="label-filed-f13">Custom topics1</label>
+    </div>
+  </div> -->
+<!-- <input (keyup)="0" id="applicationTopics" type="text" placeholder="Add from list" disabled="disabled"
+        style="border:0;box-shadow: none; width:496px;border-bottom:1px solid #e5e5e5" class="form-control clsTxtInput" #applicationTopics> -->
+
+  <!-- <div class="row">
+    <div class="col-md-5">
+      
+        <ng-select [virtualScroll]="true" [(ngModel)]="selectedTopics" [items]="topicsList" #select bindLabel="topicName"
+                                [multiple]="true" [isOpen]="toggleDropdownOnSearch" (focus)="toggleDropdownOnSearch=true"
+                                (search)="onSearch($event,select)" (add)="onItemAdd($event,select)"
+                                 [hideSelected]="true" (clear)="onClear($event,select)">
+                               
+                                <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+                                    <div class="cls3">
+                                        <span aria-hidden="true" class="ng-value-icon left"
+                                            (click)="clear(item)">×</span>
+                                        <span class="ng-value-label">{{item.topicName}}</span>
+                                    </div>
+
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" >
+                                  <div [ngOptionHighlight]="search">{{item.topicName}}</div>
+                                </ng-template>
+                                <ng-template ng-footer-tmp>
+                                   <button class="btn font_size_13 btn_gray clsCancel" (click)="toggleDropdownOnSearch = false">Close</button>
+                                  </ng-template>                               
+                            </ng-select>
+    </div>
+  </div> -->
+  <div class="row clsWhiteSpace">
+    </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <label class="label-filed-f16">Application & notification media</label>
+      
+     <span class="clsTooltip clsImgAndAudioToolTip"> <img onmouseover="changeToolTipImageonHover(this)" src="assets/images/icon-information-normal2x.png" style="height: 16px;width: 16px;" />
+      <img hidden onmouseout="changeToolTipImageonMouseOut(this)" src="assets/images/icon-information-normal2x-active.png" style="height: 16px;width: 16px;" />
+      <div class="tooltiptext"><span theme="dark" placement="right" show-delay="0">Click&nbsp;</span><img
+        src="assets/images/icon-tooltip-upload@2x.png">
+      <span>&nbsp;icons to upload files.</span>
+      <br><span>Maximum allowable file size is 1Mb</span>
+    </div>
+     </span>
+
+    </div>
+  </div>
+  <div class="row clsWhiteSpace">
+    </div>
+
+  <div class="row">
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-f13">Application image</label>
+    </div>
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-f13">Notification sounds</label>
+    </div>
+    <div class="col-md-6">
+      <label class="label-filed-f13">Notification images</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-gray-f12">Application image: {{1-(selectedAppImageFile.fileName?1:0)}}</label>
+    </div>
+    <div class="col-md-3" style="width:230px">
+      <label class="label-filed-gray-f12">Notification sounds: {{5-selectedAudioFile.length}}</label>
+    </div>
+    <div class="col-md-6">
+      <label class="label-filed-gray-f12">Notification images: {{5-selectedImageFiles.length}}</label>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top:10px">
+    <div class="col-md-3" style="width:230px">
+      <div class="image-upload">
+        <label for="file-input">
+          <img [hidden]="selectedAppImageFile.fileName"  (click)="selectedAppImageFile.fileName || fileInputAppImg.click()"
+            src="assets/images/img-png-normal2x.png" style="width:42px;height:53px" />
+          <img [hidden]="!(selectedAppImageFile.fileName)" src="assets/images/img-png-inactive2x.png"
+            style="width:42px;height:53px" />
+        </label>
+
+        <input #appImg (change)="upload(appImg.files,'AppImage',4)"
+          id="file-input-AppImg" type="file" accept="image/png" #fileInputAppImg />
+      </div>
+      <div *ngIf="selectedAppImageFile.fileName">
+        <div class="row clsFileRow" >
+          <div class="col-md-7 clsFileName">
+            <a (click)="downloadFile(selectedAppImageFile.filePath,4)"  style="cursor:pointer" target="_self"
+              download>{{selectedAppImageFile.fileName}}</a></div>
+          <div class="col-md-1">
+            <img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+              (click)="removeTheFile(selectedAppImageFile,'appImage',selectedAppImageFile,4)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" style="width:230px">
+      <div class="image-upload">
+        <label for="file-input">
+          <img [hidden]="selectedAudioFile.length>=5" (click)=" selectedAudioFile.length>=5 || fileInputAudio.click()"
+            src="assets/images/img-wav-normal2x.png" style="width:42px;height:53px" />
+          <img [hidden]="!(selectedAudioFile.length==5)" src="assets/images/img-wav-inactive@2x.png"
+            style="width:42px;height:53px" />
+        </label>
+
+        <input #notificationAudioFile
+          (change)="upload(notificationAudioFile.files,'NotificationAudio',2)" id="file-input-audio" type="file"
+          accept="audio/wav" #fileInputAudio multiple />
+      </div>
+      <div *ngIf="selectedAudioFile">
+        <div class="row clsFileRow" *ngFor="let file of selectedAudioFile">
+          <div class="col-md-9 clsFileName"><a (click)="downloadFile(file.filePath,2)" style="cursor:pointer"
+              target="_self" download>{{file.fileName}}</a></div>
+          <div class="col-md-1"><img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+              (click)="removeTheFile(file,'audio',selectedAudioFile,2)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="image-upload">
+        <label for="file-input">
+          <img [hidden]="selectedImageFiles.length>=5"   (click)=" selectedImageFiles.length>=5 || fileInputImg.click()"
+            src="assets/images/img-svg-normal2x.png" style="width:42px;height:53px" />
+          <img [hidden]="!(selectedImageFiles.length==5)" src="assets/images/img-svg-inactive@2x.png"
+            style="width:42px;height:53px" />
+        </label>
+        <input #notificationImgfile
+          (change)="upload(notificationImgfile.files,'NotificationImage',3)" id="file-input-img" type="file"
+          accept="image/svg+xml" #fileInputImg multiple>
+      </div>
+      <div *ngIf="selectedImageFiles">
+        <div class="row clsFileRow" *ngFor="let file of selectedImageFiles">
+          <div class="col-md-3 clsFileName">
+            <a style="cursor:pointer" (click)="downloadFile(file.filePath,3)" target="_self"
+              download>{{file.fileName}}</a></div>
+          <div class="col-md-1">
+            <img src="assets/images/icon-close-popup.png"  style="cursor:pointer"
+              (click)="removeTheFile(file,'image',selectedImageFiles,3)">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row clsWhiteSpace">
+    </div>
+
+  <div class="row" style="padding:0px;" >
+
+    <table style="padding:0px;width:100%;">
+      <tr>
+        <td style="text-align: left;height: 40px;width: 50px;padding-bottom: 10px;padding-left: 20px">
+          <a [class]="IsIosActive ? 'tab-head-active' : 'tab-head-inactive'" (click)="iosactive('tab1')"
+            style="width:175px; cursor: pointer;text-decoration: none; text-align: left">
+            <b>iOS</b></a>
+        </td>
+        <td style="padding-left: 15px;padding-bottom: 10px;height: 25px;">
+          <a [class]="IsAndroidActive ? 'tab-head-active' : 'tab-head-inactive'" (click)="androidactive('tab2')"
+            style="cursor: pointer;text-decoration:none;">
+            <b>Android</b></a>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <table style="width:100%;padding:0px;border: 1px solid #eeeeee;padding-top: 10px">
+            <tr>
+              <td style="padding-left:20px">
+                <div id="diviOS" style="padding:0px" [style.display]=" IsIosActive ? 'Block': 'none'">
+                  <div class="row">
+                    <div class="col-md-12" style="padding-top:25px;padding-bottom:15px">
+                      <label class="switch">
+                        <input type="checkbox" (change)="iosEnable($event)"  [disabled]="!application.status" [(ngModel)]="application.iosConfig.enabled"
+                          #iosenable>
+                        <span class="slider round"></span>
+                      </label> &nbsp;
+                      <label class="label-filed-f13">Enabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">iOS app token</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-12 colFieldLeft">
+                          <!-- <input (keyup)="0" id="iosAppToken" maxlength="25" type="text"
+                            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px"
+                            class="form-control clsTxtInput"  [disabled]="!application.iosConfig.enabled"
+                            [(ngModel)]="application.iosConfig.appToken"  #iosapptoken> -->
+                            <div *ngIf="application.name" class="clsAutoPopulateField">
+                              {{application.name | lowercase}}.iOS
+                              </div>
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                          <label class="clsCharacterCount">{{25-iosapptoken.value.length}}</label></div> -->
+                      </div>
+                    </div>
+
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Bundle ID</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <input (keyup)="0" id="bundleid" type="text"
+                            style="border:0;box-shadow: none; width:240px;padding-left: 8px"
+                            class="form-control clsTxtInput" [disabled]="!application.iosConfig.enabled"
+                            [(ngModel)]="application.iosConfig.bundleId" #bundleid>
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                              <label class="clsCharacterCount">{{50-bundleid.value.length}}</label></div> -->
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-md-3">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Certificate expires On</label>
+                      </div>
+                      <div class="row">
+                        <div class="input_block ui mb8 col-sm-10">
+                          <label class="lblApplicationView">{{application.iosConfig.expiresOn | date: 'MMM dd, yyyy'}}</label>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row">
+                    <!-- <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Certificate thumbprint</label>
+                      </div>
+                      <div class="row label-rowField" style="word-break:break-word">
+                        <label class="lblApplicationView" style="width:240px">{{application.iosConfig.certificateThumbPrint}}</label>
+                      </div>
+                    </div> -->
+
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Certificate password</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <input (keyup)="0" id="password" type="password"
+                            style="border:0;box-shadow: none; width:240px;padding-left: 8px"
+                            class="form-control clsTxtInput" [disabled]="!application.iosConfig.enabled" 
+                            [(ngModel)]="application.iosConfig.certificatePassword" #password>
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                              <label class="clsCharacterCount">{{50-password.value.length}}</label></div> -->
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row" style="padding-bottom:25px">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">APNS certificate</label>
+                      </div>
+                      <div class="row rowField" style="width:183px">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <label class="btn custom-input-btn">
+                            <input type="file" name="apnscertificate" [disabled]="!application.iosConfig.enabled"
+                             (change)="uplaodApnsCert($event)" style="display:none" accept="*" #apnscertificate />
+                            <label class="label-filed-f13" style="cursor:pointer" (click)="apnscertificate.click()">
+                              Upload APNS certificate </label>
+                              <label class="clsApnsCertificateName">{{APNSCertificate}}</label><span *ngIf="APNSCertificate!=''"><img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+                                (click)="cancelApnsUpload()"/></span>
+
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="divAndroid" style="padding:0px" [style.display]="IsAndroidActive ? 'Block': 'none'">
+                  <div class="row">
+                    <div class="col-md-12" style="padding-top:25px;padding-bottom:15px">
+                      <label class="switch">
+                        <input type="checkbox" (change)="androidEnable($event)"  [disabled]="!application.status"
+                          [(ngModel)]="application.androidConfig.enabled">
+                        <span class="slider round"></span>
+                      </label> &nbsp;
+                      <label class="label-filed-f13">Enabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Android app token</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <!-- <input (keyup)="0" maxlength="25" id="name" type="text"
+                            style="border:0;box-shadow: none; width:201.8px;padding-left: 8px"
+                            class="form-control clsTxtInput" [disabled]="!application.androidConfig.enabled"
+                            [(ngModel)]="application.androidConfig.appToken"  #androidapptoken> -->
+                            <div *ngIf="application.name" class="clsAutoPopulateField">
+                              {{application.name | lowercase}}.Droid
+                              </div>
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                          <label class="clsCharacterCount">{{25-androidapptoken.value.length}}</label></div> -->
+                      </div>
+                    </div>
+
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Package name</label>
+                      </div>
+                      <div class="row rowField clicker">
+                        <div class="input_block ui mb8 col-sm-10 colFieldLeft">
+                          <input onkeypress="return allowFewCharacters(event,this)" id="name" type="text"
+                            style="border:0;box-shadow: none; width:240x;padding-left: 8px"
+                            class="form-control clsTxtInput" [disabled]="!application.androidConfig.enabled" 
+                            [(ngModel)]="application.androidConfig.packageName"  #packagename>
+                            <!-- onkeypress="return allowAlphaNumerics(event,this)" -->
+                        </div>
+                        <!-- <div class="col-sm-2 colFieldRight">
+                                <label class="clsCharacterCount">{{50-packagename.v alue.length}}</label></div> -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row">
+                    <div class="col-md-3" style="width:265px">
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">FCM API key</label>
+                      </div>
+                      <div class="row rowField">
+                        <input (keyup)="0" id="name" type="text"
+                          style="width:240px;height: 32px; padding-left: 8px;background-color: transparent"
+                          class="form-control clsTxtInput" [disabled]="!application.androidConfig.enabled" onkeypress="return allowAlphaNumerics(event,this)"
+                          [(ngModel)]="application.androidConfig.fcmApiKey"  #fcmapikey>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row clsWhiteSpace">
+                    </div>
+                  <div class="row" style="padding-bottom:25px">
+                    <div class="col-md-8" >
+                      <div class="row label-rowField">
+                        <label class="label-filed-f13">Google Services JSON</label>
+                      </div>
+                      <div class="row" style="padding-left:16px">
+                        <div class="input_block ui mb8 col-sm-4 colFieldLeft rowField" style="width:84px">
+                          <label class="btn custom-input-btn">
+                            <input type="file" name="googlejson"  [disabled]="!application.androidConfig.enabled"
+                              (change)="upload(googlejson.files,'googleJson',1)" style="display:none" accept="application/json"
+                              #googlejson />
+                            <label class="label-filed-f13" style="cursor: pointer;" (click)="googlejson.click()"> Upload
+                            </label>
+                          </label>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <div class="row clsFileRow" *ngFor="let file of selectedJsonFile">
+                              <div class="col-md-4 clsFileName">
+                                <a (click)="downloadFile(file.filePath,1)" style="cursor:pointer" target="_self"
+                                  download>{{file.fileName}}</a></div>
+                              <div class="col-md-1">
+                                <img src="assets/images/icon-close-popup.png" style="cursor:pointer"
+                                  (click)="removeTheFile(file,'jsonFile',selectedJsonFile,1)"></div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-top:1px solid #e5e5e5;height: 64px;padding-right: 30px">
+                <div class="row noMargin" style="text-align:right;">
+                  <button type="button" class="btn font_size_13 btn_gray clsCancel" (click)="backtoApplicationView()">
+                    Cancel</button> &nbsp;
+                  <button type="button" class="btn font_size_13 btn_blue clsCreate"
+                    (click)="createApplication()" [disabled] = "isCreateDisabled">Create</button>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+</div>
+<app-manage-team [selectedApp]="selectedApp" [isApplication]="isApplication" *ngIf="manageTenant" (onModalClose)="close($event)"></app-manage-team>

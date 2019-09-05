@@ -1,0 +1,28 @@
+<div class="modal fade in clsModal" tabindex="-1" style="background:rgba(0,0,0, 0.5);" (onHide)="onHide()">
+    <div class="modal-dialog clsModalDialog">
+        <div class="modal-content clsModalContent">
+
+            <div class="modal-header clsModalHeader">
+                <h4 class="modal-title ui mb16 font_semibold font_size_20 clsModalTitle">Delete device</h4>
+                <span class="close icon icon-cross-special" (click)="onHide()"><img
+                        src="assets/images/icon-close-popup@2x.png" /></span>
+                <div class="row">
+                    <div class="col-xs-12">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body clsModalBody">
+                Are you sure you want to delete the device registry for user: <b
+                    class="clsDeleteItem">{{username}}</b>?
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn font_size_13 btn_gray clsCancel" (click)="onHide()">Cancel</button>
+                <button class="btn font_size_13 btn_blue clsCreate"
+                    (click)="ConfirmDelete(selectedDeviceRow.id)">Confirm</button>
+            </div>
+
+        </div>
+    </div>
+</div>

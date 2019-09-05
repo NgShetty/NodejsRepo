@@ -1,0 +1,54 @@
+<div class="row clsRowMarginRight clsWidthSidebar">
+  <div class="">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="list-group list-group-flush">
+
+        <a routerLink="dashboard" routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-dashboard.png" /></p>Dashboard
+        </a>
+
+        <a hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}}]" routerLink="appPool"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-applications-pool.png" /></p>Application pools
+        </a>
+
+        <a hideIfUnauthorizedTenant="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" routerLink="tenant"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-tenant-space.png" /></p>Tenant spaces
+        </a>
+
+        <a routerLink="topic"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-topics.png" /></p>Topics
+        </a>
+
+        <a routerLink="application"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-applications.png" /></p>Applications
+        </a>
+
+        <a routerLink="notification"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-notifications.png" /></p>Notifications
+        </a>
+        <a routerLink="device"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-app-users-devices.png" /></p>Devices
+        </a>
+        <a routerLink="reports"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-reports.png" /></p>Reports
+        </a>
+        <a hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}}]" routerLink="user"  routerLinkActive="active-list-item" class="font_semibold font_size_13 list-group-item">
+          <p>
+            <img src="assets/images/LeftNavigationMenu/icon-user-management.png" /></p>User management
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="col-sm-11 clsRouterOutlet">
+    <router-outlet></router-outlet>
+  </div> -->
+</div>

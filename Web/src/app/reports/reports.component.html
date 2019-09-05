@@ -1,0 +1,474 @@
+<div class="container clsContainer">
+    <div class="row" style="padding-top:3%">
+        <div class="col-md-9">
+          <label class="label-field-head">Reports</label>
+        </div>
+      </div>
+
+      <div class="clsReportsContainer">
+              <div id="filters" class="row clsFilter">
+                <div name="activeDevices" class="col-sm-2 clsCustomCol nav-link active lable-edit-tenat-head-active" (click)="tabClick('activeDevices')"
+                style="cursor: pointer;text-decoration: none;">Active devices</div>
+                <div name="topTopics" class="col-sm-2 clsCustomCol2 nav-link active" (click)="tabClick('topTopics')"
+                style="cursor: pointer;text-decoration: none;" >Top topics</div>
+                <div name="notificationDelivery" class="col-sm-2 clsCustomCol1 nav-link active" (click)="tabClick('notificationDelivery')"
+                style="cursor: pointer;text-decoration: none;" >Notification delivery</div>
+                <div name="download" class="col-sm-2 clsCustomCol nav-link active" (click)="tabClick('download')"
+                style="cursor: pointer;text-decoration: none;" >Download</div>
+                <div class="clsFloatRight">
+                    <button class="btn font_size_13 btn_blue clsDownloadBtn" (click)="downloadReport();">Download report</button>
+                </div>
+              </div>
+      
+
+      <div class="clsFilterDiv">
+       
+        <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]"  class="clsFilterDrodpowns multiselect-special">
+          <p for="tenantSpace" class="ui font_semibold font_size_13">Tenant space</p>
+
+
+          <div class="input_block ui mb8">
+
+              <ng-multiselect-dropdown  [placeholder]="'Select tenant'"
+                                                name="tenantSpace"
+                                                [data]="tenantList"
+                                                (ngModelChange)="formControlValues('tenant')" 
+                                                [settings]="tenantDropdownSettings"
+                                                 (onSelect)="onSelect($event,'tenant')"
+                                                (onDeSelectAll)="onDeSelectAll($event,'tenant')"
+                                                (onDeSelect)="onDeSelect($event,'tenant')"
+                                                (onSelectAll)="onSelectAll($event,'tenant')" 
+                                                [(ngModel)]="selectedTenantsList" 
+                                                class="form-control multiDropdown"> 
+                                                  </ng-multiselect-dropdown>
+
+            </div>
+          </div>
+          <div class="clsFilterDrodpowns multiselect-special">
+              <p for="application" class="ui font_semibold font_size_13">Application</p>
+    
+    
+              <div class="input_block ui mb8">
+                 
+                  <ng-multiselect-dropdown  [placeholder]="'Select application'"
+                  name="application"
+                  [data]="applicationList"
+                  (ngModelChange)="formControlValues('app')" 
+                  [settings]="appDropdownSettings"
+                   (onSelect)="onSelect($event,'app')"
+                  (onDeSelectAll)="onDeSelectAll($event,'app')"
+                  (onDeSelect)="onDeSelect($event,'app')"
+                  (onSelectAll)="onSelectAll($event,'app')" 
+                  [(ngModel)]="selectedAppsList" 
+                  class="form-control multiDropdown"> 
+                    </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div *ngIf="selectedFilter=='activeDevices'" class="clsFilterDrodpowns multiselect-special">
+                  <p for="platform" class="ui font_semibold font_size_13">Platforms</p>
+        
+        
+                  <div class="input_block ui mb8 ">
+                      
+                  <ng-multiselect-dropdown  [placeholder]="'Select platform'"
+                  name="platform"
+                  [data]="platformList"
+                  (ngModelChange)="formControlValues('platform')" 
+                  [settings]="platformDropdownSettings"
+                   (onSelect)="onSelect($event,'platform')"
+                  (onDeSelectAll)="onDeSelectAll($event,'platform')"
+                  (onDeSelect)="onDeSelect($event,'platform')"
+                  (onSelectAll)="onSelectAll($event,'platform')" 
+                  [(ngModel)]="selectedPlatformList" 
+                  class="form-control multiDropdown"> 
+                    </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedFilter=='notificationDelivery'" class="clsFilterDrodpowns">
+                    <p for="week" class="ui font_semibold font_size_13">Week</p>
+                    <div class="time_period_wrapper Todate">
+                        <input [(ngModel)]="selectedDay" 
+                            type="text" class="form-control" 
+                            #dp="bsDatepicker" bsDatepicker>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedFilter=='notificationDelivery'" class="clsFilterDrodpowns multiselect-special">
+                      <p for="notification" class="ui font_semibold font_size_13">Notification</p>
+            
+            
+                      <div class="input_block ui mb8 col-sm-4 colFieldLeft dropdown">
+                          <!-- <ng-multiselect-dropdown  [placeholder]="'Select notification'"
+                                                name="notification"
+                                                [data]="notificationList"
+                                                (ngModelChange)="formControlValues('notification')" 
+                                                [settings]="notificationDropdownSettings"
+                                                 (onSelect)="onSelect($event,'notification')"
+                                                (onDeSelectAll)="onDeSelectAll($event,'notification')"
+                                                (onDeSelect)="onDeSelect($event,'notification')"
+                                                (onSelectAll)="onSelectAll($event,'notification')" 
+                                                [(ngModel)]="selectedNotificationList" 
+                                                class="form-control multiDropdown"> 
+                                                  </ng-multiselect-dropdown> -->
+                                                  <select [(ngModel)]="selectedNotificationId"  name="notification" class='form-control clsNotificationSelect' #tenantspacename>
+          <option value="0" selected>Select notification</option>
+          <option *ngFor="let notification of notificationList" [value]="notification.id" >{{notification.title}}</option>
+        </select>
+            
+                        </div>
+                      </div>
+                      
+                      <div class="clsFilterDrodpowns">
+                          <div>
+                              <button class="clsFilterBtn" (click)="filterData()">Filter</button>
+                              <a class="clsReset" style="cursor:pointer" (click)="resetFilters()">Reset filters</a>
+                          </div>
+                      </div>
+      </div>
+    <!-- Active devices -->
+      <ngx-datatable class='material' *ngIf="selectedFilter=='activeDevices'" [rows]='activeDeviceList' [headerHeight]="50" 
+            [footerHeight]="40" [rowHeight]="66" 
+            [count]="totalCount" 
+             [offset]="pageNumber" [limit]="pageSize"
+              [columnMode]="'flex'" 
+              [externalPaging]="true"> 
+              
+              
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <div class="clsSortDiv">
+                    <div style="padding-top: 15px;"> <span class="clsFontSemiBold">Sort by: </span><span class="clsMostPopularTxt">Most popular first </span><img width="16px" height="16px" src="assets/images/icon-sort-down-sorted2x.png"></div>
+                   </div>
+            </ng-template>
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <div class="clsDougnutDiv">
+                    <label class="marginRight_15 font-size_16px sectionHeader">{{row.applicationName}}</label>
+                    <p *ngIf="selectedFilter=='activeDevices'" class="marginRight_15 greyColor">Total devices - {{row.totalDeviceCount}}</p>
+                    <!-- <p *ngIf="selectedFilter=='topTopics'" class="marginRight_15 greyColor">Total topics - {{row.totalTopics}}</p> -->
+                    <div class="col-md-6 noPaddingLeft_15" >
+                      <div *ngIf="row.androidVersions && row.androidVersions.length>0" style="width: 160px;" class="multiselect-special">
+                    <p *ngIf="selectedFilter=='activeDevices'" for="androidVersions" class="ui font_semibold font_size_13">Android versions</p>
+                    <div *ngIf="selectedFilter=='activeDevices'" class="input_block ui mb8">
+                        <!-- <select
+                            (change)="onSelectVersion($event.target.value, row)"
+                             name="version"
+                            class="clsSelect" #version>
+                            <option *ngFor="let item of row.androidVersionNames">{{item}}
+                            </option>
+          
+                        </select> -->
+                        <ng-multiselect-dropdown  [placeholder]="'All'"
+                        name="androidVersions"
+                        [data]="row.androidVersions"
+                        [settings]="dropdownSettings"
+                         (onSelect)="onSelectVersion($event,row,0)"
+                        (onDeSelectAll)="onDeSelectAllVersions($event,row,0)"
+                        (onDeSelect)="onDeSelectVersion($event,row,0)"
+                        (onSelectAll)="onSelectAllVersions($event,row,0)" 
+                        [(ngModel)]="row.selectedAndroidVersions" 
+                        class="form-control multiDropdown"> 
+                          </ng-multiselect-dropdown>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="row">
+                        <div class="col-md-2 clsDoughnutSec">
+                          <canvas style="position: relative; height:135px; width:270px" aspectRatio="1" baseChart [data]="row.androidDeviceCount" [labels]="row.selectedAndroidVersions" [chartType]="doughnutChartType"
+                            [colors]="topicColors" [options]="chartOptions">
+                          </canvas>
+                        </div>
+                        <div *ngIf="!row.selectedAndroidVersions || (row.selectedAndroidVersions && row.selectedAndroidVersions.length==0)">
+                        <div *ngFor="let versionName of row.androidVersions; let i = index" class="clsLegendsCustom">
+                          <p> <span [style.backgroundColor]="colors[i]" class="roundRectangle clsAndroidLegend"></span>&nbsp;<span>{{versionName}}<span
+                                class="greyFont">- {{row.androidDeviceCount[i]}}</span></span></p>
+                        </div>
+                      </div>
+                      <div *ngIf="row.selectedAndroidVersions && row.selectedAndroidVersions.length>0">
+                        <div *ngFor="let versionName of row.selectedAndroidVersions; let i = index" class="clsLegendsCustom">
+                          <p> <span [style.backgroundColor]="colors[i]" class="roundRectangle clsAndroidLegend"></span>&nbsp;<span>{{versionName}}<span
+                                class="greyFont">- {{row.androidDeviceCount[i]}}</span></span></p>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedFilter=='activeDevices'" class="col-md-6 noPaddingLeft_15">
+                    <div *ngIf="row.iOSVersions && row.iOSVersions.length>0" style="width: 160px;" class="multiselect-special">
+                      <p for="iOSVersions" class="ui font_semibold font_size_13">iOS versions</p>
+                      <div class="input_block ui mb8">
+                          <!-- <select
+                              (change)="onSelectVersion($event.target.value,row)"
+                               name="iOSVersionNames"
+                              class="clsSelect" #iOSVersion>
+                              <option *ngFor="let elem of row.iOSVersionNames">{{elem}}
+                              </option>
+            
+                          </select> -->
+                          <ng-multiselect-dropdown  [placeholder]="'All'"
+                          name="iOSVersions"
+                          [data]="row.iOSVersions"
+                          [settings]="dropdownSettings"
+                           (onSelect)="onSelectVersion($event,row,1)"
+                          (onDeSelectAll)="onDeSelectAllVersions($event,row,1)"
+                          (onDeSelect)="onDeSelectVersion($event,row,1)"
+                          (onSelectAll)="onSelectAllVersions($event,row,1)" 
+                          [(ngModel)]="row.selectedIOSVersions" 
+                          class="form-control multiDropdown"> 
+                            </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="row">
+                          <div class="col-md-2 clsDoughnutSec">
+                            <canvas style="position: relative; height:135px; width:270px" aspectRatio="1" baseChart [data]="row.iOSDeviceCount" [labels]="row.selectedIOSVersions" [chartType]="doughnutChartType"
+                              [colors]="topicColors" [options]="chartOptions">
+                            </canvas>
+                          </div>
+                          <div *ngIf="row.iOSVersions &&  row.iOSVersions.length>0">
+                          <div *ngFor="let versionName of row.iOSVersions; let i = index" class="clsLegendsCustom">
+                            <p> <span [style.backgroundColor]="colors[i]" class="roundRectangle clsAndroidLegend"></span>&nbsp;<span>{{versionName}}<span
+                                  class="greyFont">- {{row.iOSDeviceCount[i]}}</span></span></p>
+                          </div>
+                        </div>
+                        <div *ngIf="!row.iOSVersions || (row.iOSVersions &&  row.iOSVersions.length==0)">
+                          <div *ngFor="let versionName of row.selectedIOSVersions; let i = index" class="clsLegendsCustom">
+                            <p> <span [style.backgroundColor]="colors[i]" class="roundRectangle clsAndroidLegend"></span>&nbsp;<span>{{versionName}}<span
+                                  class="greyFont">- {{row.iOSDeviceCount[i]}}</span></span></p>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+        
+          <ngx-datatable-footer>
+      
+              <ng-template ngx-datatable-footer-template 
+                let-rowCount="itemsCount"
+                let-pageSize="pageSize"
+                let-curPage="pageNumber"
+                let-offset="offset">
+                <div style="padding: 5px 10px">
+                  <div>
+                    <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+    
+                    <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+                      (input)="textboxpagechange(footertextboxpagenumber.value)" onkeypress="return allowOnlyNumeric(event,this,null);" #footertextboxpagenumber />
+    
+                  </div>
+                </div>
+    
+                <div style="text-align:left">
+                  <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                    [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                    [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" 
+                    [count]="totalCount"  
+                    (change)="onFooterPage($event)" #footerSelectedPage> 
+                  </datatable-pager>
+                </div>
+                <div class="page-count" style="text-align:right">
+    
+                  <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}}  </label>
+                  
+                </div>
+                <div>
+                  <div style="padding-right:20px">
+                    <select id="recordsperpage" name="recordsperpage" class='form-control selectpicker grid-footer-dropdown'
+                      (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+                      <option value="10" selected>10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                    </select>
+                  </div>
+                </div>
+    
+              </ng-template>
+    
+            </ngx-datatable-footer> 
+            </ngx-datatable>
+<!-- Active devices end -->
+
+<!-- Topics start -->
+<ngx-datatable class='material' *ngIf="selectedFilter=='topTopics'" [rows]='topicList' [headerHeight]="50" 
+[footerHeight]="40" [rowHeight]="66" 
+[count]="totalCount" 
+ [offset]="pageNumber" [limit]="pageSize"
+  [columnMode]="'flex'" 
+  [externalPaging]="true"> 
+  
+  
+
+<ngx-datatable-column>
+<ng-template let-column="column" ngx-datatable-header-template>
+    <div class="clsSortDiv">
+        <div style="padding-top: 15px;"> <span class="clsFontSemiBold">Sort by: </span><span class="clsMostPopularTxt">Most popular first </span><img width="16px" height="16px" src="assets/images/icon-sort-down-sorted2x.png"></div>
+       </div>
+</ng-template>
+<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+    <div class="clsDougnutDiv">
+        <label class="marginRight_15 font-size_16px sectionHeader">{{row.applicationName}}</label>
+        
+        <p *ngIf="selectedFilter=='topTopics'" class="marginRight_15 greyColor">Total topics - {{row.applicationTotalTopicCount}}</p>
+        <div class="col-md-12 noPaddingLeft_15" >
+          
+        <div>
+          <div class="row">
+            <div class="col-md-2 clsDoughnutSec">
+              <canvas style="position: relative; height:135px; width:270px" aspectRatio="1" baseChart [data]="row.applicationTopicsCount" [labels]="row.applicationTopics" [chartType]="doughnutChartType"
+                [colors]="topicColors" [options]="chartOptions">
+              </canvas>
+            </div>
+            <div *ngFor="let topicName of row.applicationTopics; let i = index" class="clsLegendsCustom">
+              <p> <span [style.backgroundColor]="colors[i]" class="roundRectangle clsAndroidLegend"></span>&nbsp;<span>{{topicName}}<span
+                    class="greyFont">- {{row.applicationTopicsCount[i]}}</span></span></p>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      
+      </div>
+</ng-template>
+</ngx-datatable-column>
+
+
+<ngx-datatable-footer>
+
+  <ng-template ngx-datatable-footer-template 
+    let-rowCount="itemsCount"
+    let-pageSize="pageSize"
+    let-curPage="pageNumber"
+    let-offset="offset">
+    <div style="padding: 5px 10px">
+      <div>
+        <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+
+        <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+          (input)="textboxpagechange(footertextboxpagenumber.value)" onkeypress="return allowOnlyNumeric(event,this,null);" #footertextboxpagenumber />
+
+      </div>
+    </div>
+
+    <div style="text-align:left">
+      <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+        [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+        [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" 
+        [count]="totalCount"  
+        (change)="onFooterPage($event)" #footerSelectedPage> 
+      </datatable-pager>
+    </div>
+    <div class="page-count" style="text-align:right">
+
+      <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}}  </label>
+      
+    </div>
+    <div>
+      <div style="padding-right:20px">
+        <select id="recordsperpage" name="recordsperpage" class='form-control selectpicker grid-footer-dropdown'
+          (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+    </div>
+
+  </ng-template>
+
+</ngx-datatable-footer> 
+</ngx-datatable>
+<!-- Topics end -->
+            <!-- Notification Delivery -->
+            <div *ngIf="selectedFilter=='notificationDelivery'">
+            <div *ngIf="!notificationStatus" class="clsEmptyState">
+              <img src="assets/images/Notification-delivery-empty-state.png">
+              <p class="clsEmptyTxt">Please, select the Notification above to generate the report.</p>
+            </div>
+            <div *ngIf="notificationStatus"  class="clsContainerNotification">
+                <div class="row noMargin">
+                  <div class="font-size_16px sectionHeader">{{notificationStatus.title}}</div>
+                  <!-- <div class="col-md-5 time_period_wrapper Todate clsDateCustom">
+                    <label class="marginRight_15 sectionHeader">Time period</label>
+                    <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="End date">
+                    <input type="text" class="form-control marginRight_15" #dp="bsDatepicker" bsDatepicker placeholder="Start date">
+                  </div> -->
+                </div>
+                <div class="row noMargin clsTotalNotifcationsDiv">
+                  <label class="clsNotificationSubHeaders">Total</label>
+                  <div class="row noMargin">
+                    <div class="clsTotalSuccess" [style.width.%]="notificationStatus.totalSentNotificationsPercentage"></div>
+                    <div class="clsTotalFailed" [style.width.%]="notificationStatus.totalReceivedNotificationsPercentage"></div>
+                  </div>
+                  <div class="row noMargin clsBarLegends clsLegendsCustom">
+                    <p class="marginRight_15"> <span
+                        class="roundRectangle clsSuccessfulLegend clsAndroidLegend"></span>&nbsp;<span>Sent Notifications<span
+                          class="greyFont">- {{notificationStatus.totalSentNotifications}}</span></span></p>
+                    <p><span class="roundRectangle clsFailLegend clsIOSLegend"></span>&nbsp;<span>Received Notifications<span class="greyFont">-
+                      {{notificationStatus.totalReceivedNotifications}}</span></span></p>
+                  </div>
+                </div>
+                <div class="row noMargin clsTotalNotifcationsDiv">
+                    <label class="clsNotificationSubHeaders">Android</label>
+                    <div class="row noMargin">
+                      <div class="clsTotalSuccessAndroid" [style.width.%]="notificationStatus.totalSuccessfulNotificationsPercentageAndroid"></div>
+                      <div class="clsTotalFailedAndroid" [style.width.%]="notificationStatus.totalFailedNotificationsPercentageAndroid"></div>
+                    </div>
+                    <div class="row noMargin clsBarLegends clsLegendsCustom">
+                      <p class="marginRight_15"> <span
+                          class="roundRectangle clsAndroidSuccess"></span>&nbsp;<span>Successful<span
+                            class="greyFont">- {{notificationStatus.totalSuccessfulNotificationsAndroid}}</span></span></p>
+                      <p><span class="roundRectangle clsAndroidFailed"></span>&nbsp;<span>Failed<span class="greyFont">-
+                        {{notificationStatus.totalFailedNotificationsAndroid}}</span></span></p>
+                    </div>
+                  </div>
+                  <div class="row noMargin clsTotalNotifcationsDiv">
+                      <label class="clsNotificationSubHeaders">iOS</label>
+                      <div class="row noMargin">
+                        <div class="clsTotalSuccessIOS" [style.width.%]="notificationStatus.totalSuccessfulNotificationsPercentageIOS"></div>
+                        <div class="clsTotalFailedIOS" [style.width.%]="notificationStatus.totalFailedNotificationsPercentageIOS"></div>
+                      </div>
+                      <div class="row noMargin clsBarLegends clsLegendsCustom">
+                        <p class="marginRight_15"> <span
+                            class="roundRectangle clsIOSSuccess"></span>&nbsp;<span>Successful<span
+                              class="greyFont">- {{notificationStatus.totalSuccessfulNotificationsIOS}}</span></span></p>
+                        <p><span class="roundRectangle clsIOSFailed"></span>&nbsp;<span>Failed<span class="greyFont">-
+                          {{notificationStatus.totalFailedNotificationsIOS}}</span></span></p>
+                      </div>
+                    </div>
+              </div>
+            </div>
+            <!-- DOWNLOAD SECTION -->
+             <div *ngIf="selectedFilter=='download'">
+                <div style="display:none" class="clsEmptyState">
+                  <img src="assets/images/Download-Empty-state.png">
+                  <p class="clsEmptyTxt">Please, select the Tenant space and Application above to generate the report.</p>
+                </div>
+                <div class="row clsEmptyState">
+                  <div class="col-md-4 clsUsersDiv">
+                    <p class="paddingBottom_15 clsUsersTxtDownload clsTxtDownload">Users</p>
+                    <img src="assets/images/Total-users-illustration.png">
+                    <p class="paddingTop_15 clsTotalCountDownload clsTxtDownload">Total users<span
+                      class="greyFont"> - 160.4K</span></p>
+                      <button class="clsBtnDownload">Download</button>
+                  </div>
+                    <div class="col-md-4 paddingBottom_15">
+                        <p class="paddingBottom_15 clsTxtDownload">Notifications</p>
+                      <img src="assets/images/Notifications-illustration.png">
+                      <p class="paddingTop_15 clsTotalCountDownload clsTxtDownload">Total notifications<span
+                        class="greyFont"> - 160.4K</span></p>
+                        <button class="clsBtnDownload">Download</button>
+                    </div>
+                    <div class="col-md-4 clsDevicesDiv">
+                        <p class="paddingBottom_15 clsDevicesTxtDownload clsTxtDownload">Devices</p>
+                    <img src="assets/images/Devices-illustration.png">
+                    <p class="paddingTop_15 clsTotalCountDownload clsTxtDownload clsPaddingTotalDevicesDownload">Total devices<span
+                      class="greyFont"> - 160.4K</span></p>
+                      <button class="clsBtnDownload marginLeft_20">Download</button>
+
+                  </div>
+                  </div>
+                </div>
+  </div>

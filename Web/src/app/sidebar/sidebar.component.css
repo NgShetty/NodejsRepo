@@ -1,0 +1,119 @@
+body {
+    overflow-x: hidden;
+    height: 100%;
+    font-family: sans-serif;
+    color: black;
+  }
+  
+  #sidebar-wrapper {
+      text-align: center;
+    min-height: 100vh;
+    /* margin-left: -15rem; */
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+  }
+  
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+  
+  /* #sidebar-wrapper .list-group {
+    width: 12rem;
+  } */
+
+  #sidebar-wrapper a {
+    font-family: 'OpenSans-semibold';
+    font-size: 13px;
+  }
+  
+  #sidebar-wrapper a:hover,#sidebar-wrapper a:focus {
+    font-family: 'OpenSans-semibold';
+    color: black;
+  }
+
+  #page-content-wrapper {
+    min-width: 100vw;
+  }
+  
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  .list-group-item
+  {
+    border:1px solid #eee;
+    width: 100%;
+    color: black;
+  }
+  
+  .col-left-width
+  {
+    width: 10.333333%;
+  }
+
+  .col-right-width
+  {
+    width: 89.666667%;
+  }
+
+  #sidebar-wrapper img
+  {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+  
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+    .clsColSidebar{
+      width:13%;
+    }
+    .clsRouterOutlet
+    {
+      width: 87%;
+      padding: 0;
+    /* text-align: left; */
+      margin-left: 0;
+    }
+    /* #wrapper.toggled #sidebar-wrapper {
+      margin-left: -15rem;
+    } */
+    .clsWidthSidebar
+    {
+      width:100%;
+      margin-left: 0px;
+    }
+    @media only screen and (max-width: 1132px) {
+      /* For mobile phones: */
+  
+      #sidebar-wrapper a
+      {
+          word-break: break-word;
+      }
+    }
+  }
+  .list-group {
+    margin-bottom: 5px !important; 
+}
+  
+.active-list-item {
+  font-family: "OpenSans-Semibold";
+font-size: 13px;
+color: #000000;
+letter-spacing: 0;
+text-align: center;
+line-height: 20px;
+background-color: #e5e3e3 !important;
+border:1px solid #f5f5f5;
+width: 100%;
+      
+}

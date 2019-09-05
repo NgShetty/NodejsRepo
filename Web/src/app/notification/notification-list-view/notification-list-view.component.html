@@ -1,0 +1,301 @@
+<div class="container clsTenantViewContainer">
+
+  <div class="row clsRowMarginRight" style="padding-top:3%">
+    <div class="col-md-3">
+      <label class="label-field-head">Notifications</label>
+    </div>
+    <div class="col-md-9 clsGridBtn">
+      <div hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}},{{roles.TenantOwner}},{{roles.TenantReader}}]" class="col-md-6 clsGridBtn" style="padding-left: 10px;text-align: right">
+        <label class="lable-Tenant-Space">Tenant space</label>
+        &nbsp;
+        <select [(ngModel)]="selectedTenantId" id="tenantSpaceName" name="tenantSpaceName" class='dropdown-tenant-space' (change)="onChange($event,null,null)"
+          #tenantspacename>
+          <option  hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.SystemReader}}]" value="">All Tenant spaces</option>
+          <option *ngFor="let tenant of tenantList" [value]="tenant.id" >{{tenant.name}}</option>
+        </select>
+      </div>
+      <!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <div class="clsDivRefresh">
+              <img src="../../../assets/images/icon-refresh2x.png">
+            </div>
+        <label class="btn btn-secondary clsSent active">
+          <input type="radio" name="options" id="option1" autocomplete="off" checked #chkSent [checked]="isScheduledChecked==false" value="false"
+          [(ngModel)]="isScheduledChecked" (click)="loadSentNotifications($event)"> Sent
+        </label>
+        <label class="btn clsScheduled btn-secondary">
+          <input type="radio" name="options" id="option2" autocomplete="off" #chkScheduled [checked]="isScheduledChecked==true" value="true"
+          [(ngModel)]="isScheduledChecked" (click)="loadScheduledNotifications($event)"> Scheduled
+        </label>
+      </div> -->
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <div class="clsDivRefresh">
+            <img src="../../../assets/images/icon-refresh2x.png">
+          </div>
+        <input id="sentBtn" [ngStyle]="{'background-color': isScheduledChecked ? '#f8f8fa' : '#53565a','color': isScheduledChecked ? 'black' : 'white'}" [class]="clsSent"  type="button"  id="option1" autocomplete="off"  #chkSent value="Sent"
+         (click)="loadSentNotifications($event)"> 
+        <input id="scheduledBtn" [ngStyle]="{'background-color': !isScheduledChecked ? '#f8f8fa' : '#53565a','color': !isScheduledChecked ? 'black' : 'white'}" [class]="clsScheduled"  type="button" id="option2" autocomplete="off" #chkScheduled value="Scheduled"
+         (click)="loadScheduledNotifications($event)"> 
+    </div>
+
+      <button [disabled]="tenantspacename.value==0" hideIfUnauthorized="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}},{{roles.AppNotificationOwner}}]" class="btn btn_blue clsCreateTenantBtn" (click)="openNotificationModal(notificationObj)">Create
+        notification</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="notificationList!=null && notificationList.length >= 0" style="padding-top:25px">
+    <div class="col-md-12">
+      <ngx-datatable class='material' [rows]='notificationList' name="notificationTbl" [headerHeight]="50" [footerHeight]="40" [rowHeight]="66"
+        [count]="totalCount" [offset]="pageNumber" [limit]="pageSize" [columnMode]="'flex'" [externalPaging]="true" #notificationTable (activate)="onActivate($event)">
+
+        <ngx-datatable-column [resizeable]="false"  name="Application name" sortable="true" [flexGrow]="1.2" [cellClass]="'my-custom-cell'">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="grid-header-search-label">
+              <table style="width: 75%;">
+                <tr
+                  [style.border-bottom]="(showserarchImage == true || searchApplicationNameText != 0)  ? '2px solid #9ecaed':'' ">
+
+                  <td style="padding-top:5px">
+                    <img [style.display]="(!showserarchImage && searchApplicationNameText == 0) ? 'block' : 'none'"
+                      src="assets/images/icon-search-name-normal.png" />
+                    <img
+                      [style.display]="(showserarchImage== true || searchApplicationNameText != 0) ? 'block' : 'none'"
+                      style="width: 24px;height: 24px;" src="assets/images/icon-search-name-active2x.png" />
+                  </td>
+                  <td style="width:128px;padding-left: 0px">
+                    <input type="text" style="width:120px;font-family:'OpenSans-Semibold'"
+                      class="form-control clsTxtInputGridSearch" (keyup)="updateFilter($event,'Application')"
+                      (click)="focus('Application')" (focusout)="focusout('Application')" placeholder="Application name"
+                      [(ngModel)]="query">
+                  </td>
+                  <td style="padding-left:0px">
+                    <img src="assets/images/icon-sort-up-normal2x.png"
+                      (click)="gridSort('ApplicationName','Descending')" style="height:16px;width:16px;cursor: pointer;"
+                      *ngIf="!sortByApp && hideSortByApplicationName" />
+
+                    <img src="assets/images/icon-sort-down-sorted2x.png"
+                      (click)="gridSort('ApplicationName','Ascending')" style="height:16px;width:16px;cursor: pointer"
+                      *ngIf="appNameDsc && sortByApp && hideSortByApplicationName" />
+                    <img src="assets/images/icon-sort-up-sorted2x.png"
+                      (click)="gridSort('ApplicationName','Descending')" style="height:16px;width:16px;cursor: pointer"
+                      *ngIf="!appNameDsc && sortByApp && hideSortByApplicationName" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <img height="16px" width="16px" style="display:none" src="assets/images/icon-sort-up-normal2x.png" />
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div style="padding-left: 20px" [innerHtml]="row.application.name | highlightQuery: queryApp"> </div>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Platform" sortable="false" [flexGrow]="0.7">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <label class="grid-header-label">Platform</label>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div [innerHtml]="row.platformDisplayText"> </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false"  name="Recipients" sortable="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+              <label class="grid-header-label">Recipients</label>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <!-- <div [innerHtml]="row.recipientsDisplayText"> </div> -->
+            <span class="grid-row-label">{{row.recipientsDisplayText}}</span> &nbsp;&nbsp;
+            <div class="clsTooltip">
+                <span class="clsTopicEllipsis">
+                    <i *ngIf="row.topics && row.topics.length>0" class="fa fa-ellipsis-v" aria-hidden="true"></i> </span>
+                <div class="tooltiptext clsTopicToolTip">
+                  <div *ngFor="let topic of row.topics | groupBy:'topicType'">
+                  <!-- <div class="row noMargin" *ngIf="topic.topicCategory==7">
+                  <p style="font-family: OpenSans-Semibold;font-size:12px">Users:</p>
+                    <div placement="right" show-delay="0">
+                        <p>{{topic.topicName}}</p>
+                    </div>
+                  </div>  -->
+                  <div class="row noMargin">
+                    <p style="font-family: OpenSans-Semibold;font-size:12px">{{topic.key}}</p>
+                    <div *ngFor="let category of topic.value" placement="right" show-delay="0">
+                      <p>{{category.topicName}}</p>
+                  </div>
+                </div>
+                <!-- <div class="row noMargin" *ngIf="topic.topicCategory==3 || topic.topicCategory==6">
+                    <p style="font-family: OpenSans-Semibold;font-size:12px">Topics:</p>
+                    <div placement="right" show-delay="0">
+                      <p>{{topic.topicName}}</p>
+                  </div>
+                </div>
+                <div class="row noMargin" *ngIf="topic.topicCategory==1 || topic.topicCategory==4">
+                  <p style="font-family: OpenSans-Semibold;font-size:12px">Versions:</p>
+                  <div placement="right" show-delay="0">
+                    <p>{{topic.topicName}}</p>
+                </div>
+              </div> -->
+                </div>
+                </div>
+              </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false"  name="Message" sortable="false" [flexGrow]="1.2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <label class="grid-header-label">Message</label>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <div class="clsRelative" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" [innerHtml]="row.messageBody"> </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Sent By" sortable="false" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <table style="width: 75%;">
+              <tr>
+                <td style="width:40px">
+                  <label *ngIf="!isScheduledChecked" class="grid-header-label">Sent by</label>
+                  <label *ngIf="isScheduledChecked" class="grid-header-label">Scheduled by</label>
+                </td>
+                <td style="padding-left:2px;padding-bottom:5px">
+                  <img style="width: 16px;height: 16px;font-size: 16px; color: #97999B;"
+                    src="assets/images/icon-filter-normal2x.png" />
+                </td>
+              </tr>
+            </table>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div [innerHtml]="row.sentBy"> </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  *ngIf="!isScheduledChecked" name="Status" sortable="false" [flexGrow]="1.2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <table style="width: 75%;">
+              <tr>
+                <td style="width:40px">
+                  <label class="grid-header-label">Status</label>
+                </td>
+                <td style="padding-left:2px;padding-bottom:5px">
+                  <img style="width: 16px;height: 16px;font-size: 16px; color: #97999B;"
+                    src="assets/images/icon-filter-normal2x.png" />
+                </td>
+              </tr>
+            </table>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+           <div *ngIf="row.successCount>=0" class="row clsRelative">
+<div class="col-md-6 clsSuccessful">Successful</div>
+<div  class="col-md-6 clsNumberStatus">{{row.successCount}}</div>
+           </div>
+           <div *ngIf="row.failureCount>=0" class="row">
+              <div class="col-md-6 clsFailure">Failed</div>
+              <div  class="col-md-6 clsNumberStatus">{{row.failureCount}}</div>
+                         </div>
+           
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  name="Created" sortable="false" [flexGrow]="1.2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <div class="col-sm-5">
+                <label
+                  [ngClass]="(sortByDate == true) ? 'label-filed-grid-f13' : 'grid-header-label'">Registered</label>
+              </div>
+
+              <div class="col-sm-3" style="padding-top:5px">
+                <img src="assets/images/icon-sort-up-normal2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!sortByDate" />
+
+                <img src="assets/images/icon-sort-down-sorted2x.png" (click)="gridSort('CreatedDate','Ascending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="createdDateDsc && sortByDate" />
+                <img src="assets/images/icon-sort-up-sorted2x.png" (click)="gridSort('CreatedDate','Descending')"
+                  style="height:16px;width:16px;cursor: pointer" *ngIf="!createdDateDsc && sortByDate" />
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div>{{row.createdDate | date: 'MMM dd, yyyy hh:mm a'}} </div> 
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  *ngIf="isScheduledChecked" name="Edit" sortable="false" [flexGrow]="0.3">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div class="row">
+              <label class="grid-header-label"></label>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}},{{roles.AppNotificationOwner}}]" [appId]="row.application.application.id" [tenantId]="row.application.application.associatedTenant.tenant.id" [notificationId]="row.id" (click)="openModalToEditNotification($event, row)" style="cursor: pointer"> <img class="grid-icon-style" src="assets/images/icon-edit-normal2x.png" /></a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false"  *ngIf="isScheduledChecked" name="Delete" sortable="false" [flexGrow]="0.3">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a hideIfUnauthorizedApp="[{{roles.SystemAdmin}},{{roles.TenantOwner}},{{roles.AppOwner}},{{roles.AppNotificationOwner}}]" [appId]="row.application.application.id" [tenantId]="row.application.application.associatedTenant.tenant.id" [notificationId]="row.id" (click)="deleteNotification($event,row)">
+              <img class="grid-icon-style" style="cursor: pointer" src="assets/images/icon-delete-normal2x.png" /></a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-footer>
+          <ng-template ngx-datatable-footer-template let-rowCount="itemsCount" let-pageSize="pageSize"
+            let-curPage="pageNumber" let-offset="offset">
+            <div style="padding: 5px 10px">
+              <div>
+                <label class="grid-footer-lable">Page</label> &nbsp;&nbsp;
+                <input type="text" class="grid-footer-textbox" style="width:56px;height: 32px;"
+                onkeypress="return allowOnlyNumeric(event,this);"
+                  (input)="textboxpagechange(footertextboxpagenumber.value)" #footertextboxpagenumber />
+              </div>
+            </div>
+            <div style="text-align:left">
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="pageNumber" [size]="pageSize" [count]="totalCount"
+                (change)="onFooterPage($event)" #footerSelectedPage>
+              </datatable-pager>
+            </div>
+            <div class="page-count" style="text-align:right">
+              <label class="grid-footer-pagesize">{{startPageNumber}} - {{endPageNumber}} of {{totalCount}} </label>
+            </div>
+            <div>
+              <div style="padding-right:20px">
+                <select id="recordsperpage" name="recordsperpage" class='form-control selectpicker grid-footer-dropdown'
+                  (change)="onFooterPageSizeChange(footerdropdownrecordsperpage.value)" #footerdropdownrecordsperpage>
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+          </ng-template>
+
+        </ngx-datatable-footer>
+
+      </ngx-datatable>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top:25px" *ngIf="notificationList == null">
+    <div class="col-md-12">
+      <label> <b>No notification(s) found.</b></label>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+<app-notification-add [tenantId]="selectedTenantId" [notificationObj]="notificationObj" (onModalClose)="close($event)" *ngIf="showModal">
+</app-notification-add>
+
+<app-notification-view [notificationObj]="selectedNotificationDTO" (onModalClose)="close($event)"
+  [hidden]="!showViewModal"></app-notification-view>
+
+  <app-notification-delete [notificationObj]="selectedNotificationDTO" (onModalClose)="close($event)"
+  [hidden]="!showDeleteModal"></app-notification-delete>

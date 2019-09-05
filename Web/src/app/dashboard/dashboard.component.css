@@ -1,0 +1,370 @@
+
+.clsViewContainer{
+    width:100%;
+    padding-left: 0px;
+    padding-right:0px;
+ }
+
+ .dropdown-tenant-space, .dropdown-app-space
+ {
+     font-family: 'OpenSans-Regular';
+     background: #FFFFFF;
+     border: 1px solid #D0D0CE;
+     font-family: 'Open Sans', sans-serif;
+     font-size: 13px;
+     color: #000000;
+     text-align: left;
+     width: 240px;
+     height: 32px;
+ }
+ .clsDashboardContainer
+{
+    margin-top: 25px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    /* width: 1220px; */
+    height: auto;
+    background: #fff;
+    padding: 30px 15px;
+}
+.clsDevicesCol,.clsUsersCol
+{
+    margin-top: 25px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12); 
+    background: #ffffff;
+    width: 48% !important;
+    padding: 20px 15px;
+}
+
+.clsEmptyCol
+{
+    width: 1% !important;
+}
+
+.noMargin
+{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+.clsDateCustom
+{
+    text-align: -webkit-right;
+    display: block;
+}
+.clsDateCustom input[type="text"],.timeControl{
+height: 32px;
+width: 140px;
+float: right;
+}
+
+.sectionHeader
+{
+    font-size: 13px;
+    font-family: 'OpenSans-SemiBold';
+    line-height: 29px;
+}
+.font-size_16px
+{
+    font-size: 16px;
+}
+.marginRight_15
+{
+    margin-right: 15px;
+}
+.greyColor
+{
+    font-family: "OpenSans-Regular";
+    font-size: 13px;
+    color: #53565A;
+    line-height: 24px;
+}
+.clsDoughnutDiv
+{
+    display: block;
+    width: 300px;
+    height: auto;
+    padding-top: 20px;
+}
+.clsLegendsCustom
+{
+    padding-top: 20px;
+    font-family: "OpenSans-Semibold";
+    font-size: 12px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.clsAndroidLegend
+{
+background-color: #86BC25;
+}
+.clsIOSLegend
+{
+background-color: #0076A8;
+}
+.roundRectangle
+{
+    height: 8px;
+    width: 16px;
+    border-radius: 8px;
+    display: inline-block;
+}
+.greyFont
+{
+    font-family: "OpenSans-Regular";
+    font-size: 12px;
+    color: #3D3F00;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.clsNotificationSubHeaders
+{
+    font-family: "OpenSans-Semibold";
+    font-size: 13px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.clsTotalNotifcationsDiv
+{
+    padding-top: 10px;
+}
+.clsBarTotal
+{
+    width: 100%;
+    height: 24px;
+    background-color: #6FC2B4;
+    display: flex;
+}
+.clsTotalSuccess
+{
+    /* width: 80% !important; */
+    height: 24px;
+    background-color: #6FC2B4 !important;
+}
+.clsTotalFailed
+{
+    /* width: 20% !important; */
+    height: 24px;
+    background-color: #DDEFE8 !important;
+}
+.clsBarLegends
+{
+    padding-top: 15px;
+    display: -webkit-inline-box;
+}
+.clsSuccessfulLegend
+{
+    background-color: #6FC2B4 !important;
+}
+.clsFailLegend
+{
+    background-color: #DDEFE8 !important;
+}
+.clsBarTotalAndroid
+{
+    width: 70%;
+    height: 24px;
+    background-color: #86BC25;
+    display: flex;
+}
+.clsBarTotalIOS
+{
+    width: 30%;
+    height: 24px;
+    background-color: #0076A8;
+    display: flex;
+}
+.clsTotalSuccessAndroid
+{
+    /* width: 80% !important; */
+    height: 24px;
+    background-color: #86BC25 !important;
+}
+.clsTotalFailedAndroid
+{
+    /* width: 20% !important; */
+    height: 24px;
+    background-color: #C4D600 !important;
+}
+.clsAndroidSuccess
+{
+background-color: #86BC25;
+}
+.clsAndroidFailed
+{
+background-color: #C4D600;
+}
+.clsTotalSuccessIOS
+{
+    /* width: 80% !important; */
+    height: 24px;
+    background-color: #0076A8 !important;
+}
+.clsTotalFailedIOS
+{
+    /* width: 20% !important; */
+    height: 24px;
+    background-color: #00A3E0 !important;
+}
+.clsIOSSuccess
+{
+background-color: #0076A8;
+}
+.clsIOSFailed
+{
+background-color: #00A3E0;
+}
+.dropdown select {
+    /* border: 0 !important; */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background:url("../../assets/images/icon-arrow-down-small2x.png") no-repeat;
+    /* background-position: 82px 7px; */
+    /* width: 100px; */
+    position: relative;
+    /* left: 20px; */
+    background-position-x: 212px;
+    background-position-y: center;               /*Width of select dropdown to give space for arrow image*/
+    background-size: 24px;
+    background-color: white;
+    padding-left: 7px;
+}
+.dropdown
+{
+    padding-left: 0px !important;
+
+}
+@media screen and (max-width: 1350px) {
+.clsGridBtn
+{
+    float: none !important;
+    width: fit-content !important;
+    padding: 10px 15px !important;
+}
+	
+.clsRowMarginRight
+{
+    display: grid !important;	
+}
+
+}
+@media screen and (max-width: 1050px) {
+    .clsDateCustom
+    {
+        float: left !important;
+        text-align: left !important;
+        padding-top: 20px;
+    }
+}
+
+/* Multi Select Drodpown start */
+:host ::ng-deep .dropdown-menu
+{
+    position: relative !important;
+}
+
+:host ::ng-deep ng-multiselect-dropdown[multiselect-custom-display] .multiselect-dropdown .dropdown-btn .selected-item{
+  display: none!important;
+}
+:host ::ng-deep .multiselect-dropdown {
+  background: url("../../assets/images/icon-arrow-down-small.png") no-repeat 0 !important;
+  background-position: 99% !important;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  /* -webkit-border-radius: 0px; */
+  appearance: none;
+  outline-width: 0;
+  font-size: 13px;
+  height: 30px;
+}
+:host ::ng-deep .multiselect-dropdown{
+  position: relative!important;
+  top: -6px!important;
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item{
+  padding: 0px!important;
+  color: #000!important;
+  border: none!important;
+  background: none!important;
+  /* display: none!important; */
+ 
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn {
+  border: none !important;
+  border-radius: 0px !important;
+  font-size: 13px !important;
+  color: #000000 !important;
+  line-height: 20px !important;
+  padding: 0px !important;
+}
+:host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-down, :host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-up {
+      display: none !important;
+  }
+  :host ::ng-deep ng-multiselect-dropdown[multiselect-custom-display] .multiselect-dropdown .dropdown-btn .selected-item{
+      display: none !important;
+  }
+
+  :host ::ng-deep .dropdown-list .filter-textbox{
+      display: none!important;
+   
+  }
+  :host ::ng-deep .dropdown-list{
+      z-index: 99;
+  }
+  :host ::ng-deep .dropdown-btn span {
+      left: 0!important;
+      top: 3px;
+      position: absolute!important;
+      width: 100%!important;
+  }
+  :host ::ng-deep .industry-align .dropdown-btn span {
+      position: absolute!important;
+       top: 8px!important;
+     
+   }
+   :host ::ng-deep .no-spin::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+  
+  :host ::ng-deep .multiselect-item-checkbox input[type=checkbox] + div:before {
+      border: 1px solid #D0D0CE!important;
+      width: 16px !important;
+      height: 16px !important;
+  }
+  :host ::ng-deep .multiselect-item-checkbox input[type=checkbox] + div:after{
+      width: 7px!important;
+      height: 3px!important;
+  }
+  :host ::ng-deep .multiselect-item-checkbox{
+      border-bottom: none!important;
+  }
+  :host ::ng-deep .dropdown-list {
+      padding-top: 0px !important;
+      border: none !important;
+      background: #FFFFFF !important;
+      border: 1px solid #E5E5E5 !important;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12) !important;
+      border-radius: 0px!important;
+      margin-left: -13px!important;
+      width: 105%!important;
+      margin-bottom: 20px!important;
+  }
+  @media (min-width: 1300px){
+      :host ::ng-deep .dropdown-list{
+          width: 107%!important;
+      }
+  }
+  :host ::ng-deep .dropdown-btn:focus{
+      outline: none!important;
+  }
+  :host ::ng-deep .multiselect-item-checkbox input[type=checkbox]:checked + div:before
+  {
+      background: #00a3e0!important;
+  }
+  :host ::ng-deep .multiselect-dropdown .dropdown-btn, .multiDropdown
+  {
+      padding-right: 0px !important;
+      border-radius: 2px !important;
+  }
+  /* Multi Select Drodpown end */
